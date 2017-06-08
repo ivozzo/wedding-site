@@ -1,0 +1,22 @@
+{
+  "name": "wedding_site",
+  "version": "0.0.1",
+  "description": "My personal wedding site",
+  "main": "./Server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./Server/server.js"
+  },
+  "keywords": [
+    "wedding",
+    "site"
+  ],
+  "author": "Alessandro Ivaldi",
+  "dependencies": {
+    "express": "^4.14.0",
+    "lodash": "^4.16.6",
+    "mongodb": "^2.2.22",
+    "body-parser": "^1.16.0",
+    "cookie-parser": "^1.4.3"
+  }
+}
