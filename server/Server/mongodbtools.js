@@ -6,21 +6,21 @@ var mongoClient = require('mongodb').MongoClient;
 // Constants
 const PORT = 27017;
 const DB_URL = "mongodb://database-link:27017/site";
-const COLL_GUEST ='Guest-List';
+
 
 // Exports
 module.exports = {
-    initdb: function init_db(callback) {
+    initCollection: function init_db(collection_req, callback) {
         connect_db(function (err, db) {
             if (err) {
                 console.log(err);
             } else {
                 console.log('Database connection established');
-                db.createCollection(COLL_GUEST, {
+                db.createCollection(collection_req, {
                     strict: true
                 }, function (err, collection) {
                     if (err) {
-                        console.log('Collection already existing');
+                        console.log('Collection ${collection_req} already existing');
                         var response = {
                             body: 'KO'
                         }
@@ -37,11 +37,19 @@ module.exports = {
         })
     },
 
-//Snippet
-    createuser: connect_db()
+    //Snippet
+    createuser: function create_dbuser(callback){
+        connect_db(function (err, db){
+            if (err) {
+                console.log(err);
+            } else {
+                //TODO
+            }
+        })
+    }
 }
 
-//Connects to db, if there's an error throws it
+//Connects to db, if there's an error log it and pass it back
 function connect_db(callback) {
     mongoClient.connect(DB_URL, function (err, db) {
         if (err) {

@@ -9,6 +9,8 @@ var bodyParser = require('body-parser');
 // Constants
 const PORT = 8021;
 const WORKING_PATH = '/index';
+const COLL_GUEST = 'Guest-List';
+const COLL_USER = 'Users'
 
 // Variables
 var app = express();
@@ -23,7 +25,6 @@ nunjucks.configure('.', {
 });
 
 // Express module
-
 app.get('/', function (req, res) {
     //redirect the root to the working path
     console.log(`Redirecting to ${WORKING_PATH}`)
@@ -36,11 +37,21 @@ app.get(WORKING_PATH, function (req, res) {
 });
 
 app.post('/init', function (req, res) {
-    mongodbtools.initdb(function(err, response){
+    mongodbtools.initCollection(COLL_USER, function(err, response){
         if (err && response.body == 'KO') {
             console.log(err);
         } else {
+            console.log(response.body);
             //TODO
         }
     });
+
+    mongodbtools.initCollection(COLL_GUEST, function(err, response){
+        if (err && response.body == 'KO') {
+            console.log(err);
+        } else {
+            console.log(response.body);
+            //TODO
+        }
+    })
 })
