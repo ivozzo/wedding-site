@@ -5,18 +5,20 @@ services:
   modserver-istance:
     build:
       context: ./server
-      dockerfile: server_dockerfile
+      dockerfile: Dockerfile
     links:
       - mongodb-istance
     depends_on: 
       - "mongodb-istance"
     ports:
       - "8021:8021"
+    networks:
+      - database-link
 
   mongodb-istance:
     build:
       context: ./mongodb
-      dockerfile: mongodb_dockerfile
+      dockerfile: Dockerfile
     networks:
       - database-link
     ports:
