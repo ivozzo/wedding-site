@@ -2,10 +2,10 @@
   "name": "wedding_site",
   "version": "0.0.1",
   "description": "My personal wedding site",
-  "main": "./Server/server.js",
+  "main": "./Server/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./Server/server.js"
+    "start": "node ./Server/main.js"
   },
   "keywords": [
     "wedding",
@@ -17,6 +17,6 @@
     "lodash": "^4.16.6",
     "mongodb": "^2.2.22",
     "body-parser": "^1.16.0",
-    "cookie-parser": "^1.4.3"
+    "nunjucks":"^3.0.1"
   }
 }
