@@ -34,6 +34,7 @@ app.get('/', function (req, res) {
 app.get(WORKING_PATH, function (req, res) {
     //splash page
     console.log(`Got a request on ${WORKING_PATH}`)
+    res.render('frontend/index.html')
 });
 
 app.post('/init', function (req, res) {
@@ -55,3 +56,13 @@ app.post('/init', function (req, res) {
         }
     })
 })
+
+/* 
+Defining the wedding site 
+*/
+var weddingsite = app.listen(PORT, function() {
+    var host = weddingsite.address().address;
+    var port = weddingsite.address().port;
+
+    console.log('Wedding site listening on host %s, port %s', host, port);
+});
