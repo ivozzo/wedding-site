@@ -12,7 +12,7 @@ RUN npm install
 RUN mkdir -p /usr/src/modserver/Server
 ADD ./Server/ /usr/src/modserver/Server/
 RUN mkdir -p /usr/src/modserver/Server/frontend
-ADD ./Server/frontend /usr/src/modserver/Server/frontend
+COPY ./Server/frontend /usr/src/modserver/Server/frontend
 WORKDIR /usr/src/modserver
 
 #Port exposing
