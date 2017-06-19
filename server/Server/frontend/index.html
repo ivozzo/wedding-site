@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<title>ANTares</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+<style>
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Poppins", sans-serif
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  .w3-half img {
+    margin-bottom: -6px;
+    margin-top: 16px;
+    opacity: 0.8;
+    cursor: pointer
+  }
+
+  .w3-half img:hover {
+    opacity: 1
+  }
+
+  [type="checkbox"]:not(:checked),
+  [type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+  }
+
+  [type="checkbox"]:not(:checked)+label,
+  [type="checkbox"]:checked+label {
+    position: relative;
+    padding-left: 95px;
+    cursor: pointer;
+  }
+
+  [type="checkbox"]:not(:checked)+label:before,
+  [type="checkbox"]:checked+label:before,
+  [type="checkbox"]:not(:checked)+label:after,
+  [type="checkbox"]:checked+label:after {
+    content: '';
+    position: absolute;
+  }
+
+  [type="checkbox"]:not(:checked)+label:before,
+  [type="checkbox"]:checked+label:before {
+    left: 0;
+    top: 0;
+    width: 80px;
+    height: 30px;
+    background: #DDDDDD;
+    border-radius: 6px;
+    transition: background-color .2s;
+  }
+
+  [type="checkbox"]:not(:checked)+label:after,
+  [type="checkbox"]:checked+label:after {
+    width: 30px;
+    height: 30px;
+    transition: all .2s;
+    border-radius: 6px 0 0 6px;
+    background: #7F8C9A;
+    top: 0;
+    left: 0;
+  }
+  /* on checked */
+
+  [type="checkbox"]:checked+label:before {
+    background: #34495E;
+  }
+
+  [type="checkbox"]:checked+label:after {
+    background: #ff0000;
+    top: 0;
+    left: 51px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  [type="checkbox"]:checked+label .ui,
+  [type="checkbox"]:not(:checked)+label .ui:before,
+  [type="checkbox"]:checked+label .ui:after {
+    position: absolute;
+    left: 6px;
+    width: 65px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 22px;
+    transition: all .2s;
+  }
+
+  [type="checkbox"]:not(:checked)+label .ui:before {
+    font-family: 'FontAwesome';
+    content: "\f00d";
+    left: 46px;
+    margin-top: 3px;
+  }
+
+  [type="checkbox"]:checked+label .ui:after {
+    font-family: 'FontAwesome';
+    content: "\f00c";
+    color: #ff0000;
+    margin-top: 3px;
+    left: 12px;
+  }
+
+  [type="checkbox"]:focus+label:before {
+    border: 0;
+    outline: 0;
+    box-sizing: border-box;
+  }
+</style>
+
+<body>
+
+  <!-- Sidebar/menu -->
+  <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
+    <a href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px">Close Menu</a>
+    <div class="w3-container">
+      <h3 class="w3-padding-64"><b>ANTares<br>Management Console</b></h3>
+    </div>
+    <div class="w3-bar-block">
+      <a href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Home</a>
+      <a href="#load" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Carica</a>
+      <a href="#import" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white">Importa</a>
+    </div>
+  </nav>
+
+  <!-- Top menu on small screens -->
+  <header class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding">
+    <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰</a>
+    <span>ANTares Management Console</span>
+  </header>
+
+  <!-- Overlay effect when opening sidebar on small screens -->
+  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay"></div>
+
+  <!-- !PAGE CONTENT! -->
+  <div class="w3-main" style="margin-left:340px;margin-right:40px">
+
+    <!-- Header -->
+    <div class="w3-container" style="margin-top:80px" id="showcase">
+      <h1 class="w3-jumbo"><b>ODAM</b></h1>
+      <h1 class="w3-xxxlarge w3-text-red"><b>ANTares Management Console</b></h1>
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+    </div>
+
+    <!-- Load -->
+    <div class="w3-container" id="load" style="margin-top:75px">
+      <h1 class="w3-xxxlarge w3-text-red"><b>Carica i file</b></h1>
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+      <p>Utilizza il form seguente per caricare i file</p>
+      <p>Una volta caricati i file sarà possibile cominciare il processo di raccolta dei dati.</p>
+      <p><b>I layer previsti:</b></p>
+
+      <!-- The layers -->
+      <div class="w3-row-padding w3-grayscale">
+        <div class="w3-col m4 w3-margin-bottom">
+          <div class="w3-light-grey">
+            <div class="w3-container">
+              <h3>Frontend</h3>
+              <p class="w3-opacity">Magnolia</p>
+              <p>I file di Magnolia<br>TODO: espandere descrizione</p>
+            </div>
+          </div>
+        </div>
+        <div class="w3-col m4 w3-margin-bottom">
+          <div class="w3-light-grey">
+            <div class="w3-container">
+              <h3>Integrazione</h3>
+              <p class="w3-opacity">ESB</p>
+              <p>I file delle mediazioni appartenenti ad ESB<br>TODO: espandere descrizione</p>
+            </div>
+          </div>
+        </div>
+        <div class="w3-col m4 w3-margin-bottom">
+          <div class="w3-light-grey">
+            <div class="w3-container">
+              <h3>Backend</h3>
+              <p class="w3-opacity">Servizi Danni</p>
+              <p>I file di backend<br>TODO: espandere descrizione</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading form -->
+      <form action="http://localhost:8021/odam/upload" method="POST" type="multipart/form-data">
+        <label for "layer-select">Seleziona lo strato di appartenenza dei file da caricare </label>
+        <select name="layer-select" id="layer-select">
+              <option value="magnolia-select">Frontend</option>
+              <option value="esb-select">Integrazione</option>
+            <option value="spd-select">Backend</option>
+          </select>
+        <div class="w3-section">
+          <input type="file" name="magnolia-files" id="magnolia-files" multiple>
+        </div>
+        <button type="submit" value="Carica" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Carica</button>
+        <button type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Cancella</button>
+      </form>
+    </div>
+
+    <!-- Import -->
+    <div class="w3-container" id="import" style="margin-top:75px">
+      <h1 class="w3-xxxlarge w3-text-red"><b>Importa i dati raccolti</b></h1>
+      <hr style="width:50px;border:5px solid red" class="w3-round">
+      <p>Utilizza il form seguente per importare i dati raccolti</p>
+      <p>I file caricati nella sezione precedente verranno analizzati, raccolti e preparati per l'importazione all'interno di
+        ODAM.
+      </p>
+      <p><b>Attenzione, qualora non siano stati caricati dei file verranno utilizzati quelli già presenti su ODAM</b></p>
+
+      <!-- Import form -->
+      <form action="#" method="POST">
+        <div class="w3-section">
+          <input name="Magnolia" type="checkbox" id="magnolia" /><label for="magnolia"><span class="ui"></span>Strato di frontend (Magnolia)</label>
+        </div>
+        <div class="w3-section">
+          <input name="ESB" type="checkbox" id="esb" /><label for="esb"><span class="ui"></span>Strato di integrazione (Mediazioni ESB)</label>
+        </div>
+        <div class="w3-section">
+          <input name="SPD" type="checkbox" id="spd" /><label for="spd"><span class="ui"></span>Strato di backend (Servizi Danni, SQL)</label>
+        </div>
+        <button type="submit" value="Importa" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Importa</button>
+        <button type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom">Cancella</button>
+      </form>
+    </div>
+
+    <!-- End page content -->
+  </div>
+
+  <!-- W3.CSS Container -->
+  <div class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px">
+    <p class="w3-right">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></p>
+  </div>
+
+  <script>
+    // Script to open and close sidebar
+    function w3_open() {
+      document.getElementById("mySidebar").style.display = "block";
+      document.getElementById("myOverlay").style.display = "block";
+    }
+
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+      document.getElementById("myOverlay").style.display = "none";
+    }
+
+    // Modal Image Gallery
+    function onClick(element) {
+      document.getElementById("img01").src = element.src;
+      document.getElementById("modal01").style.display = "block";
+      var captionText = document.getElementById("caption");
+      captionText.innerHTML = element.alt;
+    }
+  </script>
+
+</body>
+
+</html>
