@@ -5,7 +5,7 @@ var mongoClient = require('mongodb').MongoClient;
 
 // Constants
 const PORT = 27017;
-const DB_URL = "mongodb://database-link:27017/site";
+const DB_URL = "mongodb://mongodb:27017/site";
 
 
 // Exports

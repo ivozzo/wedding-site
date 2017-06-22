@@ -2,8 +2,8 @@
 
 // Loading modules
 var express = require('express');
-var mongodbtools = require('./mongodbtools');
-var nunjucks = require('nunjucks');
+var mongodbtools = require('./mongodb-tools');
+var pug = require('pug');
 var bodyParser = require('body-parser');
 
 // Constants
@@ -14,15 +14,11 @@ const COLL_USER = 'Users'
 
 // Variables
 var app = express();
-
-// Settings
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-nunjucks.configure('.', {
-    autoescape: true,
-    express: app
-});
+app.set('view engine', 'pug')
 
 // Express module
 app.get('/', function (req, res) {
@@ -34,7 +30,7 @@ app.get('/', function (req, res) {
 app.get(WORKING_PATH, function (req, res) {
     //splash page
     console.log(`Got a request on ${WORKING_PATH}`)
-    res.render('frontend/index.html')
+    res.render('index.pug')
 });
 
 app.post('/init', function (req, res) {
