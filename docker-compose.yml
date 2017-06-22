@@ -2,23 +2,25 @@ version: '3'
 
 services:
 
-  modserver-istance:
+  site:
+    hostname: site
+    image: ivozzo/site
     build:
       context: ./server
       dockerfile: Dockerfile
     links:
-      - mongodb-istance
+      - mongodb
     depends_on: 
-      - "mongodb-istance"
+      - "mongodb"
     ports:
       - "8021:8021"
     networks:
       - database-link
+    entrypoint: /docker-entrypoint.sh -npm
 
-  mongodb-istance:
-    build:
-      context: ./mongodb
-      dockerfile: Dockerfile
+  mongodb:
+    hostname: mongodb
+    image: mongo
     networks:
       - database-link
     ports:
