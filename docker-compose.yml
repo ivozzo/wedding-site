@@ -25,6 +25,8 @@ services:
       - database-link
     ports:
       - "27017:27017"
+    volumes:
+      - ~/Docker/mongo:/data/db
 
 networks:
     database-link:
