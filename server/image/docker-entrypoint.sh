@@ -35,22 +35,6 @@ error() {
   exit 1
 }
 
-#
-# show usage
-#
-usage() {
-  echo "docker-mediawiki"
-  echo "	see https://github.com/BITPlan/docker-mediawiki"
-  echo ""
-  echo "options: "
-  # -h|--help|usage|show this usage
-  echo "       -h|--help             : show this usage"
-  echo "    -nols|--no_local_settings: skip automatic creation of LocalSettings.php"
-  echo "-composer|--composer         : install composer"
-  echo "     -smw|--smw              : install Semantic MediaWiki"
-  exit 1
-}
-
 install_server(){
     color_msg $blue "Installing server"
     mkdir -p /opt/wedding-site
