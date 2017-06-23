@@ -5,7 +5,7 @@ var mongoClient = require('mongodb').MongoClient;
 
 // Constants
 const PORT = 27017;
-const DB_URL = "mongodb://mongodb:27017/site";
+const DB_URL = "mongodb://localhost:27017/site";
 
 
 // Exports
@@ -20,13 +20,11 @@ module.exports = {
                     strict: true
                 }, function (err, collection) {
                     if (err) {
-                        console.log('Collection ${collection_req} already existing');
                         var response = {
                             body: 'KO'
                         }
                         return callback(err, response);
                     } else {
-                        console.log('Collection created successfully');
                         var response = {
                             body: "OK"
                         }
