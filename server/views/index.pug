@@ -43,6 +43,29 @@ html
           b Experimental Wedding Site template
         hr(style="width:50px;border:5px solid red" class="w3-round")
       
+      div(class="w3-container" id="notification" style="margin-top:75px")
+      if notification.show
+        if notification.error
+          div(class="w3-display-container")
+            div( class="w3-panel w3-red w3-round-xxlarge")
+              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
+              h3 ERRORE!
+              p #{notification.message}
+        
+        if notification.working && notification.error === false
+          div(class="w3-display-container")
+            div( class="w3-panel w3-yellow w3-round-xxlarge")
+              span(onclick="this.parentElement.style.display='none'" class="w3-button w3-display-bottomright") Chiudi notifica
+              h3 ATTENZIONE!
+              p #{notification.message}
+        
+        if notification.working === false && notification.error === false
+          div(class="w3-display-container")
+            div( class="w3-panel w3-green w3-round-xxlarge")
+              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
+              h3 ESECUZIONE TERMINATA!
+              p #{notification.message}
+              
       // Where
       div(class="w3-container" id="where" style="margin-top:75px")
         h1(class="w3-xxxlarge w3-text-red") 

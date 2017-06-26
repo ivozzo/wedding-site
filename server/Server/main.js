@@ -10,6 +10,13 @@ var index_router = require('./routers/router_main'),
 // Constants
 const PORT = 8021;
 
+// Notification
+global.notification = {
+    show: false,
+    error: false,
+    message: ''
+}
+
 // Variables
 var app = express();
 app.use(bodyParser.json());
