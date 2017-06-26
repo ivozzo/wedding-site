@@ -7,7 +7,6 @@ var mongoClient = require('mongodb').MongoClient;
 const PORT = 27017;
 const DB_URL = "mongodb://localhost:27017/site";
 
-
 // Exports
 module.exports = {
     initCollection: function init_db(collection_req, callback) {
@@ -15,7 +14,6 @@ module.exports = {
             if (err) {
                 console.log(err);
             } else {
-                console.log('Database connection established');
                 db.createCollection(collection_req, {
                     strict: true
                 }, function (err, collection) {
@@ -35,13 +33,13 @@ module.exports = {
         })
     },
 
-    //Snippet
-    createuser: function create_dbuser(callback){
-        connect_db(function (err, db){
+    createGuest: function create_Guest(collection_req, callback) {
+        connect_db(function (err, db) {
             if (err) {
                 console.log(err);
             } else {
-                //TODO
+                
+                db.collection(collection_req).insertOne()
             }
         })
     }
@@ -54,6 +52,7 @@ function connect_db(callback) {
             console.log(err.stack || err.message);
             return callback(err, null);
         }
+        console.log('Database connection established');
         return callback(null, db);
     });
 }
