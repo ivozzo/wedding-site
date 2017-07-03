@@ -33,13 +33,32 @@ module.exports = {
         })
     },
 
-    createGuest: function create_Guest(collection_req, callback) {
+    createGuest: function create_Guest(collection_req, guest, callback) {
         connect_db(function (err, db) {
             if (err) {
                 console.log(err);
+                var response = {
+                    body: 'KO'
+                }
+                return callback(err, response);
             } else {
-                
-                db.collection(collection_req).insertOne()
+                db.collection(collection_req).insertOne({
+                    "address": {
+                        //TODO
+                    },
+                    "contacts": {
+                        "email": guest.email,
+                        "phone number": ''
+                    },
+                    "expected number": guest.expected_number,
+                    "surname": guest.surname,
+                    "name": guest.name,
+                    "generated_token": guest.generated_token
+                });
+                var response = {
+                    body: 'OK'
+                }
+                return callback(null, response);
             }
         })
     }
