@@ -1,0 +1,56 @@
+html
+  head
+    title My Wedding Site
+
+  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
+  link(href="../Server/utilities/wedding.css")
+
+  body
+
+    // HTML Sidebar/menu
+    nav(class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding"
+      style="z-index:3;width:300px;font-weight:bold;"
+      id="mySidebar")
+      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
+      div(class="w3-container")
+        h3(class="w3-padding-64") 
+          b My Wedding Site
+        h3(class="w3-bar-block")
+          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white") Home
+    
+    // HTML Top menu on small screens
+    header(class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding")
+      a(href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰
+      span My wedding Site
+    
+    // HTML Overlay effect when opening sidebar on small screens
+    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
+  
+    // HTML Page content
+    div(class="w3-main" style="margin-left:340px;margin-right:40px")
+
+      // Header
+      div(class="w3-container" style="margin-top:80px" id="showcase")
+        h1(class="w3-jumbo") 
+          b My Wedding Site
+        h1(class="w3-xxxlarge w3-text-red") 
+          b Experimental Wedding Site template
+        hr(style="width:50px;border:5px solid red" class="w3-round")
+               
+      // List guets
+      div(class="w3-container" id="where" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-red") 
+          b Lista degli ospiti
+        hr(style="width:100px;border:5px solid red" class="w3-round")
+        ul
+            each val, index in response 
+            li= index + ': ' + val
+
+      // HTML W3.CSS Container
+      div(class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
+        p(class="w3-right") Powered by 
+          a(href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity") w3.css
+      
+      script
+        include ../Server/utilities/functions.js
