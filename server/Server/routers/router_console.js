@@ -62,7 +62,7 @@ Impossibile creare le collection.`;
     }
 
     res.render('console.pug', notification);
-})
+});
 
 router.post('/insert', function (req, res) {
     var error_guest;
@@ -89,7 +89,33 @@ router.post('/insert', function (req, res) {
         notification.message = `Impossibile creare l'utente.`;
     }
 
-    res.render('console.pug', notification)
+    res.render('console.pug', notification);
+});
+
+router.get('/list', function(req, res) {
+    console.log('Got a request on /list');
+
+    mongodbtools.listGuest(COLL_GUEST, function(err, response){
+        if (err) {
+            console.log('Impossibile recuperare la lista degli invitati');
+            
+            notification.show = true;
+            notification.error = true;
+            notification.message = 'Impossibile recuperare la lista degli invitati';
+            
+            res.render('console.pug',notification);
+        } else {
+            if (response.error === true && response.body === 'query'){
+                notification.show = true;
+                notification.error = false;
+                notification.message = 'La lista degli invitati risulta vuota';
+                res.render('console.pug', notification);
+            } else if (response.error === false && response.body === 'guests'){
+                console.log('Recuperata la lista degli ospiti');
+                res.render('list.pug', response);
+            }
+        }
+    })
 });
 
 module.exports = router;

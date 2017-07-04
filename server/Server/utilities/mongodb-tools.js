@@ -53,12 +53,65 @@ module.exports = {
                     "expected number": guest.expected_number,
                     "surname": guest.surname,
                     "name": guest.name,
-                    "generated_token": guest.generated_token
+                    "login": {
+                        "generated_token": guest.generated_token,
+                        "login": guest.generated_login
+                    }
+                    
                 });
                 var response = {
                     body: 'OK'
                 }
                 return callback(null, response);
+            }
+        })
+    },
+
+    listGuest: function list_Guests(collection_req, callback) {
+        connect_db(function(err, db) {
+            if (err) {
+                console.log(err);
+                var response = {
+                    error: true,
+                    body: 'KO',
+                    guests: null
+                }
+                return callback(err, response);
+            } else {
+                db.collection(collection_req).find({"name": true, 
+                "surname": true, 
+                "contacts": true,
+                "address": true,
+                "expected_number": true}, function(err, docs){
+                    if (err) {
+                        console.log(err);
+                        var response = {
+                            error: true,
+                            body: 'query',
+                            guests: null
+                        }
+                        return callback(err, response);
+                    } else {
+                        var response = {
+                            error: false,
+                            body: 'guests',
+                            guests: []
+                        }
+                        for (var i in docs){
+                            doc = docs[i];
+                            
+                            var guest = {
+                                name: doc.name,
+                                surname: doc.surname,
+                                contacts: doc.contacts,
+                                address: doc.address,
+                                expected_number: doc.expected_number
+                            }
+                            response.guests.push(guest);
+                        }
+                        return callback(null, response);
+                    }
+                })
             }
         })
     }
