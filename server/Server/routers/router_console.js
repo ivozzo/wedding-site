@@ -70,11 +70,11 @@ router.post('/insert', function (req, res) {
     var guest = Guest(
         req.body.Name,
         req.body.Surname,
-        req.body.Email, 
+        req.body.Email,
         req.body.Expected);
 
     console.log(JSON.stringify(guest));
-    mongodbtools.createGuest(COLL_GUEST, guest, function(err, response){
+    mongodbtools.createGuest(COLL_GUEST, guest, function (err, response) {
         if (err) {
             console.log("Impossibile creare l'utente.")
             error_guest = err;
@@ -83,7 +83,7 @@ router.post('/insert', function (req, res) {
         }
     });
 
-    if (error_guest === true ){
+    if (error_guest === true) {
         notification.show = true;
         notification.error = true;
         notification.message = `Impossibile creare l'utente.`;
@@ -92,27 +92,31 @@ router.post('/insert', function (req, res) {
     res.render('console.pug', notification);
 });
 
-router.get('/list', function(req, res) {
+router.get('/list', function (req, res) {
     console.log('Got a request on /list');
 
-    mongodbtools.listGuest(COLL_GUEST, function(err, response){
+    mongodbtools.listGuest(COLL_GUEST, function (err, response) {
         if (err) {
             console.log('Impossibile recuperare la lista degli invitati');
-            
+
             notification.show = true;
             notification.error = true;
             notification.message = 'Impossibile recuperare la lista degli invitati';
-            
-            res.render('console.pug',notification);
+
+            res.render('console.pug', notification);
         } else {
-            if (response.error === true && response.body === 'query'){
+            if (response.error === true && response.body === 'query') {
                 notification.show = true;
                 notification.error = false;
                 notification.message = 'La lista degli invitati risulta vuota';
                 res.render('console.pug', notification);
-            } else if (response.error === false && response.body === 'guests'){
+            } else if (response.error === false && response.body === 'guests') {
+                console.log(response);
                 console.log('Recuperata la lista degli ospiti');
-                res.render('list.pug', response);
+                res.render('list.pug', {
+                    headers: response.headers,
+                    guests: response.guests
+                });
             }
         }
     })

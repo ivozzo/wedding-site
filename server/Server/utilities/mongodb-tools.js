@@ -21,11 +21,13 @@ module.exports = {
                         var response = {
                             body: 'KO'
                         }
+                        db.close();
                         return callback(err, response);
                     } else {
                         var response = {
                             body: "OK"
                         }
+                        db.close();
                         return callback(null, response);
                     }
                 })
@@ -40,9 +42,12 @@ module.exports = {
                 var response = {
                     body: 'KO'
                 }
+                db.close();
                 return callback(err, response);
             } else {
-                db.collection(collection_req).insertOne({
+                var collection = db.collection(collection_req);
+
+                collection.insertOne({
                     "address": {
                         //TODO
                     },
@@ -57,61 +62,69 @@ module.exports = {
                         "generated_token": guest.generated_token,
                         "login": guest.generated_login
                     }
-                    
+
                 });
                 var response = {
                     body: 'OK'
                 }
+                db.close();
                 return callback(null, response);
             }
         })
     },
 
     listGuest: function list_Guests(collection_req, callback) {
-        connect_db(function(err, db) {
+        connect_db(function (err, db) {
             if (err) {
                 console.log(err);
                 var response = {
                     error: true,
                     body: 'KO',
-                    guests: null
+                    guests: null,
+                    headers: null
                 }
                 return callback(err, response);
             } else {
-                db.collection(collection_req).find({"name": true, 
-                "surname": true, 
-                "contacts": true,
-                "address": true,
-                "expected_number": true}, function(err, docs){
+                // TODO occorre cercare un altro modo per fare la query, questa non funziona
+                var collection = db.collection(collection_req);
+
+                collection.find().toArray(function (err, items) {
                     if (err) {
                         console.log(err);
                         var response = {
                             error: true,
                             body: 'query',
-                            guests: null
+                            guests: null,
+                            headers: null
                         }
                         return callback(err, response);
                     } else {
                         var response = {
                             error: false,
                             body: 'guests',
-                            guests: []
+                            guests: [],
+                            headers: null
                         }
-                        for (var i in docs){
-                            doc = docs[i];
-                            
+                        for (var i in items) {
+                            item = items[i];
+                            console.log(JSON.stringify(item));
+
                             var guest = {
-                                name: doc.name,
-                                surname: doc.surname,
-                                contacts: doc.contacts,
-                                address: doc.address,
-                                expected_number: doc.expected_number
+                                id: item._id,
+                                name: item.name,
+                                surname: item.surname,
+                                contacts: item.contacts,
+                                address: item.address,
+                                expected_number: item.expected_number
                             }
                             response.guests.push(guest);
                         }
+
+                        response.headers = ["id", "name", "surname", "contacts", "address", "expected number"];
+                        db.close();
                         return callback(null, response);
                     }
-                })
+                });
             }
         })
     }

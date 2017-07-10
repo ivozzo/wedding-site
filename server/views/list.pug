@@ -43,9 +43,17 @@ html
         h1(class="w3-xxxlarge w3-text-red") 
           b Lista degli ospiti
         hr(style="width:100px;border:5px solid red" class="w3-round")
-        ul
-            each val, index in response 
-            li= index + ': ' + val
+        table(style="width:100%;border:3px solid red")
+          tr
+          each val in headers
+            th #{val}
+          each val in guests 
+            tr
+              td #{val.id}
+              td #{val.name}
+              td #{val.surname}
+              td #{val.expected_number}
+
 
       // HTML W3.CSS Container
       div(class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
