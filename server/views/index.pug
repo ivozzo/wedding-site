@@ -4,30 +4,151 @@ html
 
   link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
   link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="../Server/utilities/wedding.css")
 
+  style.
+    body,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
+        font-family: "Poppins", sans-serif
+      }
+
+      body {
+        font-size: 16px;
+      }
+
+      .w3-half img {
+        margin-bottom: -6px;
+        margin-top: 16px;
+        opacity: 0.8;
+        cursor: pointer
+      }
+
+      .w3-half img:hover {
+        opacity: 1
+      }
+
+      .w3-pearl,
+      .w3-hover-pearl:hover {
+        color: #808080!important;
+        background-color: #EAE0C8!important
+      }
+      
+      .w3-text-pearl{color:#EAE0C8!important}
+
+      [type="checkbox"]:not(:checked),
+      [type="checkbox"]:checked {
+        position: absolute;
+        left: -9999px;
+      }
+
+      [type="checkbox"]:not(:checked)+label,
+      [type="checkbox"]:checked+label {
+        position: relative;
+        padding-left: 95px;
+        cursor: pointer;
+      }
+
+      [type="checkbox"]:not(:checked)+label:before,
+      [type="checkbox"]:checked+label:before,
+      [type="checkbox"]:not(:checked)+label:after,
+      [type="checkbox"]:checked+label:after {
+        content: '';
+        position: absolute;
+      }
+
+      [type="checkbox"]:not(:checked)+label:before,
+      [type="checkbox"]:checked+label:before {
+        left: 0;
+        top: 0;
+        width: 80px;
+        height: 30px;
+        background: #DDDDDD;
+        border-radius: 6px;
+        transition: background-color .2s;
+      }
+
+      [type="checkbox"]:not(:checked)+label:after,
+      [type="checkbox"]:checked+label:after {
+        width: 30px;
+        height: 30px;
+        transition: all .2s;
+        border-radius: 6px 0 0 6px;
+        background: #7F8C9A;
+        top: 0;
+        left: 0;
+      }
+      /* on checked */
+
+      [type="checkbox"]:checked+label:before {
+        background: #34495E;
+      }
+
+      [type="checkbox"]:checked+label:after {
+        background: #ff0000;
+        top: 0;
+        left: 51px;
+        border-radius: 0 6px 6px 0;
+      }
+
+      [type="checkbox"]:checked+label .ui,
+      [type="checkbox"]:not(:checked)+label .ui:before,
+      [type="checkbox"]:checked+label .ui:after {
+        position: absolute;
+        left: 6px;
+        width: 65px;
+        border-radius: 15px;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 22px;
+        transition: all .2s;
+      }
+
+      [type="checkbox"]:not(:checked)+label .ui:before {
+        font-family: 'FontAwesome';
+        content: "\f00d";
+        left: 46px;
+        margin-top: 3px;
+      }
+
+      [type="checkbox"]:checked+label .ui:after {
+        font-family: 'FontAwesome';
+        content: "\f00c";
+        color: #ff0000;
+        margin-top: 3px;
+        left: 12px;
+      }
+
+      [type="checkbox"]:focus+label:before {
+        border: 0;
+        outline: 0;
+        box-sizing: border-box;
+      }
+  
   body
 
     // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding"
+    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
       style="z-index:3;width:300px;font-weight:bold;"
       id="mySidebar")
       a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
       div(class="w3-container")
         h3(class="w3-padding-64") 
-          b My Wedding Site
+          b #{titles.title}
         h3(class="w3-bar-block")
-          a(href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white") Home
-          a(href="#where" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white") Dove
-          a(href="#when" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white") Quando
+          a(href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
+          a(href="#where" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Dove
+          a(href="#when" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Quando
           hr(style="width:50px;border:5px solid white" class="w3-round")
           a Login
-          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white") Console
+          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
     
     // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-red w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-red w3-margin-right" onclick="w3_open()">☰
-      span My wedding Site
+    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
+      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
+      span #{titles.subtitle}
     
     // HTML Overlay effect when opening sidebar on small screens
     div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
@@ -37,11 +158,11 @@ html
 
       // Header
       div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo") 
-          b My Wedding Site
-        h1(class="w3-xxxlarge w3-text-red") 
-          b Experimental Wedding Site template
-        hr(style="width:50px;border:5px solid red" class="w3-round")
+        h1(class="w3-jumbo w3-text-pearl") 
+          b #{titles.title}
+        h1(class="w3-xxxlarge w3-text-gray") 
+          b #{titles.subtitle}
+        hr(style="width:300px;border:5px solid gray" class="w3-round")
       
       div(class="w3-container" id="notification" style="margin-top:75px")
       if notification.show
@@ -68,18 +189,18 @@ html
               
       // Where
       div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-red") 
+        h1(class="w3-xxxlarge w3-text-pearl") 
           b Dove:
-        hr(style="width:100px;border:5px solid red" class="w3-round")
+        hr(style="width:300px;border:5px solid gray" class="w3-round")
         p Alla Locanda dei Fienili del Campiaro
         p Località Campiaro, 112/C, 40030 Grizzana Morandi BO
         iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2857.2507354013273!2d11.1464933158893!3d44.26366097910517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132ac4d992861b8b%3A0xa48831a432ba3d4f!2sLocanda+dei+Fienili+del+Campiaro!5e0!3m2!1sit!2sit!4v1498075104558" width="800" height="600" frameborder="0" style="border:0" allowfullscreen)
 
       // When
       div(class="w3-container" id="when" style="magin-top:75px")
-        h1(class="w3-xxxlarge w3-text-red")
+        h1(class="w3-xxxlarge w3-text-pearl")
           b Quando:
-        hr(style="width:100px;border:5px solid red" class="w3-round")
+        hr(style="width:300px;border:5px solid gray" class="w3-round")
         p Vi aspettiamo il giorno 8 ottobre 2017
         p Orario: [placeholder]
         
