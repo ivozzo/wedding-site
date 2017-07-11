@@ -17,6 +17,15 @@ global.notification = {
     message: ''
 }
 
+// Headers
+global.titles = {
+    title: `
+Alessandro 
+    & 
+Maria Francesca`,
+    subtitle: 'Il lieto evento'
+}
+
 // Variables
 var app = express();
 app.use(bodyParser.json());

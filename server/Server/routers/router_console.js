@@ -23,7 +23,8 @@ function Guest(name_given, surname_given, email_given, expected_number_given) {
 router.get('/', function (req, res) {
     //splash page
     console.log(`Got a request on /console`)
-    res.render('console.pug')
+    
+    res.render('console.pug', {notification: notification, titles: titles});
 });
 
 router.post('/init', function (req, res) {
@@ -61,7 +62,7 @@ Impossibile creare le collection.`;
         notification.message = `Il database è stato correttamente inizializzato.`;
     }
 
-    res.render('console.pug', notification);
+    res.render('console.pug', {notification: notification, titles: titles});
 });
 
 router.post('/insert', function (req, res) {
@@ -89,7 +90,7 @@ router.post('/insert', function (req, res) {
         notification.message = `Impossibile creare l'utente.`;
     }
 
-    res.render('console.pug', notification);
+    res.render('console.pug', {notification: notification, titles: titles});
 });
 
 router.get('/list', function (req, res) {
