@@ -1,19 +1,18 @@
-//Loading Modules
+// Loading Modules
 var express = require('express'),
     router = express.Router();
 
-//Constants
+// Constants
 const WORKING_PATH = '/index';
 
-//Router
+// Redirecting all get requests on WORKING_PATH
 router.get('/', function (req, res) {
-    //redirect the root to the working path
     console.log(`Redirecting to ${WORKING_PATH}`)
     res.redirect(WORKING_PATH);
 });
 
+// This is the main page, also the splash page
 router.get(WORKING_PATH, function (req, res) {
-    //splash page
     console.log(`Got a request on ${WORKING_PATH}`)
     res.render('index.pug')
 });
