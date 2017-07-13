@@ -7,7 +7,7 @@ var express = require('express'),
 const COLL_GUEST = 'Guest-List',
     COLL_USER = 'Users';
 
-
+// Guest object creator
 function Guest(name_given, surname_given, email_given, expected_number_given) {
     var guest = {
         name: name_given,
@@ -18,6 +18,19 @@ function Guest(name_given, surname_given, email_given, expected_number_given) {
     };
 
     return guest;
+}
+
+// User object creator
+function User(name_given, surname_given, email_given, username_given, password_given) {
+    var user = {
+        name: name_given,
+        surname: surname_given,
+        email: email_given,
+        username: username_given,
+        password: password_given
+    };
+
+    return user;
 }
 
 // This is the console main index, also the splash page
@@ -83,6 +96,39 @@ router.post('/insert_guest', function (req, res) {
     //add the guest to the COLL_GUEST collection
     mongodbtools.createGuest(COLL_GUEST, guest, function (err, response) {
         if (err) {
+            console.log("Impossibile creare l'invitato.")
+            error_guest = err;
+        } else {
+            console.log("L'invitato è stato correttamente inserito");
+        }
+    });
+
+    //if an error has happened prepare the error notification
+    if (error_guest === true) {
+        notification.show = true;
+        notification.error = true;
+        notification.message = `Impossibile creare l'invitato.`;
+    }
+
+    res.render('console.pug', {notification: notification, titles: titles});
+});
+
+// User addition
+router.post('/insert_user', function (req, res) {
+    var error_user;
+
+    var user = User(
+        req.body.Name,
+        req.body.Surname,
+        req.body.Email,
+        req.body.Username,
+        req.body.Password);
+
+    console.log(`Got an user creation request`);
+
+    //add the user to the COLL_USER collection
+    mongodbtools.createGuest(COLL_USER, user, function (err, response) {
+        if (err) {
             console.log("Impossibile creare l'utente.")
             error_guest = err;
         } else {
@@ -91,7 +137,7 @@ router.post('/insert_guest', function (req, res) {
     });
 
     //if an error has happened prepare the error notification
-    if (error_guest === true) {
+    if (error_user === true) {
         notification.show = true;
         notification.error = true;
         notification.message = `Impossibile creare l'utente.`;

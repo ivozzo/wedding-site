@@ -4,8 +4,8 @@
 var mongoClient = require('mongodb').MongoClient;
 
 // Constants
-const PORT = 27017;
-const DB_URL = "mongodb://localhost:27017/site";
+const PORT = 27017,
+    DB_URL = "mongodb://localhost:27017/site";
 
 // Exports
 module.exports = {
@@ -63,6 +63,36 @@ module.exports = {
                         "login": guest.generated_login
                     }
 
+                });
+                var response = {
+                    body: 'OK'
+                }
+                db.close();
+                return callback(null, response);
+            }
+        })
+    },
+
+    createUser: function create_User(collection_req, user, callback) {
+        connect_db(function (err, db) {
+            if (err) {
+                console.log(err);
+                var response = {
+                    body: 'KO'
+                }
+                db.close();
+                return callback(err, response);
+            } else {
+                var collection = db.collection(collection_req);
+
+                collection.insertOne({
+                    "name": user.name,
+                    "surname": user.surname,
+                    "email": user.email,
+                    "login": {
+                        "user": user.username,
+                        "password": user.password
+                    }
                 });
                 var response = {
                     body: 'OK'
@@ -140,27 +170,4 @@ function connect_db(callback) {
         console.log('Database connection established');
         return callback(null, db);
     });
-}
-
-//Snippet
-//Creating user on database upon new user request
-function create_user(err, db) {
-    if (err) {
-        console.log(err);
-    } else if (db) {
-        db.collection('Users', function (err, collection) {
-            if (err) throw err;
-
-            var dbCount = connection.db.collection('Users').count();
-            collection.insert({
-                id: dbCount + 1,
-                firstname: req.body.first_name,
-                lastname: req.body.last_name,
-                email: req.body.email,
-                login: req.body.login,
-                pswd: req.body.password
-            })
-        });
-    }
-    return;
 }
