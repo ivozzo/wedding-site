@@ -4,7 +4,7 @@ html
 
   link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
   link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-
+  
   style.
     body,
       h1,
@@ -126,7 +126,7 @@ html
         outline: 0;
         box-sizing: border-box;
       }
-  
+
   body
 
     // HTML Sidebar/menu
@@ -138,12 +138,7 @@ html
         h3(class="w3-padding-64") 
           b #{titles.title}
         h3(class="w3-bar-block")
-          a(href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="#where" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Dove
-          a(href="#when" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Quando
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="/console/login" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Login
-          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
+          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
     
     // HTML Top menu on small screens
     header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
@@ -162,8 +157,8 @@ html
           b #{titles.title}
         h1(class="w3-xxxlarge w3-text-gray") 
           b #{titles.subtitle}
-        hr(style="width:300px;border:5px solid gray" class="w3-round")
-      
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+
       div(class="w3-container" id="notification" style="margin-top:75px")
       if notification.show
         if notification.error
@@ -173,37 +168,40 @@ html
               h3 ERRORE!
               p #{notification.message}
         
-        if notification.working && notification.error === false
+        if notification.error === false
           div(class="w3-display-container")
             div( class="w3-panel w3-yellow w3-round-xxlarge")
               span(onclick="this.parentElement.style.display='none'" class="w3-button w3-display-bottomright") Chiudi notifica
               h3 ATTENZIONE!
               p #{notification.message}
         
-        if notification.working === false && notification.error === false
+        if notification.error === false
           div(class="w3-display-container")
             div( class="w3-panel w3-green w3-round-xxlarge")
               span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
               h3 ESECUZIONE TERMINATA!
               p #{notification.message}
-              
-      // Where
-      div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl") 
-          b Dove:
-        hr(style="width:300px;border:5px solid gray" class="w3-round")
-        p Alla Locanda dei Fienili del Campiaro
-        p Località Campiaro, 112/C, 40030 Grizzana Morandi BO
-        iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2857.2507354013273!2d11.1464933158893!3d44.26366097910517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132ac4d992861b8b%3A0xa48831a432ba3d4f!2sLocanda+dei+Fienili+del+Campiaro!5e0!3m2!1sit!2sit!4v1498075104558" width="800" height="600" frameborder="0" style="border:0" allowfullscreen)
-
-      // When
-      div(class="w3-container" id="when" style="magin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl")
-          b Quando:
-        hr(style="width:300px;border:5px solid gray" class="w3-round")
-        p Vi aspettiamo il giorno 8 ottobre 2017
-        p Orario: [placeholder]
+                      
+      // Login form
+      div(class="w3-container" id="login" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Effettua il login
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Loggati per accedere alla console
         
+        // Form
+        form(action="/console/login" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Username" type="text" id="username")
+            label(for="username")  Username 
+          div(class="w3-section")
+            input(name="Password" type="password" id="password")
+            label(for="password")  Password
+          div(class="w3-section")
+            input(name="Email" type="text" id="email")
+            label(for="email")  Indirizzo email
+          button(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Invia
+          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
+
       // HTML W3.CSS Container
       div(class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
         p(class="w3-right") Powered by 

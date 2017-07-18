@@ -115,7 +115,6 @@ module.exports = {
                 }
                 return callback(err, response);
             } else {
-                // TODO occorre cercare un altro modo per fare la query, questa non funziona
                 var collection = db.collection(collection_req);
 
                 collection.find().toArray(function (err, items) {
@@ -137,7 +136,6 @@ module.exports = {
                         }
                         for (var i in items) {
                             item = items[i];
-                            console.log(JSON.stringify(item));
 
                             var guest = {
                                 id: item._id,
@@ -157,6 +155,63 @@ module.exports = {
                 });
             }
         })
+    },
+
+    findUser: function (collection_req, user, callback) {
+        connect_db(function (err, db) {
+            if (err) {
+                console.log(err);
+                var response = {
+                    error: true,
+                    body: 'KO',
+                    users: null,
+                    headers: null
+                }
+                return callback(err, response);
+            } else {
+                var collection = db.collection(collection_req);
+
+                collection.find({
+                    username: user.username
+                }).toArray(function (err, items) {
+                    if (err) {
+                        console.log(err);
+                        var response = {
+                            error: true,
+                            body: 'query',
+                            guests: null,
+                            headers: null
+                        }
+                        return callback(err, response);
+                    } else {
+                        var response = {
+                            error: false,
+                            body: 'user',
+                            user: null,
+                            headers: null
+                        }
+                        console.log(items);
+                        response.user = items;
+
+                        //for (var i in items) {
+                        //    item = items[i];
+                        //    var user = {
+                        //        id: item._id,
+                        //        name: item.name,
+                        //        surname: item.surname,
+                        //        email: item.email,
+                        //        username: item.username,
+                        //        password: item.password
+                        //    }
+                        //    response.users.push(user);
+                        //}
+
+                        db.close();
+                        return callback(null, response);
+                    }
+                });
+            }
+        });
     }
 }
 

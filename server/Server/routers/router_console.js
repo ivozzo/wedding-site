@@ -1,11 +1,17 @@
 // Loading Modules
-var express = require('express'),
+const express = require('express'),
     router = express.Router(),
-    mongodbtools = require('../utilities/mongodb-tools');
+    mongodbtools = require('../utilities/mongodb-tools'),
+    crypto = require('crypto'),
+    base64url = require('base64url');
 
-// Constants
-const COLL_GUEST = 'Guest-List',
-    COLL_USER = 'Users';
+
+var sess;
+
+// Create a random token
+function randomStringAsBase64Url(size) {
+    return base64url(crypto.randomBytes(size));
+}
 
 // Guest object creator
 function Guest(name_given, surname_given, email_given, expected_number_given) {
@@ -13,7 +19,7 @@ function Guest(name_given, surname_given, email_given, expected_number_given) {
         name: name_given,
         surname: surname_given,
         email: email_given,
-        generated_token: '',
+        generated_token: randomStringAsBase64Url(64),
         expected_number: expected_number_given
     };
 
@@ -35,8 +41,48 @@ function User(name_given, surname_given, email_given, username_given, password_g
 
 // This is the console main index, also the splash page
 router.get('/', function (req, res) {
-    console.log(`Got a request on /console`)
-    res.render('console.pug', {notification: notification, titles: titles});
+    console.log(`Got a request on /console`);
+    sess = req.session;
+    console.log(`Session: %s`, sess);
+    if (sess) {
+        console.log(`User: %s`, sess.username);
+        res.render('console.pug', {
+            notification: notification,
+            titles: titles
+        });
+    } else {
+        res.redirect('/console/login');
+    }
+
+});
+
+// Login page, this is where the unauthorized request con /console will be redirected
+router.get('/login', function (req, res) {
+    console.log(`Got a request on /console/login`);
+    res.render('login.pug', {
+        notification: notification,
+        titles: titles
+    });
+});
+
+router.post('/login', function (req, res) {
+    console.log(`Checking if there's an user with the usernam: %s`, req.body.username);
+    var user = User("", "", "", req.body.username, req.body.password);
+    mongodbtools.findUser(myCollection.user, user, function (err, response) {
+        if (err) {
+            console.log(`Impossibile trovare l'utente richiesto`);
+        }
+        if (response.user.username === user.username) {
+            if (response.user.password === user.password) {
+                console.log(`User %s found and correctly authenticated`);
+                req.session.username = user.username;
+                res.redirect('/');
+            } else {
+                console.log(`User %s found but password not correct`);
+                res.render('/login');
+            }
+        }
+    });
 });
 
 // Database initialization
@@ -45,7 +91,7 @@ router.post('/init', function (req, res) {
     var error_guest = false;
 
     //initializing COLL_USER collection, if the collection already exists return an error
-    mongodbtools.initCollection(COLL_USER, function (err, response) {
+    mongodbtools.initCollection(myCollection.user, function (err, response) {
         if (err && response.body == 'KO') {
             console.log('La collection %s esiste già', COLL_USER);
             error_user = true;
@@ -56,7 +102,7 @@ router.post('/init', function (req, res) {
     });
 
     //initializing COLL_GUEST collection, if the collection already exists return an error
-    mongodbtools.initCollection(COLL_GUEST, function (err, response) {
+    mongodbtools.initCollection(myCollection.guest, function (err, response) {
         if (err && response.body == 'KO') {
             console.log('La collection %s esiste già', COLL_GUEST);
             error_guest = true;
@@ -78,7 +124,10 @@ Impossibile creare le collection.`;
         notification.message = `Il database è stato correttamente inizializzato.`;
     }
 
-    res.render('console.pug', {notification: notification, titles: titles});
+    res.render('console.pug', {
+        notification: notification,
+        titles: titles
+    });
 });
 
 // Guest addition
@@ -94,7 +143,7 @@ router.post('/insert_guest', function (req, res) {
     console.log(`Got the following guest invitation: %s`, JSON.stringify(guest));
 
     //add the guest to the COLL_GUEST collection
-    mongodbtools.createGuest(COLL_GUEST, guest, function (err, response) {
+    mongodbtools.createGuest(myCollection.guest, guest, function (err, response) {
         if (err) {
             console.log("Impossibile creare l'invitato.")
             error_guest = err;
@@ -110,7 +159,10 @@ router.post('/insert_guest', function (req, res) {
         notification.message = `Impossibile creare l'invitato.`;
     }
 
-    res.render('console.pug', {notification: notification, titles: titles});
+    res.render('console.pug', {
+        notification: notification,
+        titles: titles
+    });
 });
 
 // User addition
@@ -127,7 +179,7 @@ router.post('/insert_user', function (req, res) {
     console.log(`Got an user creation request`);
 
     //add the user to the COLL_USER collection
-    mongodbtools.createGuest(COLL_USER, user, function (err, response) {
+    mongodbtools.createGuest(myCollection.user, user, function (err, response) {
         if (err) {
             console.log("Impossibile creare l'utente.")
             error_guest = err;
@@ -143,7 +195,10 @@ router.post('/insert_user', function (req, res) {
         notification.message = `Impossibile creare l'utente.`;
     }
 
-    res.render('console.pug', {notification: notification, titles: titles});
+    res.render('console.pug', {
+        notification: notification,
+        titles: titles
+    });
 });
 
 // List all the guests
@@ -151,7 +206,7 @@ router.get('/list_guest', function (req, res) {
     console.log('Got a request on /list');
 
     //search in the COLL_GUEST collection for all guests and return a list
-    mongodbtools.listGuest(COLL_GUEST, function (err, response) {
+    mongodbtools.listGuest(myCollection.guest, function (err, response) {
         if (err) {
             console.log('Impossibile recuperare la lista degli invitati');
 
