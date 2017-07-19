@@ -5,7 +5,6 @@ const express = require('express'),
     crypto = require('crypto'),
     base64url = require('base64url');
 
-
 var sess;
 
 // Create a random token
@@ -51,6 +50,11 @@ router.get('/', function (req, res) {
             titles: titles
         });
     } else {
+        mongodbtools.checkInitialized(function (err, response){
+            if (err){
+                console.log(`Impossibile effettuare il controllo sulla collection`);
+            }
+        });
         res.redirect('/console/login');
     }
 
@@ -68,11 +72,12 @@ router.get('/login', function (req, res) {
 router.post('/login', function (req, res) {
     console.log(`Checking if there's an user with the usernam: %s`, req.body.username);
     var user = User("", "", "", req.body.username, req.body.password);
-    mongodbtools.findUser(myCollection.user, user, function (err, response) {
+    mongodbtools.findUser(user, function (err, response) {
         if (err) {
             console.log(`Impossibile trovare l'utente richiesto`);
         }
-        if (response.user.username === user.username) {
+        console.log(response.user[0].login);
+        if (response.user[0].login.user === user.username) {
             if (response.user.password === user.password) {
                 console.log(`User %s found and correctly authenticated`);
                 req.session.username = user.username;
@@ -179,7 +184,7 @@ router.post('/insert_user', function (req, res) {
     console.log(`Got an user creation request`);
 
     //add the user to the COLL_USER collection
-    mongodbtools.createGuest(myCollection.user, user, function (err, response) {
+    mongodbtools.createUser(myCollection.user, user, function (err, response) {
         if (err) {
             console.log("Impossibile creare l'utente.")
             error_guest = err;
