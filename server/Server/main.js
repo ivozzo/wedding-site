@@ -42,12 +42,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use('/', index_router);
-app.use('/console', console_router);
 app.set('view engine', 'pug');
 app.use(cookieParser());
 app.use(session({secret: 'secret-token-mika', saveUninitialized : false, resave : true}));
-
+app.use('/', index_router);
+app.use('/console', console_router);
 
 /* 
 Defining the wedding site 

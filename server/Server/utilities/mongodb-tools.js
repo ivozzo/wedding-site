@@ -113,51 +113,17 @@ module.exports = {
     },
 
     findUser: function (user, callback) {
-        connect_db(function (err, db) {
-            if (err) {
-                console.log(err);
-                var response = {
-                    error: true,
-                    body: 'KO',
-                    users: null,
-                    headers: null
-                }
-                return callback(err, response);
-            } else {
-                var collection = db.collection(myCollection.user);
-
-                collection.find({
-                    username: user.username
-                }).toArray(function (err, items) {
-                    if (err) {
-                        console.log(err);
-                        var response = {
-                            error: true,
-                            body: 'query',
-                            guests: null,
-                            headers: null
-                        }
-                        return callback(err, response);
-                    } else {
-                        var response = {
-                            error: false,
-                            body: 'user',
-                            user: null,
-                            headers: null
-                        }
-                        console.log(items);
-                        response.user = items;
-
-                        db.close();
-                        return callback(null, response);
-                    }
-                });
-            }
-        });
+        find_User(user,callback);
     }
 }
 
-//Connects to db, if there's an error log it and pass it back
+
+/**
+ * Connects to the database
+ * @function connect_db
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
 function connect_db(callback) {
     mongoClient.connect(DB_URL, function (err, db) {
         if (err) {
@@ -224,14 +190,14 @@ function find_User(user, callback) {
             var collection = db.collection(myCollection.user);
 
             collection.find({
-                username: user.username
+                "login.user": user.username
             }).toArray(function (err, items) {
                 if (err) {
                     console.log(err);
                     var response = {
                         error: true,
                         body: 'query',
-                        guests: null,
+                        users: null,
                         headers: null
                     }
                     return callback(err, response);
@@ -239,11 +205,10 @@ function find_User(user, callback) {
                     var response = {
                         error: false,
                         body: 'user',
-                        user: null,
+                        users: null,
                         headers: null
                     }
-                    console.log(items);
-                    response.user = items;
+                    response.users = items;
 
                     db.close();
                     return callback(null, response);

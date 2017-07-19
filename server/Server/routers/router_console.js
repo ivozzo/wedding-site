@@ -42,8 +42,8 @@ function User(name_given, surname_given, email_given, username_given, password_g
 router.get('/', function (req, res) {
     console.log(`Got a request on /console`);
     sess = req.session;
-    console.log(`Session: %s`, sess);
-    if (sess) {
+    console.log(`Session: %s`, JSON.stringify(sess));
+    if (sess.username) {
         console.log(`User: %s`, sess.username);
         res.render('console.pug', {
             notification: notification,
@@ -70,21 +70,21 @@ router.get('/login', function (req, res) {
 });
 
 router.post('/login', function (req, res) {
-    console.log(`Checking if there's an user with the usernam: %s`, req.body.username);
-    var user = User("", "", "", req.body.username, req.body.password);
+    console.log(`Checking if there's an user with the username: %s`, req.body.Username);
+    var user = User("", "", "", req.body.Username, req.body.Password);
     mongodbtools.findUser(user, function (err, response) {
         if (err) {
-            console.log(`Impossibile trovare l'utente richiesto`);
+            console.log(`No user found, redirecting to login`);
+            res.render('/login');
         }
-        console.log(response.user[0].login);
-        if (response.user[0].login.user === user.username) {
-            if (response.user.password === user.password) {
-                console.log(`User %s found and correctly authenticated`);
+        if (response.users[0].login.user === user.username) {
+            if (response.users[0].login.password === user.password) {
+                console.log(`User %s found and correctly authenticated`, user.username);
                 req.session.username = user.username;
-                res.redirect('/');
+                res.redirect('/console');
             } else {
-                console.log(`User %s found but password not correct`);
-                res.render('/login');
+                console.log(`User %s found but password not correct`, user.username);
+                res.render('/console/login');
             }
         }
     });
