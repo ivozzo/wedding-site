@@ -46,38 +46,16 @@ module.exports = {
         });
     },
 
-    initCollection: function init_db(collection_req, callback) {
-        connect_db(function (err, db) {
-            if (err) {
-                console.log(err);
-            } else {
-                db.createCollection(collection_req, {
-                    strict: true
-                }, function (err, collection) {
-                    if (err) {
-                        var response = {
-                            body: 'KO'
-                        }
-                        db.close();
-                        return callback(err, response);
-                    } else {
-                        var response = {
-                            body: "OK"
-                        }
-                        db.close();
-                        return callback(null, response);
-                    }
-                })
-            }
-        })
+    initCollection: function (collection_req, callback) {
+        init_db(collection_req, callback);
     },
 
-    createGuest: function(guest, callback) {
-        create_Guest(guest,callback);
+    createGuest: function (guest, callback) {
+        create_Guest(guest, callback);
     },
 
-    createUser: function(user, callback) {
-        create_User(user,callback);
+    createUser: function (user, callback) {
+        create_User(user, callback);
     },
 
     listGuest: function list_Guests(collection_req, callback) {
@@ -191,50 +169,90 @@ function connect_db(callback) {
     });
 }
 
-function find_User(user, callback) {
-        connect_db(function (err, db) {
-            if (err) {
-                console.log(err);
-                var response = {
-                    error: true,
-                    body: 'KO',
-                    users: null,
-                    headers: null
-                }
-                return callback(err, response);
-            } else {
-                var collection = db.collection(myCollection.user);
-
-                collection.find({
-                    username: user.username
-                }).toArray(function (err, items) {
-                    if (err) {
-                        console.log(err);
-                        var response = {
-                            error: true,
-                            body: 'query',
-                            guests: null,
-                            headers: null
-                        }
-                        return callback(err, response);
-                    } else {
-                        var response = {
-                            error: false,
-                            body: 'user',
-                            user: null,
-                            headers: null
-                        }
-                        console.log(items);
-                        response.user = items;
-
-                        db.close();
-                        return callback(null, response);
+/**
+ * Database initialization
+ * @function init_db
+ * @param  {String} collection_req {The collection to initialize}
+ * @param  {Function} callback       {The callback function}
+ * @return {callback}
+ */
+function init_db(collection_req, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+        } else {
+            db.createCollection(collection_req, {
+                strict: true
+            }, function (err, collection) {
+                if (err) {
+                    var response = {
+                        body: 'KO'
                     }
-                });
-            }
-        });
-    }
+                    db.close();
+                    return callback(err, response);
+                } else {
+                    var response = {
+                        body: "OK"
+                    }
+                    db.close();
+                    return callback(null, response);
+                }
+            })
+        }
+    })
 }
+
+/**
+ * Search for an user
+ * @function find_User
+ * @param  {User} user     {The user to search for}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function find_User(user, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+            var response = {
+                error: true,
+                body: 'KO',
+                users: null,
+                headers: null
+            }
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.user);
+
+            collection.find({
+                username: user.username
+            }).toArray(function (err, items) {
+                if (err) {
+                    console.log(err);
+                    var response = {
+                        error: true,
+                        body: 'query',
+                        guests: null,
+                        headers: null
+                    }
+                    return callback(err, response);
+                } else {
+                    var response = {
+                        error: false,
+                        body: 'user',
+                        user: null,
+                        headers: null
+                    }
+                    console.log(items);
+                    response.user = items;
+
+                    db.close();
+                    return callback(null, response);
+                }
+            });
+        }
+    });
+}
+
 /**
  * Create a user in the user collection
  * @function create_User
