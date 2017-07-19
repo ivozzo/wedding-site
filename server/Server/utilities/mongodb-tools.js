@@ -1,7 +1,8 @@
 /* Tools for managing mondodb */
 
 // Loading modules
-var mongoClient = require('mongodb').MongoClient;
+const mongoClient = require('mongodb').MongoClient,
+    objects = require('./objects')
 
 // Constants
 const PORT = 27017,
@@ -9,41 +10,8 @@ const PORT = 27017,
 
 // Exports
 module.exports = {
-    checkInitialized: function check_Initialized(callback) {
-        connect_db(function (err, db) {
-            if (err) {
-                console.log(err);
-                return callback(err, null);
-            } else {
-                var collection = db.collection(myCollection.user);
-
-                collection.find().toArray(function (err, items) {
-                    if (items.length === 0) {
-                        console.log(`No users have been found, creating the admin user, please change password`);
-
-                        var user = {
-                            name: "Alessandro",
-                            surname: "Ivaldi",
-                            email: "alessandro@email.it",
-                            username: "aivaldi",
-                            password: "password"
-                        }
-
-                        create_User(user, function (err, response) {
-                            if (err) {
-                                console.log("Error creating user")
-                                db.close();
-                                return callback(err, null);
-                            } else {
-                                console.log("The user has been created");
-                                db.close();
-                                return callback(err, response);
-                            }
-                        });
-                    }
-                });
-            }
-        });
+    checkInitialized: function (callback) {
+        check_Initialized(callback);
     },
 
     initCollection: function (collection_req, callback) {
@@ -58,65 +26,18 @@ module.exports = {
         create_User(user, callback);
     },
 
-    listGuest: function list_Guests(collection_req, callback) {
-        connect_db(function (err, db) {
-            if (err) {
-                console.log(err);
-                var response = {
-                    error: true,
-                    body: 'KO',
-                    guests: null,
-                    headers: null
-                }
-                return callback(err, response);
-            } else {
-                var collection = db.collection(collection_req);
-
-                collection.find().toArray(function (err, items) {
-                    if (err) {
-                        console.log(err);
-                        var response = {
-                            error: true,
-                            body: 'query',
-                            guests: null,
-                            headers: null
-                        }
-                        return callback(err, response);
-                    } else {
-                        var response = {
-                            error: false,
-                            body: 'guests',
-                            guests: [],
-                            headers: null
-                        }
-                        for (var i in items) {
-                            item = items[i];
-
-                            var guest = {
-                                id: item._id,
-                                name: item.name,
-                                surname: item.surname,
-                                contacts: item.contacts,
-                                address: item.address,
-                                expected_number: item.expected_number
-                            }
-                            response.guests.push(guest);
-                        }
-
-                        response.headers = ["id", "name", "surname", "contacts", "address", "expected number"];
-                        db.close();
-                        return callback(null, response);
-                    }
-                });
-            }
-        })
+    listGuest: function (callback) {
+        list_Guests(callback);
     },
 
     findUser: function (user, callback) {
-        find_User(user,callback);
+        find_User(user, callback);
+    },
+
+    updateUser: function (user, callback) {
+        update_User(user, callback);
     }
 }
-
 
 /**
  * Connects to the database
@@ -200,6 +121,7 @@ function find_User(user, callback) {
                         users: null,
                         headers: null
                     }
+                    db.close();
                     return callback(err, response);
                 } else {
                     var response = {
@@ -232,7 +154,6 @@ function create_User(user, callback) {
             var response = {
                 body: 'KO'
             }
-            db.close();
             return callback(err, response);
         } else {
             var collection = db.collection(myCollection.user);
@@ -269,7 +190,6 @@ function create_Guest(guest, callback) {
             var response = {
                 body: 'KO'
             }
-            db.close();
             return callback(err, response);
         } else {
             var collection = db.collection(myCollection.guest);
@@ -298,4 +218,142 @@ function create_Guest(guest, callback) {
             return callback(null, response);
         }
     })
+}
+
+/**
+ * Check if the database has already been initialized
+ * @function check_Initialized
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function check_Initialized(callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+            return callback(err, null);
+        } else {
+            var collection = db.collection(myCollection.user);
+
+            collection.find().toArray(function (err, items) {
+                if (items.length === 0) {
+                    console.log(`No users have been found, creating the admin user, please change password`);
+
+                    var user = objects.User(
+                        "Alessandro",
+                        "Ivaldi",
+                        "alessandro.ivaldi@email.it",
+                        "aivaldi",
+                        "password"
+                    )
+
+                    create_User(user, function (err, response) {
+                        if (err) {
+                            console.log("Error creating user")
+                            db.close();
+                            return callback(err, null);
+                        } else {
+                            console.log("The user has been created");
+                            db.close();
+                            return callback(err, response);
+                        }
+                    });
+                }
+            });
+        }
+    });
+}
+
+/**
+ * List all available guests
+ * @function list_Guests
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function list_Guests(callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+            var response = {
+                error: true,
+                body: 'KO',
+                guests: null,
+                headers: null
+            }
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.guest);
+
+            collection.find().toArray(function (err, items) {
+                if (err) {
+                    console.log(err);
+                    var response = {
+                        error: true,
+                        body: 'query',
+                        guests: null,
+                        headers: null
+                    }
+                    db.close();
+                    return callback(err, response);
+                } else {
+                    var response = {
+                        error: false,
+                        body: 'guests',
+                        guests: [],
+                        headers: null
+                    }
+                    for (var i in items) {
+                        item = items[i];
+
+                        var guest = {
+                            id: item._id,
+                            name: item.name,
+                            surname: item.surname,
+                            contacts: item.contacts,
+                            address: item.address,
+                            expected_number: item.expected_number
+                        }
+                        response.guests.push(guest);
+                    }
+
+                    response.headers = ["id", "name", "surname", "contacts", "address", "expected number"];
+                    db.close();
+                    return callback(null, response);
+                }
+            });
+        }
+    })
+}
+
+function update_User(user, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+            var response = {
+                error: true,
+                body: 'KO',
+                guests: null,
+                headers: null
+            }
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.user);
+
+            collection.save(user, function (err, status) {
+                if (err) {
+                    var response = {
+                        error: true,
+                        body: 'update',
+                        users: null,
+                        headers: null
+                    }
+                    db.close();
+                    return callback(err, response);
+                } else {
+                    db.close();
+                    return callback(null, response);
+                }
+            })
+
+        }
+    });
 }

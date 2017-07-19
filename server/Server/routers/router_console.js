@@ -2,41 +2,9 @@
 const express = require('express'),
     router = express.Router(),
     mongodbtools = require('../utilities/mongodb-tools'),
-    crypto = require('crypto'),
-    base64url = require('base64url');
+    objects = require('../utilities/objects');
 
 var sess;
-
-// Create a random token
-function randomStringAsBase64Url(size) {
-    return base64url(crypto.randomBytes(size));
-}
-
-// Guest object creator
-function Guest(name_given, surname_given, email_given, expected_number_given) {
-    var guest = {
-        name: name_given,
-        surname: surname_given,
-        email: email_given,
-        generated_token: randomStringAsBase64Url(64),
-        expected_number: expected_number_given
-    };
-
-    return guest;
-}
-
-// User object creator
-function User(name_given, surname_given, email_given, username_given, password_given) {
-    var user = {
-        name: name_given,
-        surname: surname_given,
-        email: email_given,
-        username: username_given,
-        password: password_given
-    };
-
-    return user;
-}
 
 // This is the console main index, also the splash page
 router.get('/', function (req, res) {
@@ -50,8 +18,8 @@ router.get('/', function (req, res) {
             titles: titles
         });
     } else {
-        mongodbtools.checkInitialized(function (err, response){
-            if (err){
+        mongodbtools.checkInitialized(function (err, response) {
+            if (err) {
                 console.log(`Impossibile effettuare il controllo sulla collection`);
             }
         });
@@ -71,12 +39,19 @@ router.get('/login', function (req, res) {
 
 router.post('/login', function (req, res) {
     console.log(`Checking if there's an user with the username: %s`, req.body.Username);
-    var user = User("", "", "", req.body.Username, req.body.Password);
+    var user = objects.User(
+        "",
+        "",
+        "",
+        req.body.Username,
+        req.body.Password);
+
     mongodbtools.findUser(user, function (err, response) {
         if (err) {
             console.log(`No user found, redirecting to login`);
             res.render('/login');
         }
+
         if (response.users[0].login.user === user.username) {
             if (response.users[0].login.password === user.password) {
                 console.log(`User %s found and correctly authenticated`, user.username);
@@ -84,7 +59,7 @@ router.post('/login', function (req, res) {
                 res.redirect('/console');
             } else {
                 console.log(`User %s found but password not correct`, user.username);
-                res.render('/console/login');
+                res.render('/login');
             }
         }
     });
@@ -139,7 +114,7 @@ Impossibile creare le collection.`;
 router.post('/insert_guest', function (req, res) {
     var error_guest;
 
-    var guest = Guest(
+    var guest = objects.Guest(
         req.body.Name,
         req.body.Surname,
         req.body.Email,
@@ -148,7 +123,7 @@ router.post('/insert_guest', function (req, res) {
     console.log(`Got the following guest invitation: %s`, JSON.stringify(guest));
 
     //add the guest to the COLL_GUEST collection
-    mongodbtools.createGuest(myCollection.guest, guest, function (err, response) {
+    mongodbtools.createGuest(guest, function (err, response) {
         if (err) {
             console.log("Impossibile creare l'invitato.")
             error_guest = err;
@@ -174,7 +149,7 @@ router.post('/insert_guest', function (req, res) {
 router.post('/insert_user', function (req, res) {
     var error_user;
 
-    var user = User(
+    var user = objects.User(
         req.body.Name,
         req.body.Surname,
         req.body.Email,
@@ -184,7 +159,7 @@ router.post('/insert_user', function (req, res) {
     console.log(`Got an user creation request`);
 
     //add the user to the COLL_USER collection
-    mongodbtools.createUser(myCollection.user, user, function (err, response) {
+    mongodbtools.createUser(user, function (err, response) {
         if (err) {
             console.log("Impossibile creare l'utente.")
             error_guest = err;
@@ -203,6 +178,43 @@ router.post('/insert_user', function (req, res) {
     res.render('console.pug', {
         notification: notification,
         titles: titles
+    });
+});
+
+router.post('/update_user', function (req, res){
+    var error_user;
+
+    var new_password = req.body.newPassword;
+
+    var user = objects.User(
+        "",
+        "",
+        "",
+        req.session.username,
+        req.body.oldPassword
+    )
+
+        mongodbtools.findUser(user, function (err, response) {
+        if (err) {
+            //TODO add notification error
+            console.log(`No user found, redirecting to login`);
+        }
+
+        if (response.users[0].login.user === user.username) {
+            if (response.users[0].login.password === user.password) {
+
+                var user = response.users[0];
+                user.login.password = objects.cryptPassword(new_password);
+
+                mongodbtools.updateUser(user, function (err, response){
+
+                });
+            } else {
+                //TODO add notification error
+                console.log(`User %s found but password not correct`, user.username);
+                res.render('/console');
+            }
+        }
     });
 });
 
