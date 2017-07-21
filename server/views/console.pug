@@ -142,6 +142,7 @@ html
           a(href="#init" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inizializza
           a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci ospite
           a(href="#insert" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci utente
+          a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna password
           a(href="/console/list_guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza ospiti
     
     // HTML Top menu on small screens
@@ -243,6 +244,34 @@ html
             label(for="Password")  Password
           button(type="submit" value="Inserisci" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Inserisci
           button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
+
+      // Update users
+      div(class="w3-container" id="update" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Aggiorna password
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Utilizza il form seguente per aggiornare la tua password
+        
+        // Form
+        form(action="/console/update_user" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Username" type="text" id="username")
+            label(for="username")  Username
+          div(class="w3-section")
+            input(name="oldPassword" type="password" id="oldPassword")
+            label(for="oldPassword")  Vecchia password
+          div(class="w3-section")
+            input(name="newPassword" type="password" id="newPassword")
+            label(for="newPassword")  Nuova password
+          button(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Aggiorna
+          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
+
+      // Try smtp connection
+      div(class="w3-container" id="where" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Verifica la connessione SMTP
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Effettua una prova di connessione
+        form(action="/console/verify_mail" method="POST")
+            input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       // HTML W3.CSS Container
       div(class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
