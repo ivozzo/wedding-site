@@ -1,6 +1,5 @@
 const secret_key = 'I love cupcakes',
     crypto = require('crypto'),
-    hmac = crypto.createHmac('sha256', secret_key),
     base64url = require('base64url');
 
 module.exports = {
@@ -68,7 +67,7 @@ function User(name_given, surname_given, email_given, username_given, password_g
         surname: surname_given,
         email: email_given,
         username: username_given,
-        password: hmac_password(password_given);
+        password: hmac_password(password_given)
     };
 
     return user;
@@ -81,6 +80,8 @@ function User(name_given, surname_given, email_given, username_given, password_g
  * @return {hex}
  */
 function hmac_password(password_given) {
+    var hmac = crypto.createHmac('sha256', secret_key);
+
     hmac.update(password_given);
     return hmac.digest('hex');
 }
