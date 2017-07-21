@@ -5,7 +5,6 @@ const index_router = require('./routers/router_main'),
     console_router = require('./routers/router_console'),
     express = require('express'),
     pug = require('pug'),
-    passport = require('passport'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session');
@@ -23,6 +22,7 @@ global.myCollection = {
 // Notification
 global.notification = {
     show: false,
+    working: false,
     error: false,
     message: ''
 }
