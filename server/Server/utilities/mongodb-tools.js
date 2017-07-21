@@ -324,6 +324,13 @@ function list_Guests(callback) {
     })
 }
 
+/**
+ * Updates user password
+ * @function update_User
+ * @param  {User} user     {The user to update}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
 function update_User(user, callback) {
     connect_db(function (err, db) {
         if (err) {
