@@ -2,7 +2,8 @@
 const express = require('express'),
     router = express.Router(),
     mongodbtools = require('../utilities/mongodb-tools'),
-    objects = require('../utilities/objects');
+    objects = require('../utilities/objects'),
+    mailer = require('../utilities/mailer');
 
 var sess;
 
@@ -37,6 +38,7 @@ router.get('/login', function (req, res) {
     });
 });
 
+// Login request
 router.post('/login', function (req, res) {
     console.log(`Checking if there's an user with the username: %s`, req.body.Username);
     var user = objects.User(
@@ -59,7 +61,7 @@ router.post('/login', function (req, res) {
                 res.redirect('/console');
             } else {
                 console.log(`User %s found but password not correct`, user.username);
-                res.render('/login');
+                res.render('/console/login');
             }
         }
     });
@@ -190,23 +192,27 @@ router.post('/update_user', function (req, res){
         "",
         "",
         "",
-        req.session.username,
+        req.body.Username,
         req.body.oldPassword
     )
+
+    var old_password = user.password;
 
         mongodbtools.findUser(user, function (err, response) {
         if (err) {
             //TODO add notification error
             console.log(`No user found, redirecting to login`);
         }
+        console.log(old_password)
+        console.log(new_password)
 
-        if (response.users[0].login.user === user.username) {
-            if (response.users[0].login.password === user.password) {
+        if (response.users[0].login.user === req.body.Username) {
+            if (response.users[0].login.password === old_password) {
 
-                var user = response.users[0];
-                user.login.password = objects.cryptPassword(new_password);
+                var updatedUser = response.users[0];
+                updatedUser.login.password = objects.cryptPassword(new_password);
 
-                mongodbtools.updateUser(user, function (err, response){
+                mongodbtools.updateUser(updatedUser, function (err, response){
 
                 });
             } else {
@@ -249,5 +255,29 @@ router.get('/list_guest', function (req, res) {
         }
     })
 });
+
+router.post('/verify_mail', function (req,res){
+    console.log(`Veryfing SMTP connection...`);
+    mailer.test(function(err, success){
+        if (err){
+            console.log('Cannot connect to the SMTP server');
+
+            notification.show = true;
+            notification.error = true;
+            notification.message = 'Impossibile connettersi al server di posta';
+
+            res.render('console.pug', notification);
+        } else {
+            console.log('SMTP connection established');
+
+            notification.show = true;
+            notification.error = false;
+            notification.message = 'SMTP connection established';
+
+            res.render('console.pug', notification);
+        }
+    });
+});
+
 
 module.exports = router;
