@@ -171,10 +171,11 @@ html
             th #{val}
           each val in guests 
             tr
-              td #{val.id}
-              td #{val.name}
-              td #{val.surname}
-              td #{val.expected_number}
+              td(align="center") #{val.name}
+              td(align="center") #{val.surname}
+              td(align="center") #{val.email}
+              td(align="center") #{val.expected_number}
+              td(align="center") #{val.generated_token}
 
 
       // HTML W3.CSS Container

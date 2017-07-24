@@ -12,20 +12,18 @@ const index_router = require('./routers/router_main'),
 // Constants
 const PORT = 8021;
 
-
 // Constants
 global.myCollection = {
     guest: 'Guest-List',
     user: 'Users'
-}
+};
 
 // Notification
 global.notification = {
     show: false,
-    working: false,
     error: false,
     message: ''
-}
+};
 
 // Headers
 global.titles = {
@@ -34,7 +32,13 @@ Alessandro
     & 
 Maria Francesca`,
     subtitle: 'Il lieto evento'
-}
+};
+
+// Site
+global.site = {
+    main: "http://pagina principale",
+    rsvp: "http://pagina_rsvp"
+};
 
 // Variables
 var app = express();

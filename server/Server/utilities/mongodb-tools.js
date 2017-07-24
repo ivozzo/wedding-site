@@ -195,20 +195,11 @@ function create_Guest(guest, callback) {
             var collection = db.collection(myCollection.guest);
 
             collection.insertOne({
-                "address": {
-                    //TODO
-                },
-                "contacts": {
-                    "email": guest.email,
-                    "phone number": ''
-                },
-                "expected number": guest.expected_number,
+                "email": guest.email,
+                "expected_number": guest.expected_number,
                 "surname": guest.surname,
                 "name": guest.name,
-                "login": {
-                    "generated_token": guest.generated_token,
-                    "login": guest.generated_login
-                }
+                "generated_token": guest.generated_token,
 
             });
             var response = {
@@ -305,17 +296,16 @@ function list_Guests(callback) {
                         item = items[i];
 
                         var guest = {
-                            id: item._id,
                             name: item.name,
                             surname: item.surname,
-                            contacts: item.contacts,
-                            address: item.address,
+                            email: item.email,
+                            generated_token: item.generated_token,
                             expected_number: item.expected_number
                         }
                         response.guests.push(guest);
                     }
 
-                    response.headers = ["id", "name", "surname", "contacts", "address", "expected number"];
+                    response.headers = ["Nome", "Cognome", "Email", "Invitati attesi", "Token"];
                     db.close();
                     return callback(null, response);
                 }

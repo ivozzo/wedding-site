@@ -175,13 +175,6 @@ html
         
         if notification.error === false
           div(class="w3-display-container")
-            div( class="w3-panel w3-yellow w3-round-xxlarge")
-              span(onclick="this.parentElement.style.display='none'" class="w3-button w3-display-bottomright") Chiudi notifica
-              h3 ATTENZIONE!
-              p #{notification.message}
-        
-        if notification.error === false
-          div(class="w3-display-container")
             div( class="w3-panel w3-green w3-round-xxlarge")
               span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
               h3 ESECUZIONE TERMINATA!
@@ -214,7 +207,7 @@ html
             input(name="Email" type="text" id="email")
             label(for="email")  Indirizzo email
           div(class="w3-section")
-            input(name="Epected" type="text" id="expected")
+            input(name="Expected" type="text" id="expected")
             label(for="expected")  Invitati attesi
           button(type="submit" value="Inserisci" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Inserisci
           button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
@@ -266,12 +259,20 @@ html
           button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
 
       // Try smtp connection
-      div(class="w3-container" id="where" style="margin-top:75px")
+      div(class="w3-container" id="test" style="margin-top:75px")
         h1(class="w3-xxxlarge w3-text-pearl"): b Verifica la connessione SMTP
         hr(style="width:200px;border:5px solid gray" class="w3-round")
         p Effettua una prova di connessione
         form(action="/console/verify_mail" method="POST")
             input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+      // Send mails
+      div(class="w3-container" id="send" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Invia gli inviti
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Invia gli inviti agli ospiti
+        form(action="/console/send_mail" method="POST")
+            input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       // HTML W3.CSS Container
       div(class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")

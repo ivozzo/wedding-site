@@ -167,14 +167,7 @@ html
               span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
               h3 ERRORE!
               p #{notification.message}
-        
-        if notification.error === false
-          div(class="w3-display-container")
-            div( class="w3-panel w3-yellow w3-round-xxlarge")
-              span(onclick="this.parentElement.style.display='none'" class="w3-button w3-display-bottomright") Chiudi notifica
-              h3 ATTENZIONE!
-              p #{notification.message}
-        
+
         if notification.error === false
           div(class="w3-display-container")
             div( class="w3-panel w3-green w3-round-xxlarge")

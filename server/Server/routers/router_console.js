@@ -21,7 +21,7 @@ router.get('/', function (req, res) {
     } else {
         mongodbtools.checkInitialized(function (err, response) {
             if (err) {
-                console.log(`Impossibile effettuare il controllo sulla collection`);
+                console.log(`Cannot check if the database has already been initialized`);
             }
         });
         res.redirect('/console/login');
@@ -61,7 +61,7 @@ router.post('/login', function (req, res) {
                 res.redirect('/console');
             } else {
                 console.log(`User %s found but password not correct`, user.username);
-                res.render('/console/login');
+                res.render('/login');
             }
         }
     });
@@ -75,10 +75,10 @@ router.post('/init', function (req, res) {
     //initializing COLL_USER collection, if the collection already exists return an error
     mongodbtools.initCollection(myCollection.user, function (err, response) {
         if (err && response.body == 'KO') {
-            console.log('La collection %s esiste già', COLL_USER);
+            console.log('Collection %s already existing', COLL_USER);
             error_user = true;
         } else {
-            console.log('La collection %s è stata correttamente creata', COLL_USER);
+            console.log('Collection %s has been correctly created', COLL_USER);
             var report_user = true;
         }
     });
@@ -86,10 +86,10 @@ router.post('/init', function (req, res) {
     //initializing COLL_GUEST collection, if the collection already exists return an error
     mongodbtools.initCollection(myCollection.guest, function (err, response) {
         if (err && response.body == 'KO') {
-            console.log('La collection %s esiste già', COLL_GUEST);
+            console.log('Collection %s already existing', COLL_GUEST);
             error_guest = true;
         } else {
-            console.log('La collection %s è stata correttamente creata', COLL_GUEST);
+            console.log('Collection %s has been correctly created', COLL_GUEST);
             var report_guest = true;
         }
     })
@@ -127,10 +127,10 @@ router.post('/insert_guest', function (req, res) {
     //add the guest to the COLL_GUEST collection
     mongodbtools.createGuest(guest, function (err, response) {
         if (err) {
-            console.log("Impossibile creare l'invitato.")
+            console.log("Cannote create Guest object on database")
             error_guest = err;
         } else {
-            console.log("L'invitato è stato correttamente inserito");
+            console.log("Guest has been correctly inserted");
         }
     });
 
@@ -139,6 +139,10 @@ router.post('/insert_guest', function (req, res) {
         notification.show = true;
         notification.error = true;
         notification.message = `Impossibile creare l'invitato.`;
+    } else {
+        notification.show = true;
+        notification.error = false;
+        notification.message = `Invitato creato con successo`;
     }
 
     res.render('console.pug', {
@@ -163,10 +167,10 @@ router.post('/insert_user', function (req, res) {
     //add the user to the COLL_USER collection
     mongodbtools.createUser(user, function (err, response) {
         if (err) {
-            console.log("Impossibile creare l'utente.")
-            error_guest = err;
+            console.log("Cannot create User object on database")
+            error_user = err;
         } else {
-            console.log("L'utente è stato correttamente inserito");
+            console.log("User has been correctly inserted");
         }
     });
 
@@ -175,6 +179,10 @@ router.post('/insert_user', function (req, res) {
         notification.show = true;
         notification.error = true;
         notification.message = `Impossibile creare l'utente.`;
+    } else {
+        notification.show = true;
+        notification.error = false;
+        notification.message = `Utente creato con successo.`;
     }
 
     res.render('console.pug', {
@@ -229,7 +237,7 @@ router.get('/list_guest', function (req, res) {
     console.log('Got a request on /list');
 
     //search in the COLL_GUEST collection for all guests and return a list
-    mongodbtools.listGuest(myCollection.guest, function (err, response) {
+    mongodbtools.listGuest(function (err, response) {
         if (err) {
             console.log('Impossibile recuperare la lista degli invitati');
 
@@ -237,18 +245,20 @@ router.get('/list_guest', function (req, res) {
             notification.error = true;
             notification.message = 'Impossibile recuperare la lista degli invitati';
 
-            res.render('console.pug', notification);
+            res.render('console.pug', {notification: notification});
         } else {
             if (response.error === true && response.body === 'query') {
                 notification.show = true;
                 notification.error = false;
                 notification.message = 'La lista degli invitati risulta vuota';
-                res.render('console.pug', notification);
+
+                res.render('console.pug', {notification: notification});
             } else if (response.error === false && response.body === 'guests') {
-                console.log(response);
                 console.log('Recuperata la lista degli ospiti');
+
                 res.render('list.pug', {
                     headers: response.headers,
+                    notification: notification,
                     guests: response.guests
                 });
             }
@@ -279,5 +289,31 @@ router.post('/verify_mail', function (req,res){
     });
 });
 
+router.post('/send_mail', function (req, res){
+    console.log(`Getting the guest list`);
+    mongodbtools.listGuest(function (err, response) {
+        if (err) {
+            console.log('Impossibile recuperare la lista degli invitati');
+
+            notification.show = true;
+            notification.error = true;
+            notification.message = 'Impossibile recuperare la lista degli invitati';
+
+            res.render('console.pug', {notification: notification});
+        } else {
+            if (response.error === true && response.body === 'query') {
+                notification.show = true;
+                notification.error = false;
+                notification.message = 'La lista degli invitati risulta vuota';
+
+                res.render('console.pug', {notification: notification});
+            } else if (response.error === false && response.body === 'guests') {
+                console.log('Guest list obtained, now sending mails...');
+
+                var info_list = mailer.send(response.guests);
+            }
+        }
+    });
+});
 
 module.exports = router;
