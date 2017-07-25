@@ -196,11 +196,12 @@ function create_Guest(guest, callback) {
 
             collection.insertOne({
                 "email": guest.email,
+                "skip_mail": guest.skip_mail,
                 "expected_number": guest.expected_number,
                 "surname": guest.surname,
                 "name": guest.name,
                 "generated_token": guest.generated_token,
-
+                "attendance": guest.attendance
             });
             var response = {
                 body: 'OK'
@@ -296,16 +297,19 @@ function list_Guests(callback) {
                         item = items[i];
 
                         var guest = {
+                            id: item.id,
                             name: item.name,
                             surname: item.surname,
                             email: item.email,
+                            skip_email: item.skip_email,
                             generated_token: item.generated_token,
-                            expected_number: item.expected_number
+                            expected_number: item.expected_number,
+                            attendance: item.attendance
                         }
                         response.guests.push(guest);
                     }
 
-                    response.headers = ["Nome", "Cognome", "Email", "Invitati attesi", "Token"];
+                    response.headers = ["Nome", "Cognome", "Email", "Inviate mail?", "Invitati attesi", "Parteciperà", "Token"];
                     db.close();
                     return callback(null, response);
                 }
@@ -351,6 +355,58 @@ function update_User(user, callback) {
                 }
             })
 
+        }
+    });
+}
+
+/**
+ * Search for a guest
+ * @function find_Guest
+ * @param  {Guest} guest     {The guest to search for}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function find_User(guest, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+            var response = {
+                error: true,
+                body: 'KO',
+                users: null,
+                headers: null
+            }
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.guest);
+
+            collection.find({
+                "name": guest.name,
+                "surname": guest.surname,
+            }).toArray(function (err, items) {
+                if (err) {
+                    console.log(err);
+                    var response = {
+                        error: true,
+                        body: 'query',
+                        guests: null,
+                        headers: null
+                    }
+                    db.close();
+                    return callback(err, response);
+                } else {
+                    var response = {
+                        error: false,
+                        body: 'guest',
+                        guests: null,
+                        headers: null
+                    }
+                    response.guests = items;
+
+                    db.close();
+                    return callback(null, response);
+                }
+            });
         }
     });
 }

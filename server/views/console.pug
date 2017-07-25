@@ -139,11 +139,13 @@ html
           b #{titles.title}
         h3(class="w3-bar-block")
           a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
+          a(href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
           a(href="#init" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inizializza
-          a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci ospite
           a(href="#insert" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci utente
           a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna password
-          a(href="/console/list_guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza ospiti
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Ospiti
+          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
     
     // HTML Top menu on small screens
     header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
@@ -263,7 +265,7 @@ html
         h1(class="w3-xxxlarge w3-text-pearl"): b Verifica la connessione SMTP
         hr(style="width:200px;border:5px solid gray" class="w3-round")
         p Effettua una prova di connessione
-        form(action="/console/verify_mail" method="POST")
+        form(action="/mail/verify" method="POST")
             input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       // Send mails
@@ -271,7 +273,7 @@ html
         h1(class="w3-xxxlarge w3-text-pearl"): b Invia gli inviti
         hr(style="width:200px;border:5px solid gray" class="w3-round")
         p Invia gli inviti agli ospiti
-        form(action="/console/send_mail" method="POST")
+        form(action="/mail/send" method="POST")
             input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       // HTML W3.CSS Container
