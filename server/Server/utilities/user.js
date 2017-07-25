@@ -1,3 +1,6 @@
+const mongodb_tools = require('./mongodb'),
+    objects = require('./objects');
+
 module.exports = {
     insertUser: function (req, res) {
         insert_User(req, res);
