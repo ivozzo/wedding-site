@@ -1,7 +1,7 @@
 // Loading Modules
 const express = require('express'),
     router = express.Router(),
-    mongodbtools = require('../utilities/mongodb-tools'),
+    mongodbtools = require('../utilities/mongodb'),
     objects = require('../utilities/objects'),
     mailer = require('../utilities/mailer');
 
@@ -11,7 +11,6 @@ var sess;
 router.get('/', function (req, res) {
     console.log(`Got a request on /console`);
     sess = req.session;
-    console.log(`Session: %s`, JSON.stringify(sess));
     if (sess.username) {
         console.log(`User: %s`, sess.username);
         res.render('console.pug', {
@@ -24,47 +23,9 @@ router.get('/', function (req, res) {
                 console.log(`Cannot check if the database has already been initialized`);
             }
         });
-        res.redirect('/console/login');
+        res.redirect('/login');
     }
 
-});
-
-// Login page, this is where the unauthorized request con /console will be redirected
-router.get('/login', function (req, res) {
-    console.log(`Got a request on /console/login`);
-    res.render('login.pug', {
-        notification: notification,
-        titles: titles
-    });
-});
-
-// Login request
-router.post('/login', function (req, res) {
-    console.log(`Checking if there's an user with the username: %s`, req.body.Username);
-    var user = objects.User(
-        "",
-        "",
-        "",
-        req.body.Username,
-        req.body.Password);
-
-    mongodbtools.findUser(user, function (err, response) {
-        if (err) {
-            console.log(`No user found, redirecting to login`);
-            res.render('/login');
-        }
-
-        if (response.users[0].login.user === user.username) {
-            if (response.users[0].login.password === user.password) {
-                console.log(`User %s found and correctly authenticated`, user.username);
-                req.session.username = user.username;
-                res.redirect('/console');
-            } else {
-                console.log(`User %s found but password not correct`, user.username);
-                res.render('/login');
-            }
-        }
-    });
 });
 
 // Database initialization
@@ -104,45 +65,6 @@ Impossibile creare le collection.`;
         notification.show = true;
         notification.error = false;
         notification.message = `Il database è stato correttamente inizializzato.`;
-    }
-
-    res.render('console.pug', {
-        notification: notification,
-        titles: titles
-    });
-});
-
-// Guest addition
-router.post('/insert_guest', function (req, res) {
-    var error_guest;
-
-    var guest = objects.Guest(
-        req.body.Name,
-        req.body.Surname,
-        req.body.Email,
-        req.body.Expected);
-
-    console.log(`Got the following guest invitation: %s`, JSON.stringify(guest));
-
-    //add the guest to the COLL_GUEST collection
-    mongodbtools.createGuest(guest, function (err, response) {
-        if (err) {
-            console.log("Cannote create Guest object on database")
-            error_guest = err;
-        } else {
-            console.log("Guest has been correctly inserted");
-        }
-    });
-
-    //if an error has happened prepare the error notification
-    if (error_guest === true) {
-        notification.show = true;
-        notification.error = true;
-        notification.message = `Impossibile creare l'invitato.`;
-    } else {
-        notification.show = true;
-        notification.error = false;
-        notification.message = `Invitato creato con successo`;
     }
 
     res.render('console.pug', {
@@ -227,90 +149,6 @@ router.post('/update_user', function (req, res){
                 //TODO add notification error
                 console.log(`User %s found but password not correct`, user.username);
                 res.render('/console');
-            }
-        }
-    });
-});
-
-// List all the guests
-router.get('/list_guest', function (req, res) {
-    console.log('Got a request on /list');
-
-    //search in the COLL_GUEST collection for all guests and return a list
-    mongodbtools.listGuest(function (err, response) {
-        if (err) {
-            console.log('Impossibile recuperare la lista degli invitati');
-
-            notification.show = true;
-            notification.error = true;
-            notification.message = 'Impossibile recuperare la lista degli invitati';
-
-            res.render('console.pug', {notification: notification});
-        } else {
-            if (response.error === true && response.body === 'query') {
-                notification.show = true;
-                notification.error = false;
-                notification.message = 'La lista degli invitati risulta vuota';
-
-                res.render('console.pug', {notification: notification});
-            } else if (response.error === false && response.body === 'guests') {
-                console.log('Recuperata la lista degli ospiti');
-
-                res.render('list.pug', {
-                    headers: response.headers,
-                    notification: notification,
-                    guests: response.guests
-                });
-            }
-        }
-    })
-});
-
-router.post('/verify_mail', function (req,res){
-    console.log(`Veryfing SMTP connection...`);
-    mailer.test(function(err, success){
-        if (err){
-            console.log('Cannot connect to the SMTP server');
-
-            notification.show = true;
-            notification.error = true;
-            notification.message = 'Impossibile connettersi al server di posta';
-
-            res.render('console.pug', notification);
-        } else {
-            console.log('SMTP connection established');
-
-            notification.show = true;
-            notification.error = false;
-            notification.message = 'SMTP connection established';
-
-            res.render('console.pug', notification);
-        }
-    });
-});
-
-router.post('/send_mail', function (req, res){
-    console.log(`Getting the guest list`);
-    mongodbtools.listGuest(function (err, response) {
-        if (err) {
-            console.log('Impossibile recuperare la lista degli invitati');
-
-            notification.show = true;
-            notification.error = true;
-            notification.message = 'Impossibile recuperare la lista degli invitati';
-
-            res.render('console.pug', {notification: notification});
-        } else {
-            if (response.error === true && response.body === 'query') {
-                notification.show = true;
-                notification.error = false;
-                notification.message = 'La lista degli invitati risulta vuota';
-
-                res.render('console.pug', {notification: notification});
-            } else if (response.error === false && response.body === 'guests') {
-                console.log('Guest list obtained, now sending mails...');
-
-                var info_list = mailer.send(response.guests);
             }
         }
     });
