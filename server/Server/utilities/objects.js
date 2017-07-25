@@ -38,13 +38,15 @@ function randomStringAsBase64Url(size) {
  * @param  {String} expected_number_given {Guests expected number}
  * @return {Guest}
  */
-function Guest(name_given, surname_given, email_given, expected_number_given) {
+function Guest(name_given, surname_given, email_given, expected_number_given, skip_mail, attendance_given) {
     var guest = {
         name: name_given,
         surname: surname_given,
         email: email_given,
+        skip_mail: skip_mail,
         generated_token: randomStringAsBase64Url(12),
-        expected_number: expected_number_given
+        expected_number: expected_number_given,
+        attendance: attendance_given
     };
 
     return guest;
