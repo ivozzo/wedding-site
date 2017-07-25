@@ -7,7 +7,7 @@ const express = require('express'),
 // Splash page
 router.get('/', function (req, res) {
     console.log(`GET: /guest`);
-    login_tools.checkLogin(req.session, res, 'guest.pug');
+    login_tools.checkLogin(req.session, res, 'user.pug');
 });
 
 // User addition
@@ -16,6 +16,7 @@ router.post('/insert', function (req, res) {
     user_tools.insertUser(req, res);
 });
 
+// User update
 router.post('/update', function (req, res) {
     console.log(`POST: /user/update`);
     user_tools.updateUser(req,res);

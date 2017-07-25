@@ -1,7 +1,7 @@
 // Loading Modules
 const express = require('express'),
     router = express.Router(),
-    mongodb_toolstools = require('../utilities/mongodb_tools'),
+    mongodb_toolstools = require('../utilities/mongodb'),
     mailer = require('../utilities/mailer');
 
 router.post('/verify', function (req,res){
@@ -52,8 +52,7 @@ router.post('/send', function (req, res){
                 var info_list = mailer.send(response.guests);
                 var notification_message = ``;
 
-                for (var i = 0, len = info_list.length; i < len; i++) {
-                    var info = info_list[i];
+                info_list.forEach(function(info) {
 
                     if (info.success === true){
                         notification_message = notification_message + `Invio OK: ${info.email}
@@ -67,9 +66,8 @@ router.post('/send', function (req, res){
                     notification.show = true;
                     notification.error = false;
                     notification.message = notification_message;
-
-                    res.render('console.pug', {notification:notification})
-                }
+                });
+                res.render('console.pug', {notification:notification})
             }
         }
     });

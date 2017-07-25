@@ -7,7 +7,7 @@ const express = require('express'),
 // This is the console main index, also the splash page
 router.get('/', function (req, res) {
     console.log(`GET: /console`);
-    login_tools.checkLogin(req.session, res, 'guest.pug');
+    login_tools.checkLogin(req.session, res, 'console.pug');
 });
 
 // Database initialization

@@ -139,11 +139,12 @@ html
           b #{titles.title}
         h3(class="w3-bar-block")
           a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
-          a(href="#init" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inizializza
+          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="#insert" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci utente
+          a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna utente
           hr(style="width:50px;border:5px solid white" class="w3-round")
           a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Ospiti
-          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
     
     // HTML Top menu on small screens
     header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
@@ -179,31 +180,52 @@ html
               span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
               h3 ESECUZIONE TERMINATA!
               p #{notification.message}
-               
-      // Initialize database
-      div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl") 
-          b Inizializza
-        hr(style="width:200px;border:5px solid gray" class="w3-round")
-        p Inizializza il database
-        form(action="/console/init" method="POST")
-            input(type="submit" value="Inizializza" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
-      // Try smtp connection
-      div(class="w3-container" id="test" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl"): b Verifica la connessione SMTP
+      // Insert users
+      div(class="w3-container" id="insert" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Inserisci utente
         hr(style="width:200px;border:5px solid gray" class="w3-round")
-        p Effettua una prova di connessione
-        form(action="/mail/verify" method="POST")
-            input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+        p Utilizza il form seguente per inserire un utente
+        
+        // Form
+        form(action="/user/insert" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Name" type="text" id="name")
+            label(for="name")  Nome 
+          div(class="w3-section")
+            input(name="Surname" type="text" id="surname")
+            label(for="surname")  Cognome
+          div(class="w3-section")
+            input(name="Email" type="text" id="email")
+            label(for="email")  Indirizzo email
+          div(class="w3-section")
+            input(name="Username" type="text" id="username")
+            label(for="username")  Username
+          div(class="w3-section")
+            input(name="Password" type="text" id="password")
+            label(for="Password")  Password
+          button(type="submit" value="Inserisci" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Inserisci
+          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
 
-      // Send mails
-      div(class="w3-container" id="send" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl"): b Invia gli inviti
+      // Update users
+      div(class="w3-container" id="update" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Aggiorna password
         hr(style="width:200px;border:5px solid gray" class="w3-round")
-        p Invia gli inviti agli ospiti
-        form(action="/mail/send" method="POST")
-            input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+        p Utilizza il form seguente per aggiornare la tua password
+        
+        // Form
+        form(action="/user/update" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Username" type="text" id="username")
+            label(for="username")  Username
+          div(class="w3-section")
+            input(name="oldPassword" type="password" id="oldPassword")
+            label(for="oldPassword")  Vecchia password
+          div(class="w3-section")
+            input(name="newPassword" type="password" id="newPassword")
+            label(for="newPassword")  Nuova password
+          button(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Aggiorna
+          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
 
       // HTML W3.CSS Container
       div(class="w3-light-grey w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")

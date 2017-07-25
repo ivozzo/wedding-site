@@ -82,8 +82,6 @@ function update_User(req, res) {
             //TODO add notification error
             console.log(`No user found, redirecting to login`);
         }
-        console.log(old_password)
-        console.log(new_password)
 
         if (response.users[0].login.user === req.body.Username) {
             if (response.users[0].login.password === old_password) {
@@ -92,11 +90,27 @@ function update_User(req, res) {
                 updatedUser.login.password = objects.cryptPassword(new_password);
 
                 mongodb_tools.updateUser(updatedUser, function (err, response) {
+                    if (err){
+                        notification.show = true;
+                        notification.error = true;
+                        notification.message = `Impossibile aggiornare l'utente ${req.body.Username}`;
 
+                        res.render('user.pug', {notification: notification});
+                    } else {
+                        notification.show = true;
+                        notification.error = false;
+                        notification.message = `L'utente ${req.body.Username} è stato correttamente aggiornato`;
+
+                        res.render('user.pug', {notification: notification});
+                    }
                 });
             } else {
-                //TODO add notification error
                 console.log(`User %s found but password not correct`, user.username);
+
+                notification.show = true;
+                notification.error = false;
+                notification.message = `La password attuale non corrisponde`;
+
                 res.render('user.pug', {
                     notification: notification
                 });

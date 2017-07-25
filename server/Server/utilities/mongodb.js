@@ -36,6 +36,14 @@ module.exports = {
 
     updateUser: function (user, callback) {
         update_User(user, callback);
+    },
+
+    updateGuest: function (guest, callback){
+        update_Guest(guest, callback);
+    },
+
+    findGuest: function (guest, callback) {
+        find_Guest(guest, callback);
     }
 }
 
@@ -309,7 +317,7 @@ function list_Guests(callback) {
                         response.guests.push(guest);
                     }
 
-                    response.headers = ["Nome", "Cognome", "Email", "Inviate mail?", "Invitati attesi", "Parteciperà", "Token"];
+                    response.headers = ["Nome", "Cognome", "Email", "Inviare mail?", "Invitati attesi", "Parteciperà", "Token"];
                     db.close();
                     return callback(null, response);
                 }
@@ -332,7 +340,7 @@ function update_User(user, callback) {
             var response = {
                 error: true,
                 body: 'KO',
-                guests: null,
+                users: null,
                 headers: null
             }
             return callback(err, response);
@@ -366,7 +374,7 @@ function update_User(user, callback) {
  * @param  {Function} callback {The callback function}
  * @return {callback}
  */
-function find_User(guest, callback) {
+function find_Guest(guest, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.log(err);
@@ -407,6 +415,47 @@ function find_User(guest, callback) {
                     return callback(null, response);
                 }
             });
+        }
+    });
+}
+
+/**
+ * Updates guest fields
+ * @function update_Guest
+ * @param  {Guest} guest     {The guest to update}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function update_Guest(guest, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.log(err);
+            var response = {
+                error: true,
+                body: 'KO',
+                guests: null,
+                headers: null
+            }
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.guest);
+
+            collection.save(guest, function (err, status) {
+                if (err) {
+                    var response = {
+                        error: true,
+                        body: 'update',
+                        guests: null,
+                        headers: null
+                    }
+                    db.close();
+                    return callback(err, response);
+                } else {
+                    db.close();
+                    return callback(null, response);
+                }
+            })
+
         }
     });
 }

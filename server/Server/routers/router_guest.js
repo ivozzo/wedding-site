@@ -13,13 +13,19 @@ router.get('/', function (req, res) {
 // Guest addition
 router.post('/insert', function (req, res) {
     console.log('POST: /guest/insert');
-    guest_tools.insertGuest(req,res);
+    guest_tools.insertGuest(req, res);
+});
+
+// Update the guest
+router.post('/update', function (req, res) {
+    console.log('POST: /guest/update');
+    guest_tools.updateGuest(req, res);
 });
 
 // List all the guests
 router.get('/list', function (req, res) {
-       console.log('GET: /guest/list');
-       guest_tools.listGuest(req,res);
+    console.log('GET: /guest/list');
+    guest_tools.listGuest(req, res);
 });
 
 // Guests RSVP page

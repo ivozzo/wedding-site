@@ -56,9 +56,9 @@ app.use(session({secret: 'secret-token-mika', saveUninitialized : false, resave 
 app.use('/', index_router);
 app.use('/console', console_router);
 app.use('/login', login_router);
-app.use('/mail', login_router);
+app.use('/mail', mail_router);
 app.use('/guest', guest_router);
-//app.use('/user', user_router);
+app.use('/user', user_router);
 
 // Starting server
 var weddingsite = app.listen(PORT, function () {

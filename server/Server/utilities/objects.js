@@ -3,8 +3,8 @@ const secret_key = 'I love cupcakes',
     base64url = require('base64url');
 
 module.exports = {
-    Guest: function (name_given, surname_given, email_given, expected_number_given) {
-        var guest = Guest(name_given, surname_given, email_given, expected_number_given);
+    Guest: function (name_given, surname_given, email_given, expected_number_given, skip_mail, attendance_given) {
+        var guest = Guest(name_given, surname_given, email_given, expected_number_given, skip_mail, attendance_given);
         return guest;
     },
 
@@ -38,12 +38,12 @@ function randomStringAsBase64Url(size) {
  * @param  {String} expected_number_given {Guests expected number}
  * @return {Guest}
  */
-function Guest(name_given, surname_given, email_given, expected_number_given, skip_mail, attendance_given) {
+function Guest(name_given, surname_given, email_given, expected_number_given, skip_email, attendance_given) {
     var guest = {
         name: name_given,
         surname: surname_given,
         email: email_given,
-        skip_mail: skip_mail,
+        skip_email: skip_email,
         generated_token: randomStringAsBase64Url(12),
         expected_number: expected_number_given,
         attendance: attendance_given

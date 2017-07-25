@@ -2,7 +2,7 @@
 const mongodb_tools = require('../utilities/mongodb');
 
 module.exports = {
-    initializeDatabase = function () {
+    initializeDatabase: function () {
         initialize_Database();
     }
 }

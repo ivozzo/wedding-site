@@ -9,6 +9,10 @@ module.exports = {
 
     listGuest: function (req, res) {
         list_Guests(req, res);
+    },
+
+    updateGuest: function (req, res) {
+        update_Guest(req, res);
     }
 }
 
@@ -23,11 +27,20 @@ function insert_Guest(req, res) {
 
     console.log(req.body);
 
+    var skip;
+    if (req.body.skipMail !== undefined) {
+        skip = true;
+    } else {
+        skip = false;
+    }
+
     var guest = objects.Guest(
         req.body.Name,
         req.body.Surname,
         req.body.Email,
-        req.body.Expected);
+        req.body.Expected,
+        skip,
+        req.body.presence);
 
     //add the guest to the collection
     mongodb_tools.createGuest(guest, function (err, response) {
@@ -50,7 +63,7 @@ function insert_Guest(req, res) {
         notification.message = `Invitato creato con successo`;
     }
 
-    res.render('console.pug', {
+    res.render('guest.pug', {
         notification: notification
     });
 }
@@ -81,11 +94,11 @@ function list_Guests(req, res) {
                 notification.error = false;
                 notification.message = 'La lista degli invitati risulta vuota';
 
-                res.render('console.pug', {
+                res.render('guest.pug', {
                     notification: notification
                 });
             } else if (response.error === false && response.body === 'guests') {
-                console.log('Recuperata la lista degli ospiti');
+                console.log(`Guest list retrieved`);
 
                 res.render('list.pug', {
                     headers: response.headers,
@@ -95,4 +108,79 @@ function list_Guests(req, res) {
             }
         }
     });
+}
+
+/**
+ * Update guest on database
+ * @function update_Guest
+ * @param  {Request} req
+ * @param  {Response} res
+ */
+function update_Guest(req, res) {
+    var error_guest;
+
+    if (!req.body.Name || !req.body.Surname) {
+        notification.show = true;
+        notification.error = true;
+        notification.message = `Nome e cognome dell'invitato sono obbligatori per aggiornare i dati dell'invitato`;
+
+        res.render('guest.pug', {
+            notification: notification
+        });
+
+    } else {
+        var skip;
+        if (req.body.skipMailUpdate !== undefined) {
+            skip = true;
+        } else {
+            skip = false;
+        }
+
+        var guest = objects.Guest(
+            req.body.Name,
+            req.body.Surname,
+            req.body.EmailUpdate,
+            req.body.ExpectedUpdate,
+            skip,
+            req.body.presenceUpdate);
+
+        mongodb_tools.findGuest(guest, function (err, response) {
+            if (err) {
+                //TODO add notification error
+                console.log(`No guest found`);
+            }
+
+            console.log(response.guests);
+
+            console.log(response.guests[0]);
+
+            updatedGuest = response.guests[0];
+            updatedGuest.email = guest.email;
+            updatedGuest.expected_number = guest.expected_number;
+            updatedGuest.attendance = guest.attendance;
+            updatedGuest.skip_email = guest.skip_email;
+
+            console.log(updatedGuest);
+
+            mongodb_tools.updateGuest(updatedGuest, function (err, response) {
+                if (err) {
+                    notification.show = true;
+                    notification.error = true;
+                    notification.message = `Impossibile aggiornare l'invitato ${req.body.Name} ${req.body.Surname}`;
+
+                    res.render('guest.pug', {
+                        notification: notification
+                    });
+                } else {
+                    notification.show = true;
+                    notification.error = false;
+                    notification.message = `L'invitato ${req.body.Name} ${req.body.Surname} è stato correttamente aggiornato`;
+
+                    res.render('guest.pug', {
+                        notification: notification
+                    });
+                }
+            });
+        });
+    }
 }

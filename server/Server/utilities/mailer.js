@@ -6,7 +6,7 @@ let mailConfig = {
     port: 25,
     secure: false, // use TLS
     auth: {
-        user: 'YYY@XXX.com',
+        user: 'YYY',
         pass: 'XXX'
     }
 };
@@ -53,14 +53,15 @@ function get_mail(guest, site) {
     Invito per matrimonio
     
     Ciao ${guest.name} ${guest.surname},
-    è con piacere ed infinita gioia vogliamo invitarti al nostro matrimonio che si terrà in data 8 ottobre 2017.
+    con piacere ed infinita gioia vogliamo invitarti al nostro matrimonio, che si terrà in data 8 ottobre 2017.
     
-    Troverai tutti i dettagli sul nostro sito: 
+    Troverai tutti i dettagli sul luogo e sull'ora sul nostro sito: 
     ${site.main}
     
-    Ti chiediamo la cortesia di confermarci la tua presenza sulla pagina:
+    Ti chiediamo la cortesia di confermarci per tempo la tua presenza.
+    Potrai farlo comodamente sulla pagina:
     ${site.rsvp}
-    Per confermare ti verranno richiesti la mail (usa la stessa sulla quale hai ricevuto questa mail) ed il seguente token di autenticazione:
+    Per confermare ti verranno richiesti la mail (usa la stessa sulla quale hai ricevuto questo invito) ed il seguente token di autenticazione:
     ${guest.generated_token}
     
     Ti aspettiamo!
@@ -79,37 +80,25 @@ function send_mail(guest_list) {
 
     var info_list = [];
 
-    console.log(guest_list);
+    guest_list.forEach(function (value) {
 
-    for (var i = 0, len = guest_list.length; i < len; i++) {
-
-        var guest = guest_list[i];
-        
-        var mailOptions = {
-            from: 'alessandroemariafrancesca@outlook.com',
-            to: guest.email,
-            subject: 'Invito per matrimonio di Alessandro e Maria Francesca',
-            text: get_mail(guest, site)
-        }
-
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(`Error sending mail to ${guest.email}`);
-                info_list[i] = {
-                    error: true,
-                    success: false,
-                    email: guest.email
-                };
-            } else {
-                console.log(`Successfully sent mail to ${guest.email}`);
-                info_list[i] = {
-                    error: false,
-                    success: true,
-                    email: guest.email
-                };
+        if (value.skip_email === false) {
+            var mailOptions = {
+                from: 'alessandroemariafrancesca@outlook.com',
+                to: value.email,
+                subject: 'Invito per matrimonio di Alessandro e Maria Francesca',
+                text: get_mail(value, site)
             }
-        });
-    }
 
+            transporter.sendMail(mailOptions);
+            console.log(`Successfully sent mail to ${value.email}`);
+            info_list.push({
+                success: true,
+                error: false,
+                email: value.email
+            });
+            transporter.close;
+        }
+    });
     return info_list;
 }

@@ -14,4 +14,12 @@ router.get('/index', function (req, res) {
     res.render('index.pug');
 });
 
+//Clear notifications
+router.post('/clear_notification', function (req, res) {
+    notification.show = false;
+    notification.error = false;
+    notification.message = '';
+    res.redirect('/console');
+});
+
 module.exports = router;

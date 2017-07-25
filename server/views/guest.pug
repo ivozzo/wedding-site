@@ -144,6 +144,8 @@ html
           a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci invitato
           a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna invitato
           a(href="/guest/list" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza ospiti
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
     
     // HTML Top menu on small screens
     header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
@@ -227,17 +229,17 @@ html
             input(name="Surname" type="text" id="surname")
             label(for="surname")  Cognome
           div(class="w3-section")
-            input(name="Email" type="text" id="email")
-            label(for="email")  Indirizzo email
+            input(name="EmailUpdate" type="text" id="emailUpdate")
+            label(for="emailUpdate")  Indirizzo email
           div(class="w3-section")
-            input(name="Expected" type="text" id="expected")
-            label(for="expected")  Invitati attesi
+            input(name="ExpectedUpdate" type="text" id="expectedUpdate")
+            label(for="expectedUpdate")  Invitati attesi
           div(class="w3-section")
-            input(name="skipMail" type="checkbox" id="skipMail")
-            label(for="skipMail") Non inviare mail
+            input(name="skipMailUpdate" type="checkbox" id="skipMailUpdate")
+            label(for="skipMailUpdate") Non inviare mail
               span(class="ui")
           div(class="w3-section")
-            select(name="presence")
+            select(name="presenceUpdate")
               option(value="Y") Parteciperà
               option(value="M") Forse
               option(value="N") Non parteciperà
