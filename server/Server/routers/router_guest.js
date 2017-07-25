@@ -1,10 +1,8 @@
 // Loading Modules
 const express = require('express'),
     router = express.Router(),
-    mongodbtools = require('../utilities/mongodb'),
     login_tools = require('../utilities/login'),
-    guest_tools = require('../utilities/guest'),
-    objects = require('../utilities/objects');
+    guest_tools = require('../utilities/guest');
 
 // Splash
 router.get('/', function (req, res) {
