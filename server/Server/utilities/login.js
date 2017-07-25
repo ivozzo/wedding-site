@@ -1,4 +1,4 @@
-const mongodbtools = require('./mongodb-tools');
+const mongodbtools = require('./mongodb');
 
 module.exports = {
     checkLogin: function (sess, res, page) {

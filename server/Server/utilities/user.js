@@ -31,7 +31,7 @@ function insert_User(req, res) {
     console.log(`Got an user creation request`);
 
     //add the user to the collection
-    mongodbtools.createUser(user, function (err, response) {
+    mongodb_tools.createUser(user, function (err, response) {
         if (err) {
             console.log("Cannot create User object on database")
             error_user = err;
@@ -77,7 +77,7 @@ function update_User(req, res) {
 
     var old_password = user.password;
 
-    mongodbtools.findUser(user, function (err, response) {
+    mongodb_tools.findUser(user, function (err, response) {
         if (err) {
             //TODO add notification error
             console.log(`No user found, redirecting to login`);
@@ -91,7 +91,7 @@ function update_User(req, res) {
                 var updatedUser = response.users[0];
                 updatedUser.login.password = objects.cryptPassword(new_password);
 
-                mongodbtools.updateUser(updatedUser, function (err, response) {
+                mongodb_tools.updateUser(updatedUser, function (err, response) {
 
                 });
             } else {

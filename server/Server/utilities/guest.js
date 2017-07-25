@@ -30,7 +30,7 @@ function insert_Guest(req, res) {
         req.body.Expected);
 
     //add the guest to the collection
-    mongodbtools.createGuest(guest, function (err, response) {
+    mongodb_tools.createGuest(guest, function (err, response) {
         if (err) {
             console.log("Cannote create Guest object on database")
             error_guest = err;
@@ -64,7 +64,7 @@ function insert_Guest(req, res) {
 function list_Guests(req, res) {
 
     //search in the collection for all guests and return a list
-    mongodbtools.listGuest(function (err, response) {
+    mongodb_tools.listGuest(function (err, response) {
         if (err) {
             console.log('Impossibile recuperare la lista degli invitati');
 
