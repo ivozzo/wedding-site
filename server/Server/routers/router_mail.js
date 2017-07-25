@@ -1,7 +1,7 @@
 // Loading Modules
 const express = require('express'),
     router = express.Router(),
-    mongodbtools = require('../utilities/mongodb'),
+    mongodb_toolstools = require('../utilities/mongodb_tools'),
     mailer = require('../utilities/mailer');
 
 router.post('/verify', function (req,res){
@@ -30,7 +30,7 @@ router.post('/verify', function (req,res){
 router.post('/send', function (req, res){
     console.log(`POST: /mail/send`);
     console.log(`Getting the guest list`);
-    mongodbtools.listGuest(function (err, response) {
+    mongodb_toolstools.listGuest(function (err, response) {
         if (err) {
             console.log('Impossibile recuperare la lista degli invitati');
 
