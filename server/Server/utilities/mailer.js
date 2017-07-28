@@ -33,7 +33,7 @@ function test_connection(callback) {
     transporter.verify(function (error, success) {
         if (error) {
             console.log(error);
-            return callback(err, null);
+            return callback(error, null);
         } else {
             console.log('It works!!!');
             return callback(null, success);

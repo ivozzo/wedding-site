@@ -14,7 +14,7 @@ function initialize_Database() {
     //initializing COLL_USER collection, if the collection already exists return an error
     mongodb_tools.initCollection(myCollection.user, function (err, response) {
         if (err && response.body == 'KO') {
-            console.log('Collection %s already existing', COLL_USER);
+            console.warn('Collection %s already existing', COLL_USER);
             error_user = true;
         } else {
             console.log('Collection %s has been correctly created', COLL_USER);
@@ -25,7 +25,7 @@ function initialize_Database() {
     //initializing COLL_GUEST collection, if the collection already exists return an error
     mongodb_tools.initCollection(myCollection.guest, function (err, response) {
         if (err && response.body == 'KO') {
-            console.log('Collection %s already existing', COLL_GUEST);
+            console.warn('Collection %s already existing', COLL_GUEST);
             error_guest = true;
         } else {
             console.log('Collection %s has been correctly created', COLL_GUEST);
@@ -39,6 +39,7 @@ function initialize_Database() {
         notification.error = true;
         notification.message = `Il database è già stato inizializzato. 
 Impossibile creare le collection.`;
+
     } else {
         notification.show = true;
         notification.error = false;

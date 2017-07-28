@@ -28,7 +28,7 @@ function check_session(sess, res, page) {
     } else {
         mongodb_tools.checkInitialized(function (err, response) {
             if (err) {
-                console.log(`Cannot check if the database has already been initialized`);
+                console.error(`Cannot check if the database has already been initialized`);
             }
         });
         res.redirect('/login');
@@ -51,7 +51,7 @@ function user_login(req, res) {
 
     mongodb_tools.findUser(user, function (err, response) {
         if (err) {
-            console.log(`No user found, redirecting to /login`);
+            console.error(`No user found, redirecting to /login`);
 
             notification.show = true;
             notification.error = true;
@@ -68,7 +68,7 @@ function user_login(req, res) {
                 console.log(`Redirecting to /console`);
                 res.redirect('/console');
             } else {
-                console.log(`User %s found but password not correct, redirecting to /login`, user.username);
+                console.warn(`User %s found but password not correct, redirecting to /login`, user.username);
 
                 notification.show = true;
                 notification.error = true;

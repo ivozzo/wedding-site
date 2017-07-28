@@ -45,7 +45,7 @@ function insert_Guest(req, res) {
     //add the guest to the collection
     mongodb_tools.createGuest(guest, function (err, response) {
         if (err) {
-            console.log("Cannote create Guest object on database")
+            console.error("Cannote create Guest object on database")
             error_guest = err;
         } else {
             console.log("Guest has been correctly inserted");
@@ -79,7 +79,7 @@ function list_Guests(req, res) {
     //search in the collection for all guests and return a list
     mongodb_tools.listGuest(function (err, response) {
         if (err) {
-            console.log('Impossibile recuperare la lista degli invitati');
+            console.error('Impossibile recuperare la lista degli invitati');
 
             notification.show = true;
             notification.error = true;
@@ -89,7 +89,8 @@ function list_Guests(req, res) {
                 notification: notification
             });
         } else {
-            if (response.error === true && response.body === 'query') {
+            if (response.guests.length === 0) {
+                console.warn(`Found an empty guest list, please add some guests first`);
                 notification.show = true;
                 notification.error = false;
                 notification.message = 'La lista degli invitati risulta vuota';
@@ -146,13 +147,16 @@ function update_Guest(req, res) {
 
         mongodb_tools.findGuest(guest, function (err, response) {
             if (err) {
-                //TODO add notification error
-                console.log(`No guest found`);
+                console.error(err);
+
+                notification.show = true;
+                notification.error = true;
+                notification.message = `Impossibile recuperare l'invitato, controllare il log.`
+
+                res.render('guest.pug', {
+                    notification: notification
+                });
             }
-
-            console.log(response.guests);
-
-            console.log(response.guests[0]);
 
             updatedGuest = response.guests[0];
             updatedGuest.email = guest.email;
@@ -164,6 +168,8 @@ function update_Guest(req, res) {
 
             mongodb_tools.updateGuest(updatedGuest, function (err, response) {
                 if (err) {
+                    console.error(err);
+
                     notification.show = true;
                     notification.error = true;
                     notification.message = `Impossibile aggiornare l'invitato ${req.body.Name} ${req.body.Surname}`;
@@ -172,6 +178,8 @@ function update_Guest(req, res) {
                         notification: notification
                     });
                 } else {
+                    console.log(`User ${req.body,Name} ${req.body.Surname} updated`);
+
                     notification.show = true;
                     notification.error = false;
                     notification.message = `L'invitato ${req.body.Name} ${req.body.Surname} è stato correttamente aggiornato`;

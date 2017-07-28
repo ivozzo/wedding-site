@@ -33,14 +33,13 @@ function insert_User(req, res) {
     //add the user to the collection
     mongodb_tools.createUser(user, function (err, response) {
         if (err) {
-            console.log("Cannot create User object on database")
+            console.error(err);
             error_user = err;
         } else {
             console.log("User has been correctly inserted");
         }
     });
 
-    //if an error has happened prepare the error notification
     if (error_user === true) {
         notification.show = true;
         notification.error = true;
@@ -79,8 +78,15 @@ function update_User(req, res) {
 
     mongodb_tools.findUser(user, function (err, response) {
         if (err) {
-            //TODO add notification error
-            console.log(`No user found, redirecting to login`);
+                console.error(err);
+
+                notification.show = true;
+                notification.error = true;
+                notification.message = `Impossibile recuperare l'utente, controllare il log.`
+
+                res.render('user.pug', {
+                    notification: notification
+                });
         }
 
         if (response.users[0].login.user === req.body.Username) {
@@ -91,12 +97,15 @@ function update_User(req, res) {
 
                 mongodb_tools.updateUser(updatedUser, function (err, response) {
                     if (err){
+                        console.error(err);
                         notification.show = true;
                         notification.error = true;
                         notification.message = `Impossibile aggiornare l'utente ${req.body.Username}`;
 
                         res.render('user.pug', {notification: notification});
                     } else {
+                        console.log(`User ${req.body.Username} updated`);
+                        
                         notification.show = true;
                         notification.error = false;
                         notification.message = `L'utente ${req.body.Username} è stato correttamente aggiornato`;
