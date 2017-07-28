@@ -14,9 +14,6 @@ const index_router = require('./routers/router_main'),
     session = require('express-session');
 
 // Constants
-const PORT = 8021;
-
-// Constants
 global.myCollection = {
     guest: 'Guest-List',
     user: 'Users'
@@ -39,9 +36,30 @@ Maria Francesca`,
 };
 
 // Site
+if (process.env.NODE_SITE !== undefined){
+    node_site = process.env.NODE_SITE;
+} else {
+    node_site = "http://localhost";
+}
+
+// Port
+if (process.env.NODE_PORT !== undefined) {
+    PORT = process.env.NODE_PORT;
+} else {
+    PORT = 8021;
+}
+
+// Connection string
+global.DB_URL='';
+if (process.env.MONGO_URL !== undefined) {
+    DB_URL = process.env.MONGO_URL;
+} else {
+    DB_URL = "mongodb://localhost:27017/site";
+}
+
 global.site = {
-    main: "http://pagina principale",
-    rsvp: "http://pagina_rsvp"
+    main: `${node_site}/`,
+    rsvp: `${node_site}/rsvp`
 };
 
 // Variables
@@ -52,7 +70,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.set('view engine', 'pug');
 app.use(cookieParser());
-app.use(session({secret: 'secret-token-mika', saveUninitialized : false, resave : true}));
+app.use(session({
+    secret: 'secret-token-mika',
+    saveUninitialized: false,
+    resave: true
+}));
 app.use('/', index_router);
 app.use('/console', console_router);
 app.use('/login', login_router);
@@ -62,6 +84,7 @@ app.use('/user', user_router);
 
 // Starting server
 var weddingsite = app.listen(PORT, function () {
+
     var host = weddingsite.address().address;
     var port = weddingsite.address().port;
 
