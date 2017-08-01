@@ -98,8 +98,5 @@ app.use('/user', user_router);
 // Starting server
 var weddingsite = app.listen(PORT, function () {
 
-    var host = weddingsite.address().address;
-    var port = weddingsite.address().port;
-
-    console.log('Wedding site listening on host %s, port %s', host, port);
+    console.log('Wedding site listening on host %s, port %s', node_site, PORT);
 });
