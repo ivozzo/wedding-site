@@ -1,11 +1,16 @@
 {
   "name": "wedding_site",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "My personal wedding site",
   "main": "./App/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./App/main.js"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/ivozzo/wedding-site.git"
   },
   "keywords": [
     "wedding",
