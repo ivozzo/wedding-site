@@ -1,0 +1,99 @@
+html
+  head
+    title #{titles.main}
+
+  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
+  link(href="../CSS/wedding.css", rel="stylesheet")
+
+  body.bkimg
+
+    // HTML Sidebar/menu
+    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
+      style="z-index:3;width:300px;font-weight:bold;"
+      id="mySidebar")
+      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
+      div(class="w3-container")
+        h3(class="w3-padding-64") 
+          b #{titles.title}
+        h3(class="w3-bar-block")
+          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
+          a(href="#init" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inizializza
+          a(href="#test" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Verifica connessione SMTP
+          a(href="#send" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invia gli inviti
+          hr(style="width:50px;border:5px solid gray" class="w3-round")
+          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Ospiti
+          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
+    
+    // HTML Top menu on small screens
+    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
+      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
+      span #{titles.subtitle}
+    
+    // HTML Overlay effect when opening sidebar on small screens
+    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
+  
+    // HTML Page content
+    div(class="w3-main" style="margin-left:340px;margin-right:40px")
+
+      // Header
+      div(class="w3-container" style="margin-top:80px" id="showcase")
+        h1(class="w3-jumbo w3-text-pearl") 
+          b #{titles.title}
+        h1(class="w3-xxxlarge w3-text-gray") 
+          b #{titles.subtitle}
+        hr(style="width:300px;border:5px solid gray" class="w3-round")
+
+      div(class="w3-container" id="notification" style="margin-top:75px")
+      if notification.show
+        if notification.error
+          div(class="w3-display-container")
+            div( class="w3-panel w3-red w3-round-xxlarge")
+              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
+              h3 ERRORE!
+              p #{notification.message}
+        
+        if notification.error === false
+          div(class="w3-display-container")
+            div( class="w3-panel w3-green w3-round-xxlarge")
+              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
+              h3 ESECUZIONE TERMINATA!
+              p #{notification.message}
+               
+      // Initialize database
+      div(class="w3-container" id="where" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl") 
+          b Inizializza
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Inizializza il database
+        form(action="/console/init" method="POST")
+            input(type="submit" value="Inizializza" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+      // Try smtp connection
+      div(class="w3-container" id="test" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Verifica la connessione SMTP
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Effettua una prova di connessione
+        form(action="/mail/verify" method="POST")
+            input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+      // Send mails
+      div(class="w3-container" id="send" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-pearl"): b Invia gli inviti
+        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        p Invia gli inviti agli ospiti
+        form(action="/mail/send" method="POST")
+            input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+      // HTML W3.CSS Container
+      div(class="w3-pearl w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
+        p(class="w3-left") Sito creato da Alessandro Antonello Ivaldi
+        
+        p(class="w3-right")
+           a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Amministrazione
+           br
+           | Powered by
+           a(href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity") w3.css
+      
+      script
+        include ../../utilities/functions.js
