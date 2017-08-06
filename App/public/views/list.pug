@@ -40,10 +40,10 @@ html
 
       // List guests
       div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl") 
+        h1(class="w3-xxxlarge w3-text-gray") 
           b Lista degli ospiti
-        hr(style="width:200px;border:5px solid gray" class="w3-round")
-        table(style="width:100%;border:2px solid gray")
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+        table(style="width:100%;border:2px solid #d5c090")
           tr
           each val in headers
             th #{val}
@@ -57,15 +57,7 @@ html
               td(align="center") #{val.attendance}
               td(align="center") #{val.generated_token}
 
-      // HTML W3.CSS Container
-      div(class="w3-pearl w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
-        p(class="w3-left") Sito creato da Alessandro Antonello Ivaldi
-        
-        p(class="w3-right")
-           a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Amministrazione
-           br
-           | Powered by
-           a(href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity") w3.css
+      include includes/footer.pug
 
       script
         include ../../utilities/functions.js

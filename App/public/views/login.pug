@@ -71,15 +71,7 @@ html
           button(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Invia
           button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
 
-      // HTML W3.CSS Container
-      div(class="w3-pearl w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
-        p(class="w3-left") Sito creato da Alessandro Antonello Ivaldi
-        
-        p(class="w3-right")
-           a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Amministrazione
-           br
-           | Powered by
-           a(href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity") w3.css
+      include includes/footer.pug
       
       script
         include ../../utilities/functions.js

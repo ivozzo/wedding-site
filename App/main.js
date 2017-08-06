@@ -19,8 +19,8 @@ global.titles = {
 Alessandro 
     & 
 Maria Francesca`,
-    subtitle: 'Il lieto evento',
-    main: 'Il lieto evento'
+    subtitle: 'Il matrimonio',
+    main: 'Per guidarvi verso il nostro giorno felice'
 };
 
 // Site
@@ -81,6 +81,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.set('view engine', 'pug');
 app.set("views", __dirname + "/public/views");
+app.set("CSS", __dirname + "/public/CSS");
+app.set("images", __dirname + "/public/images");
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
 app.use(session({

@@ -62,8 +62,8 @@ html
 
       // Insert users
       div(class="w3-container" id="insert" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl"): b Inserisci utente
-        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        h1(class="w3-xxxlarge w3-text-gray"): b Inserisci utente
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
         p Utilizza il form seguente per inserire un utente
         
         // Form
@@ -88,8 +88,8 @@ html
 
       // Update users
       div(class="w3-container" id="update" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl"): b Aggiorna password
-        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna password
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
         p Utilizza il form seguente per aggiornare la tua password
         
         // Form
@@ -106,15 +106,7 @@ html
           button(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Aggiorna
           button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
 
-      // HTML W3.CSS Container
-      div(class="w3-pearl w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
-        p(class="w3-left") Sito creato da Alessandro Antonello Ivaldi
-        
-        p(class="w3-right")
-           a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Amministrazione
-           br
-           | Powered by
-           a(href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity") w3.css
+      include includes/footer.pug
       
       script
         include ../../utilities/functions.js

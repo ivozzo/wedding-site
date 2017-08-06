@@ -8,11 +8,12 @@ h5 {
 }
 
 body {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .bkimg {
-  background-image: url(../images/wedding-background.jpeg);
+  background-image: url(../images/wedding-background8.jpg);
+  background-repeat: no-repeat;
   -webkit-background-size: cover;
   /* For WebKit*/
   -moz-background-size: cover;
