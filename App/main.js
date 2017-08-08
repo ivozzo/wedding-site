@@ -10,7 +10,13 @@ global.myCollection = {
 global.notification = {
     show: false,
     error: false,
-    message: ''
+    message: ``
+};
+
+// Confirmation
+global.confirmation = {
+    show: false,
+    message: ``
 };
 
 // Headers
@@ -19,8 +25,8 @@ global.titles = {
 Alessandro 
     & 
 Maria Francesca`,
-    subtitle: 'Il lieto evento',
-    main: 'Il lieto evento'
+    subtitle: 'Il matrimonio',
+    main: 'Per guidarvi verso il nostro giorno felice'
 };
 
 // Site
@@ -55,8 +61,8 @@ global.mail_settings = {
 
 // Site links
 global.site = {
-    main: `${node_site}/`,
-    rsvp: `${node_site}/rsvp`,
+    main: `${node_site}`,
+    rsvp: `${node_site}/guest/rsvp`,
     contact: mail_settings.MAIL_ADDRESS
 };
 
@@ -81,6 +87,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.set('view engine', 'pug');
 app.set("views", __dirname + "/public/views");
+app.set("CSS", __dirname + "/public/CSS");
+app.set("images", __dirname + "/public/images");
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
 app.use(session({

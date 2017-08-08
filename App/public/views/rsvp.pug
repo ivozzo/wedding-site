@@ -36,28 +36,14 @@ html
           b #{titles.title}
         h1(class="w3-xxxlarge w3-text-gray") 
           b #{titles.subtitle}
-        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
 
-      div(class="w3-container" id="notification" style="margin-top:75px")
-      if notification.show
-        if notification.error
-          div(class="w3-display-container")
-            div( class="w3-panel w3-red w3-round-xxlarge")
-              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
-              h3 ERRORE!
-              p #{notification.message}
-
-        if notification.error === false
-          div(class="w3-display-container")
-            div( class="w3-panel w3-green w3-round-xxlarge")
-              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
-              h3 ESECUZIONE TERMINATA!
-              p #{notification.message}
+      include includes/notifications.pug
 
       // Login form
       div(class="w3-container" id="login" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl"): b Mandaci la tua risposta
-        hr(style="width:200px;border:5px solid gray" class="w3-round")
+        h1(class="w3-xxxlarge w3-text-gray"): b Mandaci la tua risposta
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
         p Parteciperai al matrimonio?
 
         // Form
@@ -79,14 +65,7 @@ html
           button(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Invia
           button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
 
-      // HTML W3.CSS Container
-      div(class="w3-pearl w3-container w3-padding-32" style="margin-top:75px;padding-right:58px")
-        p(class="w3-left") Sito creato da Alessandro Antonello Ivaldi
-        
-        p(class="w3-right")
-           a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Amministrazione
-           br
-           | Powered by
-           a(href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity") w3.css
+      include includes/footer.pug
+
       script
         include ../../utilities/functions.js
