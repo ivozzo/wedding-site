@@ -44,21 +44,7 @@ html
           b #{titles.subtitle}
         hr(style="width:300px;border:5px solid gray" class="w3-round")
 
-      div(class="w3-container" id="notification" style="margin-top:75px")
-      if notification.show
-        if notification.error
-          div(class="w3-display-container")
-            div( class="w3-panel w3-red w3-round-xxlarge")
-              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
-              h3 ERRORE!
-              p #{notification.message}
-        
-        if notification.error === false
-          div(class="w3-display-container")
-            div( class="w3-panel w3-green w3-round-xxlarge")
-              span(onclick="clear_notification()" class="w3-button w3-display-bottomright") Chiudi notifica
-              h3 ESECUZIONE TERMINATA!
-              p #{notification.message}
+      include includes/notifications.pug
                
       // Initialize database
       div(class="w3-container" id="where" style="margin-top:75px")

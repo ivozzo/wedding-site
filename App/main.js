@@ -10,7 +10,13 @@ global.myCollection = {
 global.notification = {
     show: false,
     error: false,
-    message: ''
+    message: ``
+};
+
+// Confirmation
+global.confirmation = {
+    show: false,
+    message: ``
 };
 
 // Headers
@@ -55,8 +61,8 @@ global.mail_settings = {
 
 // Site links
 global.site = {
-    main: `${node_site}/`,
-    rsvp: `${node_site}/rsvp`,
+    main: `${node_site}`,
+    rsvp: `${node_site}/guest/rsvp`,
     contact: mail_settings.MAIL_ADDRESS
 };
 
