@@ -35,7 +35,7 @@ function test_connection(callback) {
             console.log(error);
             return callback(error, null);
         } else {
-            console.log('It works!!!');
+            console.log('SMTP connection test successful');
             return callback(null, success);
         }
     });
@@ -52,6 +52,7 @@ function get_mail(guest, site) {
     var email = `
     
     Ciao ${guest.name} ${guest.surname},
+    
     con immensa gioia vogliamo invitarti al nostro matrimonio,
     che si terrà Domenica 8 ottobre 2017 alle ore 11:30 presso i fienili del Campiaro
     situati in località Campiaro, numero 112/c, 40030 Grizzana Morandi (BO).
@@ -70,6 +71,7 @@ function get_mail(guest, site) {
     Per qualunque informazione o richiesta puoi contattarci direttamente tramite il sito.
     
     Ti aspettiamo!
+
     Un abbraccio,
     Alessandro e Maria Francesca`;
 

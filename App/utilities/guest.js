@@ -30,7 +30,7 @@ function insert_Guest(req, res) {
     var error_guest;
 
     var skip;
-    if (req.body.skipMail !== undefined) {
+    if (req.body.skipMail == "on") {
         skip = true;
     } else {
         skip = false;
