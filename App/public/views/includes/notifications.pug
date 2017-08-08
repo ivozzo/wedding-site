@@ -1,6 +1,6 @@
 div(class="w3-container" id="notification" style="margin-top:75px")
 if notification.show
-    if notification.error
+    if notification.error === true
         div(class="w3-display-container")
             div( class="w3-panel w3-red w3-round-xlarge" style="border:2px solid gray")
                 h3 ERRORE!
@@ -8,7 +8,7 @@ if notification.show
                 div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:150px")
                     span(onclick="clear_notification()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Chiudi
 
-    if notification.working === false && notification.error === false
+    if notification.error === false
         div(class="w3-display-container")
             div( class="w3-panel w3-green w3-round-xlarge" style="border:2px solid gray")
                 h3 ESECUZIONE TERMINATA!
