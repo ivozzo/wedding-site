@@ -17,6 +17,10 @@ module.exports = {
 
     rsvpGuest: function (req, res) {
         rsvp_Guest(req, res);
+    },
+
+    getGuestData: function (req, res) {
+        get_GuestData(req, res);
     }
 }
 
@@ -75,7 +79,7 @@ function insert_Guest(req, res) {
  * @param  {Request} req
  * @param  {Response} res
  */
-function list_Guests(req, res) {
+function list_Guests(req, res, page) {
 
     //search in the collection for all guests and return a list
     mongodb_tools.listGuest(function (err, response) {
@@ -105,7 +109,7 @@ function list_Guests(req, res) {
             } else if (response.error === false && response.body === 'guests') {
                 console.log(`Guest list retrieved`);
 
-                res.render('list.pug', {
+                res.render(page, {
                     headers: response.headers,
                     notification: notification,
                     guests: response.guests
@@ -302,6 +306,44 @@ function rsvp_Guest(req, res) {
                 }
             }
 
+        });
+    }
+}
+
+/**
+ * Get guest data from database
+ * @function get_GuestData
+ * @param  {Request} req
+ * @param  {Response} res
+ */
+function get_GuestData(req, res) {
+
+    if (!req.guest_id) {
+        console.log(`Missing required field (id)`);
+
+        notification.show = true;
+        notification.error = true;
+        notification.message = `Non è stato possibile recuperare i dati dell'invitato, si prega di riprovare`;
+
+        req.session.notification = notification;
+        res.redirect('guest');
+
+    } else {
+
+        mongodb_tools.findGuestById(req.guest_id, function (err, response) {
+            if (err) {
+                console.error(err);
+
+                notification.show = true;
+                notification.error = true;
+                notification.message = `Impossibile recuperare l'invitato, controllare il log.`
+
+                req.session.notification = notification;
+                res.render('guest-update.pug', {
+                    notification: notification,
+                    guest: response.guests
+                });
+            }
         });
     }
 }

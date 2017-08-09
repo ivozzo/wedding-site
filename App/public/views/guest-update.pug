@@ -1,0 +1,207 @@
+html
+  head
+    title #{titles.main}
+
+  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
+  link(href="../CSS/wedding.css", rel="stylesheet")
+
+  body
+
+    // HTML Sidebar/menu
+    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
+      style="z-index:3;width:300px;font-weight:bold;"
+      id="mySidebar")
+      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
+      div(class="w3-container")
+        h3(class="w3-padding-64") 
+          b #{titles.title}
+        h3(class="w3-bar-block")
+          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
+          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci invitato
+          a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna invitato
+          a(href="/guest/list" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza ospiti
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
+    
+    // HTML Top menu on small screens
+    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
+      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
+      span #{titles.subtitle}
+    
+    // HTML Overlay effect when opening sidebar on small screens
+    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
+  
+    // HTML Page content
+    div(class="w3-main" style="margin-left:340px;margin-right:40px")
+
+      // Header
+      div(class="w3-container" style="margin-top:80px" id="showcase")
+        h1(class="w3-jumbo w3-text-pearl") 
+          b #{titles.title}
+        h1(class="w3-xxxlarge w3-text-gray") 
+          b #{titles.subtitle}
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+
+      include includes/notifications.pug
+
+      // Update guests
+      div(class="w3-container" id="update" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un ospite
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+        p Utilizza il form seguente per aggiornare i dati di un invitato al matrimonio
+      
+        // Form
+        form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Name" type="text" id="name" value="#{guest.name}")
+            label(for="name")  Nome 
+          div(class="w3-section")
+            input(name="Surname" type="text" id="surname" value="#{guest.surname}")
+            label(for="surname")  Cognome
+          div(class="w3-section")
+            input(name="email" type="text" id="email" value="#{guest.email}")
+            label(for="emailUpdate")  Indirizzo email
+          div(class="w3-section")
+            input(name="expected" type="text" id="expected" value="#{guest.expected_number}")
+            label(for="expected")  Invitati attesi
+          div(class="w3-section")
+            input(name="skipMail" type="checkbox" id="skipMail" checked="#{guest.skip_email}")
+            label(for="skipMailUpdate") Non inviare mail
+              span(class="ui")
+          div(class="w3-section" id="presence")
+            select(name="presence")
+              option(value="Y") Parteciperà
+              option(value="M") Forse
+              option(value="N") Non parteciperà
+            presence.selectedIndex = "#{guest.attendance}"
+          input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+
+      include includes/footer.pug
+      
+      script
+        include ../../utilities/functions.jshtml
+  head
+    title #{titles.main}
+
+  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
+  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
+  link(href="../CSS/wedding.css", rel="stylesheet")
+
+  body
+
+    // HTML Sidebar/menu
+    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
+      style="z-index:3;width:300px;font-weight:bold;"
+      id="mySidebar")
+      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
+      div(class="w3-container")
+        h3(class="w3-padding-64") 
+          b #{titles.title}
+        h3(class="w3-bar-block")
+          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
+          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci invitato
+          a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna invitato
+          a(href="/guest/list" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza ospiti
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
+    
+    // HTML Top menu on small screens
+    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
+      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
+      span #{titles.subtitle}
+    
+    // HTML Overlay effect when opening sidebar on small screens
+    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
+  
+    // HTML Page content
+    div(class="w3-main" style="margin-left:340px;margin-right:40px")
+
+      // Header
+      div(class="w3-container" style="margin-top:80px" id="showcase")
+        h1(class="w3-jumbo w3-text-pearl") 
+          b #{titles.title}
+        h1(class="w3-xxxlarge w3-text-gray") 
+          b #{titles.subtitle}
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+
+      include includes/notifications.pug
+        
+      // Invite guests
+      div(class="w3-container" id="invite" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-gray"): b Inserisci ospite
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+        p Utilizza il form seguente per inserire un invitato al matrimonio
+        
+        // Form
+        form(action="/guest/insert" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Name" type="text" id="name")
+            label(for="name")  Nome 
+          div(class="w3-section")
+            input(name="Surname" type="text" id="surname")
+            label(for="surname")  Cognome
+          div(class="w3-section")
+            input(name="Email" type="text" id="email")
+            label(for="email")  Indirizzo email
+          div(class="w3-section")
+            input(name="Expected" type="text" id="expected")
+            label(for="expected")  Invitati attesi
+          div(class="w3-section")
+            input(name="skipMail" type="checkbox" id="skipMail")
+            label(for="skipMail") Non inviare mail
+              span(class="ui")
+          div(class="w3-section")
+            select(name="presence" id="presence")
+              option(value="Y") Parteciperà
+              option(value="M") Forse
+              option(value="N") Non parteciperà
+          input(type="submit" value="Inserisci" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+      // Update guests
+      div(class="w3-container" id="update" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un ospite
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+        p Utilizza il form seguente per aggiornare i dati di un invitato al matrimonio
+      
+        // Form
+        form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="Name" type="text" id="name")
+            label(for="name")  Nome 
+          div(class="w3-section")
+            input(name="Surname" type="text" id="surname")
+            label(for="surname")  Cognome
+          div(class="w3-section")
+            input(name="EmailUpdate" type="text" id="emailUpdate")
+            label(for="emailUpdate")  Indirizzo email
+          div(class="w3-section")
+            input(name="ExpectedUpdate" type="text" id="expectedUpdate")
+            label(for="expectedUpdate")  Invitati attesi
+          div(class="w3-section")
+            input(name="skipMailUpdate" type="checkbox" id="skipMailUpdate")
+            label(for="skipMailUpdate") Non inviare mail
+              span(class="ui")
+          div(class="w3-section")
+            select(name="presenceUpdate")
+              option(value="Y") Parteciperà
+              option(value="M") Forse
+              option(value="N") Non parteciperà
+
+          input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+
+      // Delete guest
+
+
+      include includes/footer.pug
+      
+      script
+        include ../../utilities/functions.js

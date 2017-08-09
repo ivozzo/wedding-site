@@ -42,6 +42,10 @@ module.exports = {
         find_Guest(guest, callback);
     },
 
+    findGuestById: function(id, callback){
+        find_GuestById(id, callback);
+    },
+
     findGuestByEmail: function (guest, callback) {
         find_Guest_by_email(guest, callback);
     },
@@ -555,6 +559,57 @@ function update_Guest(guest, callback) {
                 }
             })
 
+        }
+    });
+}
+
+/**
+ * Search for a guest by Id
+ * @function find_GuestById
+ * @param  {String} id     {The guest id to search for}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function find_GuestById(id, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.error(err);
+            var response = {
+                error: true,
+                body: 'KO',
+                users: null,
+                headers: null
+            }
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.guest);
+
+            collection.find({
+                "id": id
+            }).toArray(function (err, items) {
+                if (err) {
+                    console.error(err);
+                    var response = {
+                        error: true,
+                        body: 'query',
+                        guests: null,
+                        headers: null
+                    }
+                    db.close();
+                    return callback(err, response);
+                } else {
+                    var response = {
+                        error: false,
+                        body: 'guest',
+                        guests: null,
+                        headers: null
+                    }
+                    response.guests = items;
+
+                    db.close();
+                    return callback(null, response);
+                }
+            });
         }
     });
 }

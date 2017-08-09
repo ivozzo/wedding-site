@@ -83,34 +83,14 @@ html
       div(class="w3-container" id="update" style="margin-top:75px")
         h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un ospite
         hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Utilizza il form seguente per aggiornare i dati di un invitato al matrimonio
-      
-        // Form
-        form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="Name" type="text" id="name")
-            label(for="name")  Nome 
-          div(class="w3-section")
-            input(name="Surname" type="text" id="surname")
-            label(for="surname")  Cognome
-          div(class="w3-section")
-            input(name="EmailUpdate" type="text" id="emailUpdate")
-            label(for="emailUpdate")  Indirizzo email
-          div(class="w3-section")
-            input(name="ExpectedUpdate" type="text" id="expectedUpdate")
-            label(for="expectedUpdate")  Invitati attesi
-          div(class="w3-section")
-            input(name="skipMailUpdate" type="checkbox" id="skipMailUpdate")
-            label(for="skipMailUpdate") Non inviare mail
-              span(class="ui")
-          div(class="w3-section")
-            select(name="presenceUpdate")
-              option(value="Y") Parteciperà
-              option(value="M") Forse
-              option(value="N") Non parteciperà
+        p Seleziona un invitato per aggiornare i suoi dati
 
+        form(action="/guest/getdata" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            select(name="guest_id")
+              each val in guests
+                option(value=val.id) #{val.name} + ' ' + #{val.surname}
           input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       // Delete guest
 
