@@ -27,7 +27,7 @@ router.post('/clear_notification', function (req, res) {
     notification.show = false;
     notification.error = false;
     notification.message = '';
-    res.redirect('/console');
+    res.redirect(req.body.url);
 });
 
 module.exports = router;
