@@ -18,10 +18,8 @@ html
           b #{titles.title}
         h3(class="w3-bar-block")
           a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="#init" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inizializza
-          a(href="#test" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Verifica connessione SMTP
-          a(href="#send" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invia gli inviti
-          hr(style="width:50px;border:5px solid gray" class="w3-round")
+          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
+          hr(style="width:50px;border:5px solid white" class="w3-round")
           a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invitati
           a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
     
@@ -42,34 +40,42 @@ html
           b #{titles.title}
         h1(class="w3-xxxlarge w3-text-gray") 
           b #{titles.subtitle}
-        hr(style="width:300px;border:5px solid gray" class="w3-round")
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
 
       include includes/notifications.pug
-               
-      // Initialize database
-      div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b Inizializza
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Inizializza il database
-        form(action="/console/init" method="POST")
-            input(type="submit" value="Inizializza" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
-      // Try smtp connection
-      div(class="w3-container" id="test" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Verifica la connessione SMTP
+      // Update guests
+      div(class="w3-container" id="update" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un ospite
         hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Effettua una prova di connessione
-        form(action="/mail/verify" method="POST")
-            input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+        p Utilizza il form seguente per aggiornare i dati di un invitato al matrimonio
+      
+        // Form
+        form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            input(name="name" type="text" id="name" value=guest.name readonly)
+            label(for="name")  Nome 
+          div(class="w3-section")
+            input(name="surname" type="text" id="surname" value=guest.surname readonly)
+            label(for="surname")  Cognome
+          div(class="w3-section")
+            input(name="email" type="text" id="email" value=guest.email)
+            label(for="email")  Indirizzo email
+          div(class="w3-section")
+            input(name="expected" type="text" id="expected" value=guest.expected_number)
+            label(for="expected")  Invitati attesi
+          div(class="w3-section")
+            input(name="skipMail" type="checkbox" id="skipMail" value=guest.skip_email)
+            label(for="skipMail") Non inviare mail
+              span(class="ui")
+          div(class="w3-section" id="presence" selectedIndex=guest.attendance)
+            select(name="presence")
+              option(value="Y") Parteciperà
+              option(value="M") Forse
+              option(value="N") Non parteciperà
+          input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
-      // Send mails
-      div(class="w3-container" id="send" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Invia gli inviti
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Invia le mail agli invitati
-        form(action="/mail/send" method="POST")
-            input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       include includes/footer.pug
       

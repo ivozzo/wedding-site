@@ -21,12 +21,13 @@ html
           a(href="#where" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Dove
           a(href="#when" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Quando
           a(href="/guest/rsvp" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Parteciperai?
+          hr(style="width:50px;border:5px solid white" class="w3-round")
           a(href="mailto:#{site.contact}?subject=Richiesta%20informazioni" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Contattaci
           
     // HTML Top menu on small screens
     header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
       a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.subtitle}
+      span #{titles.title}
     
     // HTML Overlay effect when opening sidebar on small screens
     div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
@@ -44,7 +45,7 @@ html
       
       div(class="w3-container" id="notification" style="margin-top:75px")
         h1(class="w3-xxxlarge w3-text-pearl") 
-        p Con immensa gioia vogliamo invitarvi al nostro 
+        p Con immensa gioia vogliamo invitarti al nostro 
          b matrimonio
          |!
         | La cerimonia verrà celebrata con il rito civile a cui seguirà il pranzo dove potremo festeggiare insieme.
@@ -67,7 +68,7 @@ html
         h1(class="w3-xxxlarge w3-text-gray")
           b Quando:
         hr(style="width:300px;border:5px solid #d5c090" class="w3-round")
-        p Vi aspettiamo il giorno Domenica 8 ottobre 2017 alle ore 11.30
+        p Ti aspettiamo il giorno Domenica 8 ottobre 2017 alle ore 11.30
         br
         p(style="font-size:32px") Unisciti a noi nel conto alla rovescia!
         p(style="font-size:26px") Mancano ancora...

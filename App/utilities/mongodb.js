@@ -4,6 +4,8 @@
 const mongoClient = require('mongodb').MongoClient,
     objects = require('./objects')
 
+var ObjectID = require('mongodb').ObjectID;
+
 // Exports
 module.exports = {
     checkInitialized: function (callback) {
@@ -26,8 +28,8 @@ module.exports = {
         list_Guests(callback);
     },
 
-    findUser: function (user, callback) {
-        find_User(user, callback);
+    findUserByUsername: function (user, callback) {
+        find_UserByUsername(user, callback);
     },
 
     updateUser: function (user, callback) {
@@ -38,16 +40,20 @@ module.exports = {
         update_Guest(guest, callback);
     },
 
-    findGuest: function (guest, callback) {
-        find_Guest(guest, callback);
+    findGuestByNameSurname: function (guest, callback) {
+        find_GuestByNameSurname(guest, callback);
+    },
+
+    findGuestById: function (id, callback) {
+        find_GuestById(id, callback);
     },
 
     findGuestByEmail: function (guest, callback) {
-        find_Guest_by_email(guest, callback);
+        find_GuestByEmail(guest, callback);
     },
 
-    updateGuestRSVP: function (guest, callback) {
-        update_Guest_rsvp(guest, callback);
+    deleteGuestById: function (id, callback) {
+        delete_GuestById(id, callback);
     }
 }
 
@@ -104,49 +110,28 @@ function init_db(collection_req, callback) {
 
 /**
  * Search for an user
- * @function find_User
+ * @function find_UserByUsername
  * @param  {User} user     {The user to search for}
  * @param  {Function} callback {The callback function}
  * @return {callback}
  */
-function find_User(user, callback) {
+function find_UserByUsername(user, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                users: null,
-                headers: null
-            }
-            return callback(err, response);
+            return callback(err, null);
         } else {
             var collection = db.collection(myCollection.user);
-
-            collection.find({
+            collection.findOne({
                 "login.user": user.username
-            }).toArray(function (err, items) {
+            }, function (err, document) {
                 if (err) {
                     console.error(err);
-                    var response = {
-                        error: true,
-                        body: 'query',
-                        users: null,
-                        headers: null
-                    }
                     db.close();
-                    return callback(err, response);
+                    return callback(err, null);
                 } else {
-                    var response = {
-                        error: false,
-                        body: 'user',
-                        users: null,
-                        headers: null
-                    }
-                    response.users = items;
-
                     db.close();
-                    return callback(null, response);
+                    return callback(null, document);
                 }
             });
         }
@@ -200,27 +185,20 @@ function create_Guest(guest, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                body: 'KO'
-            }
-            return callback(err, response);
+            return callback(err);
         } else {
             var collection = db.collection(myCollection.guest);
-
             collection.insertOne({
                 "email": guest.email,
-                "skip_mail": guest.skip_mail,
+                "skip_email": guest.skip_email,
                 "expected_number": guest.expected_number,
                 "surname": guest.surname,
                 "name": guest.name,
                 "generated_token": guest.generated_token,
                 "attendance": guest.attendance
             });
-            var response = {
-                body: 'OK'
-            }
             db.close();
-            return callback(null, response);
+            return callback(null);
         }
     })
 }
@@ -278,39 +256,24 @@ function list_Guests(callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                guests: null,
-                headers: null
-            }
-            return callback(err, response);
+            return callback(err, null);
         } else {
             var collection = db.collection(myCollection.guest);
 
             collection.find().toArray(function (err, items) {
                 if (err) {
                     console.error(err);
-                    var response = {
-                        error: true,
-                        body: 'query',
-                        guests: null,
-                        headers: null
-                    }
                     db.close();
-                    return callback(err, response);
+                    return callback(err, null);
                 } else {
                     var response = {
-                        error: false,
-                        body: 'guests',
                         guests: [],
                         headers: null
                     }
                     for (var i in items) {
                         item = items[i];
-
                         var guest = {
-                            id: item.id,
+                            _id: item._id,
                             name: item.name,
                             surname: item.surname,
                             email: item.email,
@@ -321,8 +284,7 @@ function list_Guests(callback) {
                         }
                         response.guests.push(guest);
                     }
-
-                    response.headers = ["Nome", "Cognome", "Email", "Inviare mail?", "Invitati attesi", "Parteciperà", "Token"];
+                    response.headers = ["Nome", "Cognome", "Email", "Non inviare mail", "Invitati attesi", "Parteciperà", "Token"];
                     db.close();
                     return callback(null, response);
                 }
@@ -381,45 +343,24 @@ function update_User(user, callback) {
  * @param  {Function} callback {The callback function}
  * @return {callback}
  */
-function find_Guest(guest, callback) {
+function find_GuestByNameSurname(guest, callback) {
     connect_db(function (err, db) {
         if (err) {
-            console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                users: null,
-                headers: null
-            }
             return callback(err, response);
         } else {
             var collection = db.collection(myCollection.guest);
 
-            collection.find({
+            collection.findOne({
                 "name": guest.name,
                 "surname": guest.surname,
-            }).toArray(function (err, items) {
+            }, function (err, document) {
                 if (err) {
                     console.error(err);
-                    var response = {
-                        error: true,
-                        body: 'query',
-                        guests: null,
-                        headers: null
-                    }
                     db.close();
-                    return callback(err, response);
+                    return callback(err, null);
                 } else {
-                    var response = {
-                        error: false,
-                        body: 'guest',
-                        guests: null,
-                        headers: null
-                    }
-                    response.guests = items;
-
                     db.close();
-                    return callback(null, response);
+                    return callback(null, document);
                 }
             });
         }
@@ -428,92 +369,31 @@ function find_Guest(guest, callback) {
 
 /**
  * Search for a guest
- * @function find_Guest_by_email
+ * @function find_GuestByEmail
  * @param  {Guest} guest     {The guest to search for}
  * @param  {Function} callback {The callback function}
  * @return {callback}
  */
-function find_Guest_by_email(guest, callback) {
+function find_GuestByEmail(email, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                users: null,
-                headers: null
-            }
             return callback(err, response);
         } else {
             var collection = db.collection(myCollection.guest);
-
-            collection.find({
-                "email": guest.email
-            }).toArray(function (err, items) {
+            collection.findOne({
+                "email": email.email
+            }, function (err, document) {
                 console.log(items)
                 if (err) {
                     console.error(err);
-                    var response = {
-                        error: true,
-                        body: 'query',
-                        guests: null,
-                        headers: null
-                    }
                     db.close();
-                    return callback(err, response);
+                    return callback(err, null);
                 } else {
-                    var response = {
-                        error: false,
-                        body: 'guest',
-                        guests: items,
-                        headers: null
-                    }
-
                     db.close();
-                    return callback(null, response);
+                    return callback(null, document);
                 }
             });
-        }
-    });
-}
-
-/**
- * Updates guest fields from rsvp page
- * @function update_Guest_rsvp
- * @param  {Guest} guest     {The guest to update}
- * @param  {Function} callback {The callback function}
- * @return {callback}
- */
-function update_Guest_rsvp(guest, callback) {
-    connect_db(function (err, db) {
-        if (err) {
-            console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                guests: null,
-                headers: null
-            }
-            return callback(err, response);
-        } else {
-            var collection = db.collection(myCollection.guest);
-
-            collection.save(guest, function (err, status) {
-                if (err) {
-                    var response = {
-                        error: true,
-                        body: 'update',
-                        guests: null,
-                        headers: null
-                    }
-                    db.close();
-                    return callback(err, response);
-                } else {
-                    db.close();
-                    return callback(null, response);
-                }
-            })
-
         }
     });
 }
@@ -529,32 +409,80 @@ function update_Guest(guest, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                guests: null,
-                headers: null
-            }
-            return callback(err, response);
+            return callback(err);
         } else {
             var collection = db.collection(myCollection.guest);
-
             collection.save(guest, function (err, status) {
                 if (err) {
-                    var response = {
-                        error: true,
-                        body: 'update',
-                        guests: null,
-                        headers: null
-                    }
+                    console.error(err);
                     db.close();
-                    return callback(err, response);
+                    return callback(err);
                 } else {
                     db.close();
-                    return callback(null, response);
+                    return callback(null);
                 }
             })
 
+        }
+    });
+}
+
+/**
+ * Search for a guest by Id
+ * @function find_GuestById
+ * @param  {String} id     {The guest id to search for}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function find_GuestById(id, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.error(err);
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.guest);
+            collection.findOne({
+                "_id": ObjectID.createFromHexString(id)
+            }, function (err, document) {
+                if (err) {
+                    console.error(err);
+                    db.close();
+                    return callback(err, null);
+                } else {
+                    db.close();
+                    return callback(null, document);
+                }
+            });
+        }
+    });
+}
+
+/**
+ * Delete a guest wiith the specified Id
+ * @function delete_GuestById
+ * @param  {String} id     {The guest id to search for}
+ * @param  {Function} callback {The callback function}
+ * @return {callback}
+ */
+function delete_GuestById(id, callback) {
+    connect_db(function (err, db) {
+        if (err) {
+            console.error(err);
+            return callback(err, response);
+        } else {
+            var collection = db.collection(myCollection.guest);
+            collection.deleteOne({
+                "_id": ObjectID.createFromHexString(id)
+            }, function (err, obj) {
+                if (err) {
+                    console.error(err);
+                    db.close();
+                    return callback(err);
+                } else {
+                    db.close();
+                    return callback(null);
+                }
+            });
         }
     });
 }

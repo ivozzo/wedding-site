@@ -42,42 +42,40 @@ function check_session(sess, res, page) {
  * @param  {Response} res
  */
 function user_login(req, res) {
-    var user = objects.User(
-        "",
-        "",
-        "",
-        req.body.Username,
-        req.body.Password);
 
-    mongodb_tools.findUser(user, function (err, response) {
+    mongodb_tools.findUserByUsername({
+        username: req.body.Username
+    }, function (err, user) {
         if (err) {
-            console.error(`No user found, redirecting to /login`);
-
             notification.show = true;
             notification.error = true;
-            notification.message = `Impossibile trovare l'utente richiesto`;
-
+            notification.message = `Errore durante l'autenticazione, controllare i log`;
             req.session.notification = notification;
             res.redirect('/login');
         }
-
-        if (response.users[0].login.user === user.username) {
-            if (response.users[0].login.password === user.password) {
-                console.log(`User %s found and correctly authenticated`, user.username);
-                req.session.username = user.username;
-
-                req.session.notification = notification;
-                res.redirect('/console');
-            } else {
-                console.warn(`User %s found but password not correct`, user.username);
-
-                notification.show = true;
-                notification.error = true;
-                notification.message = `La password non è corretta, si prega di verificare`;
-
-                req.session.notification = notification;
-                res.redirect('/login');
+        if (user !== null) {
+            if (user.login.user === req.body.Username) {
+                if (user.login.password === objects.cryptPassword(req.body.Password)) {
+                    console.log(`User found and correctly authenticated`);
+                    req.session.username = req.body.Username;
+                    req.session.notification = notification;
+                    res.redirect('/console');
+                } else {
+                    console.warn(`User found but password not correct`);
+                    notification.show = true;
+                    notification.error = true;
+                    notification.message = `La password non è corretta, si prega di verificare`;
+                    req.session.notification = notification;
+                    res.redirect('/login');
+                }
             }
+        } else {
+            console.warn(`No user found`);
+            notification.show = true;
+            notification.error = true;
+            notification.message = `Impossibile trovare l'utente richiesto`;
+            req.session.notification = notification;
+            res.redirect('/login');
         }
     });
 }

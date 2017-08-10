@@ -42,23 +42,23 @@ html
 
       // Login form
       div(class="w3-container" id="login" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Mandaci la tua risposta
+        h1(class="w3-xxxlarge w3-text-gray"): b Parteciperai al matrimonio?
         hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Parteciperai al matrimonio?
+        p Ti aspettiamo
 
         // Form
         form(action="/guest/rsvp" method="POST" type="application/x-www-form-urlencoded")
           div(class="w3-section")
-            input(name="Email" type="text" id="Email")
-            label(for="Email")  Email 
+            input(name="email" type="text" id="email")
+            label(for="email")  Email 
           div(class="w3-section")
-            input(name="Token" type="text" id="Token")
-            label(for="Token")  Token di autenticazione
+            input(name="token" type="text" id="token")
+            label(for="token")  Token di autenticazione
           div(class="w3-section")
-            input(name="Expected_number" type="text" id="Expected_number")
-            label(for="Expected_number")  Numero di partecipanti
+            input(name="expected" type="text" id="expected")
+            label(for="expected")  Numero di partecipanti
           div(class="w3-section")
-            select(name="Presence")
+            select(name="presence")
               option(value="Y") Parteciperò
               option(value="M") Forse
               option(value="N") Non parteciperò

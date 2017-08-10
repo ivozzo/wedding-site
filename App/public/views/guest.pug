@@ -22,7 +22,8 @@ html
           hr(style="width:50px;border:5px solid white" class="w3-round")
           a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci invitato
           a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna invitato
-          a(href="/guest/list" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza ospiti
+          a(href="#delete" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Cancella invitato
+          a(href="/guest/list" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza invitati
           hr(style="width:50px;border:5px solid white" class="w3-round")
           a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
     
@@ -56,16 +57,16 @@ html
         // Form
         form(action="/guest/insert" method="POST" type="application/x-www-form-urlencoded")
           div(class="w3-section")
-            input(name="Name" type="text" id="name")
+            input(name="name" type="text" id="name")
             label(for="name")  Nome 
           div(class="w3-section")
-            input(name="Surname" type="text" id="surname")
+            input(name="surname" type="text" id="surname")
             label(for="surname")  Cognome
           div(class="w3-section")
-            input(name="Email" type="text" id="email")
+            input(name="email" type="text" id="email")
             label(for="email")  Indirizzo email
           div(class="w3-section")
-            input(name="Expected" type="text" id="expected")
+            input(name="expected" type="text" id="expected")
             label(for="expected")  Invitati attesi
           div(class="w3-section")
             input(name="skipMail" type="checkbox" id="skipMail")
@@ -81,39 +82,31 @@ html
 
       // Update guests
       div(class="w3-container" id="update" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un ospite
+        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un invitato
         hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Utilizza il form seguente per aggiornare i dati di un invitato al matrimonio
-      
-        // Form
-        form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="Name" type="text" id="name")
-            label(for="name")  Nome 
-          div(class="w3-section")
-            input(name="Surname" type="text" id="surname")
-            label(for="surname")  Cognome
-          div(class="w3-section")
-            input(name="EmailUpdate" type="text" id="emailUpdate")
-            label(for="emailUpdate")  Indirizzo email
-          div(class="w3-section")
-            input(name="ExpectedUpdate" type="text" id="expectedUpdate")
-            label(for="expectedUpdate")  Invitati attesi
-          div(class="w3-section")
-            input(name="skipMailUpdate" type="checkbox" id="skipMailUpdate")
-            label(for="skipMailUpdate") Non inviare mail
-              span(class="ui")
-          div(class="w3-section")
-            select(name="presenceUpdate")
-              option(value="Y") Parteciperà
-              option(value="M") Forse
-              option(value="N") Non parteciperà
+        p Seleziona un invitato per aggiornare i suoi dati
 
+        form(action="/guest/getdata" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            select(name="guest_id")
+              option(value="nil") --Seleziona l'ospite--
+              each val in guests
+                option(value=val._id.toHexString()) #{val.name} #{val.surname}
           input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       // Delete guest
+      div(class="w3-container" id="delete" style="margin-top:75px")
+        h1(class="w3-xxxlarge w3-text-gray"): b Cancella un invitato
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+        p Seleziona un invitato per cancellare i suoi dati
 
+        form(action="/guest/delete" method="POST" type="application/x-www-form-urlencoded")
+          div(class="w3-section")
+            select(name="guest_id")
+              option(value="nil") --Seleziona l'ospite--
+              each val in guests
+                option(value=val._id.toHexString()) #{val.name} #{val.surname}
+          input(type="submit" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 
       include includes/footer.pug
       
