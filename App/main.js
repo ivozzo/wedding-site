@@ -25,7 +25,7 @@ global.titles = {
 Alessandro 
     & 
 Maria Francesca`,
-    subtitle: 'Il matrimonio',
+    subtitle: 'annunciano il loro matrimonio',
     main: 'Per guidarvi verso il nostro giorno felice'
 };
 

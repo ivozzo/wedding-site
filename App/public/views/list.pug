@@ -17,33 +17,39 @@ html
         h3(class="w3-padding-64") 
           b #{titles.title}
         h3(class="w3-bar-block")
-          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-white") Home
-
+          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
+          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
+          hr(style="width:50px;border:5px solid white" class="w3-round")
+          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invitati
+          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
+    
     // HTML Top menu on small screens
     header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
       a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
       span #{titles.subtitle}
-
+    
     // HTML Overlay effect when opening sidebar on small screens
     div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
-
+  
     // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px").bkimg
+    div(class="w3-main" style="margin-left:340px;margin-right:40px")
 
       // Header
       div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl")
+        h1(class="w3-jumbo w3-text-pearl") 
           b #{titles.title}
         h1(class="w3-xxxlarge w3-text-gray") 
           b #{titles.subtitle}
-        hr(style="width:300px;border:5px solid gray" class="w3-round")
+        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+
+      include includes/notifications.pug
 
       // List guests
-      div(class="w3-container" id="where" style="margin-top:75px")
+      div(class="w3-container" id="list" style="margin-top:75px")
         h1(class="w3-xxxlarge w3-text-gray") 
           b Lista degli ospiti
         hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        table(style="width:100%;border:2px solid #d5c090")
+        table(style="width:100%;border:2px solid #d5c090" align="center")
           tr
           each val in headers
             th #{val}

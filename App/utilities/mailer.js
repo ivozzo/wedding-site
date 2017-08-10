@@ -89,8 +89,8 @@ function send_mail(guest_list) {
     var info_list = [];
 
     guest_list.forEach(function (value) {
-
         if (value.skip_email === false) {
+            
             var mailOptions = {
                 from: mail_settings.mail,
                 to: value.email,

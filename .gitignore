@@ -1,2 +1,4 @@
 node_modules/
+docker-compose.yml
+wedding-site.json
 *.log

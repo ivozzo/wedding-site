@@ -22,7 +22,7 @@ html
           a(href="#test" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Verifica connessione SMTP
           a(href="#send" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invia gli inviti
           hr(style="width:50px;border:5px solid gray" class="w3-round")
-          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Ospiti
+          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invitati
           a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
     
     // HTML Top menu on small screens
@@ -67,7 +67,7 @@ html
       div(class="w3-container" id="send" style="margin-top:75px")
         h1(class="w3-xxxlarge w3-text-gray"): b Invia gli inviti
         hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Invia gli inviti agli ospiti
+        p Invia le mail agli invitati
         form(action="/mail/send" method="POST")
             input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
 

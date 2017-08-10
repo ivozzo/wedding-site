@@ -8,11 +8,10 @@ const express = require('express'),
 // Splash
 router.get('/', function (req, res) {
     console.log(`GET: /guest`);
-    var sess = req.sess;
+    var sess = req.session;
 
     if (sess.username) {
         console.log(`User session found: %s`, sess.username);
-
         guest_tools.listGuest(req, res, 'guest.pug');
     } else {
         mongodb_tools.checkInitialized(function (err, response) {
@@ -34,6 +33,12 @@ router.post('/insert', function (req, res) {
 router.post('/update', function (req, res) {
     console.log('POST: /guest/update');
     guest_tools.updateGuest(req, res);
+});
+
+// Delete the guest
+router.post('/delete', function (req, res){
+    console.log('POST: /guest/delete');
+    guest_tools.deleteGuest(req, res);
 });
 
 // List all the guests

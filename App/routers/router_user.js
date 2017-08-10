@@ -6,7 +6,7 @@ const express = require('express'),
 
 // Splash page
 router.get('/', function (req, res) {
-    console.log(`GET: /guest`);
+    console.log(`GET: /user`);
     login_tools.checkLogin(req.session, res, 'user.pug');
 });
 
