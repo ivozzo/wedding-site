@@ -1,84 +1,50 @@
+<!DOCTYPE html>
 html
   head
-    title #{titles.main}
+    include includes/header.pug
 
-  link(href="CSS/w3.css", rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="CSS/wedding.css", rel="stylesheet")
-  
-  body.bkimg
+  body(class="body-bg")
+    include includes/menu.pug
 
-    // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
-      style="z-index:3;width:300px;font-weight:bold;"
-      id="mySidebar")
-      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
-      div(class="w3-container")
-        h3(class="w3-padding-64") 
-          b #{titles.title}
-        h3(class="w3-bar-block")
-          a(href="#" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="#where" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Dove
-          a(href="#when" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Quando
-          a(href="/guest/rsvp" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Parteciperai?
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="mailto:#{site.contact}?subject=Richiesta%20informazioni" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Contattaci
-          
-    // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.title}
-    
-    // HTML Overlay effect when opening sidebar on small screens
-    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
-  
     // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px")
-
-      // Header
-      div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl") 
-          b #{titles.title}
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b #{titles.subtitle}
-        hr(style="width:300px;border:5px solid #d5c090" class="w3-round")
-      
-      div(class="w3-container" id="notification" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl") 
-        p Con immensa gioia vogliamo invitarti al nostro 
-         b matrimonio
-         |!
-        | La cerimonia verrà celebrata con il rito civile a cui seguirà il pranzo dove potremo festeggiare insieme.
-        p Di seguito troverai tutte le informazioni per poter arrivare a noi.
-        br
-        p: u Ti aspettiamo!!!
-              
+    div(class="container-fluid" id="home")
+      div(class="row")
+        div(class="col-xs-12 col-sm-12 col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2 body-element text-center" id="presentation")
+          p Con immensa gioia vogliamo invitarti al nostro 
+            b matrimonio
+            | !
+          | La cerimonia verrà celebrata con il rito civile a cui seguirà il pranzo dove potremo festeggiare insieme.
+          p Di seguito troverai tutte le informazioni per poterci raggiungere.
+          p: u Ti aspettiamo!!!
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-1 col-lg-3 col-lg-offset-1 body-element" id="quote")
+          blockquote Quando l’amore vi chiama seguitelo, e quando le sue ali vi avvolgono affidatevi a lui e quando vi parla abbiate fede in lui.
+            footer(class="text-right") Kahlil Gibran
+        
+          blockquote Se tardi a trovarmi insisti, se non ci sono in un posto, cerca in un altro, perché io sono fermo da qualche parte ad aspettare te.
+            footer(class="text-right") Walt Whitman
       // Where
-      div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b Dove:
-        hr(style="width:300px;border:5px solid #d5c090" class="w3-round")
-        p La cerimonia ed il ricevimento si terranno alla 
-          a(href="http://www.locandafienilidelcampiaro.it/") Locanda dei Fienili del Campiaro
-        p presso: Località Campiaro, 112/C, 40030 Grizzana Morandi BO
-        iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2857.2507354013273!2d11.1464933158893!3d44.26366097910517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132ac4d992861b8b%3A0xa48831a432ba3d4f!2sLocanda+dei+Fienili+del+Campiaro!5e0!3m2!1sit!2sit!4v1498075104558" width="800" height="600" frameborder="0" style="border:0" allowfullscreen)
-
+      div(class="row" id="where")
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-8 col-md-offet-2 col-lg-8 col-lg-offset-2 body-element")
+          div(class="body-title"): h1 Dove:
+          p La cerimonia ed il ricevimento si terranno alla 
+            a(href="http://www.locandafienilidelcampiaro.it/") Locanda dei Fienili del Campiaro
+          p presso: Località Campiaro, 112/C, 40030 Grizzana Morandi BO
+          iframe(src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2857.2507354013273!2d11.1464933158893!3d44.26366097910517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132ac4d992861b8b%3A0xa48831a432ba3d4f!2sLocanda+dei+Fienili+del+Campiaro!5e0!3m2!1sit!2sit!4v1498075104558" width="100%" height="600" frameborder="0" style="border:0" allowfullscreen)
       // When
-      div(class="w3-container" id="when" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray")
-          b Quando:
-        hr(style="width:300px;border:5px solid #d5c090" class="w3-round")
-        p Ti aspettiamo il giorno Domenica 8 ottobre 2017 alle ore 11.30
-        br
-        p(style="font-size:32px") Unisciti a noi nel conto alla rovescia!
-        p(style="font-size:26px") Mancano ancora...
-          p(id="countdown" style="font-size:32px")
+      div(class="row" id="when")
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-8 col-md-offet-2 col-lg-8 col-lg-offset-2 body-element")
+          div(class="body-title"): h1 Quando:
+          p Ti aspettiamo il giorno 
+            b Domenica 8 ottobre 2017 alle ore 11.30
+          br
+          div(class="text-center")
+            p(style="font-size:32px") Unisciti a noi nel conto alla rovescia!
+            p(style="font-size:26px") Mancano ancora...
+              br
+              br
+              p(id="countdown" style="font-size:40px")
 
-      div(class="w3-container" id="quote" style="margin-top:75px")
-        p 
-        i Quando l’amore vi chiama seguitelo, e quando le sue ali vi avvolgono affidatevi a lui e quando vi parla abbiate fede in lui.
-        p(class="w3-right") Kahlil Gibran
-      include includes/footer.pug
+    include includes/footer.pug
       
       script
         include ../../utilities/functions.js
