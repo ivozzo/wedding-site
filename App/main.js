@@ -43,7 +43,7 @@ if (process.env.NODE_PORT !== undefined) {
     PORT = 8021;
 }
 
-// Connection string
+// Database connection url
 global.DB_URL = '';
 if (process.env.MONGO_URL !== undefined) {
     DB_URL = process.env.MONGO_URL;
@@ -51,6 +51,7 @@ if (process.env.MONGO_URL !== undefined) {
     DB_URL = "mongodb://localhost:27017/site";
 }
 
+// Mail connection settings
 global.mail_settings = {
     port: ((process.env.MAIL_PORT !== undefined) ? process.env.MAIL_PORT : 25),
     user: ((process.env.MAIL_USER !== undefined) ? process.env.MAIL_USER : 'XXX'),
@@ -66,6 +67,11 @@ global.site = {
     contact: mail_settings.MAIL_ADDRESS
 };
 
+// Session
+global.session = {
+    logged: false
+}
+
 // Loading modules
 const index_router = require('./routers/router_main'),
     console_router = require('./routers/router_console'),
@@ -77,7 +83,8 @@ const index_router = require('./routers/router_main'),
     pug = require('pug'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
-    session = require('express-session');
+    session = require('express-session'),
+    favicon = require('serve-favicon');
 
 // Variables
 var app = express();
@@ -89,6 +96,7 @@ app.set('view engine', 'pug');
 app.set("views", __dirname + "/public/views");
 app.set("CSS", __dirname + "/public/CSS");
 app.set("images", __dirname + "/public/images");
+app.use(favicon(__dirname + "/public" + "/favicon.ico"));
 app.use(express.static(__dirname + "/public"));
 app.use(cookieParser());
 app.use(session({
@@ -105,6 +113,5 @@ app.use('/user', user_router);
 
 // Starting server
 var weddingsite = app.listen(PORT, function () {
-
     console.log('Wedding site listening on host %s, port %s', node_site, PORT);
 });
