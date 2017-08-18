@@ -1,42 +1,27 @@
-div(class="row" id="notification" style="margin-top:75px")
-    div(class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3")
-        if notification.show
-            if notification.error === true
-                div(class="alert")
-                    div( class="alert-danger notification-element")
-                        div(class="row")
-                            div(class="col-xs-2 col-xs-offset-10 col-sm-2 col-sm-offset-10 col-md-2 col-md-offset-10 col-lg-2 col-lg-offset-10" style="padding-right: 35px; padding-top: 15px")
-                                button(type="button" class="close" aria-label="Close"): span(aria-hidden="true" onclick="clear_notification()") &times;
-                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-1")
-                                h3: b ERRORE!
-                        div(class="row")
-                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-11 col-lg-11 col-lg-offset-1")
-                                p #{notification.message}
-                            
+div(id="error-modal" class="modal fade" role="dialog")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header alert-danger")
+        button(type="button" class="close" onclick="clear_notification()") &times;
+        h4(class="modal-title") ERRORE!
+      div(class="modal-body")
+        p #{notification.message}
+      div(class="modal-footer")
+        button(type="button" class="btn btn-default" onclick="clear_notification()") Chiudi
 
-            if notification.error === false
-                div(class="alert")
-                    div( class="alert-success notification-element")
-                        div(class="row")
-                            div(class="col-xs-2 col-xs-offset-10 col-sm-2 col-sm-offset-10 col-md-2 col-md-offset-10 col-lg-2 col-lg-offset-10" style="padding-right: 35px; padding-top: 15px")
-                                button(type="button" class="close" aria-label="Close"): span(aria-hidden="true" onclick="clear_notification()") &times;
-                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-1")
-                                h3: b ESECUZIONE TERMINATA!
-                        div(class="row")
-                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-11 col-lg-11 col-lg-offset-1")
-                                p #{notification.message}
+div(id="notification-modal" class="modal fade" role="dialog")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header alert-success")
+        button(type="button" class="close" onclick="clear_notification()") &times;
+        h4(class="modal-title") ESECUZIONE TERMINATA!
+      div(class="modal-body")
+        p #{notification.message}
+      div(class="modal-footer")
+        button(type="button" class="btn btn-default" onclick="clear_notification()") Chiudi
 
-        if confirmation.show
-            div(class="alert")
-                div( class="alert-warning notification-element")
-                    div(class="row")
-                        div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-1")
-                            h3: b RICHIESTA CONFERMA
-                    div(class="row")
-                        div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-11 col-lg-11 col-lg-offset-1")
-                            p #{notification.message}
-                    div(class="row")
-                        div(class="col-xs-2 col-xs-offset-4 col-sm-2 col-sm-offset-4 col-md-2 col-md-offset-4 col-lg-2 col-md-offset-4")
-                            span(onclick="confirm_request()" class="btn") Conferma
-                        div(class="col-xs-2 col-xs-offset-1 col-sm-2 col-sm-offset-1 col-md-2 col-md-offset-1 col-lg-2 col-md-offset-1")
-                            span(onclick="clear_confirmation()" class="btn") Annulla
+if notification.show
+  if notification.error === true
+    script $('#error-modal').modal('show')
+  if notification.error === false
+    script $('#notification-modal').modal('show')
