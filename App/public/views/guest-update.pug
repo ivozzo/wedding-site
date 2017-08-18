@@ -1,81 +1,45 @@
 html
   head
-    title #{titles.main}
+    include includes/header.pug
 
-  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="../CSS/wedding.css", rel="stylesheet")
-
-  body
-
-    // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
-      style="z-index:3;width:300px;font-weight:bold;"
-      id="mySidebar")
-      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
-      div(class="w3-container")
-        h3(class="w3-padding-64") 
-          b #{titles.title}
-        h3(class="w3-bar-block")
-          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invitati
-          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
+  body(class="body-bg")
+    include includes/menu.pug
     
-    // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.subtitle}
-    
-    // HTML Overlay effect when opening sidebar on small screens
-    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
-  
-    // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px")
-
-      // Header
-      div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl") 
-          b #{titles.title}
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b #{titles.subtitle}
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-
       include includes/notifications.pug
 
-      // Update guests
-      div(class="w3-container" id="update" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un ospite
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Utilizza il form seguente per aggiornare i dati di un invitato al matrimonio
-      
-        // Form
-        form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="name" type="text" id="name" value=guest.name readonly)
-            label(for="name")  Nome 
-          div(class="w3-section")
-            input(name="surname" type="text" id="surname" value=guest.surname readonly)
-            label(for="surname")  Cognome
-          div(class="w3-section")
-            input(name="email" type="text" id="email" value=guest.email)
-            label(for="email")  Indirizzo email
-          div(class="w3-section")
-            input(name="expected" type="text" id="expected" value=guest.expected_number)
-            label(for="expected")  Invitati attesi
-          div(class="w3-section")
-            input(name="skipMail" type="checkbox" id="skipMail" value=guest.skip_email)
-            label(for="skipMail") Non inviare mail
-              span(class="ui")
-          div(class="w3-section" id="presence" selectedIndex=guest.attendance)
-            select(name="presence")
-              option(value="Y") Parteciperà
-              option(value="M") Forse
-              option(value="N") Non parteciperà
-          input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-
+    // HTML Page content
+    div(class="container-fluid" id="#")
+      div(class="row")
+        // Update guests
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="update")
+          div(class="console-title"): h1 Aggiorna i dati di un invitato
+          p Utilizza il form seguente per aggiornare i dati di un invitato
+          form(action="/guest/update" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="name")  Nome:
+              input(name="name" type="text" id="name" value=guest.name readonly class="form-control")
+            div(class="form-group")
+              label(for="surname")  Cognome:
+              input(name="surname" type="text" id="surname" value=guest.surname readonly class="form-control")
+            div(class="form-group")
+              label(for="email")  Indirizzo email:
+              input(name="email" type="text" id="email" value=guest.email class="form-control")
+            div(class="form-group")
+              label(for="expected")  Invitati attesi:
+              input(name="expected" type="text" id="expected" value=guest.expected_number class="form-control")
+            div(class="form-group")
+              input(name="skipMail" type="checkbox" id="skipMail" value=guest.skip_email class="form-control")
+              label(for="skipMail") Seleziona per non inviare le e-mail
+                span(class="ui")
+            div(class="form-group" id="presence" selectedIndex=guest.attendance)
+              label(for="presence") Parteciperà?
+              select(name="presence" class="form-control")
+                option(value="Y") Parteciperà
+                option(value="M") Forse
+                option(value="N") Non parteciperà
+            div(class="btn-group btn-group-lg pull-right")
+              input(type="submit" value="Aggiorna" class="btn btn-default")
+              input(type="reset" value="Cancella" class="btn btn-default")
 
       include includes/footer.pug
       
