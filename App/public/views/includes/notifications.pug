@@ -1,28 +1,42 @@
-div(class="w3-container" id="notification" style="margin-top:75px")
-if notification.show
-    if notification.error === true
-        div(class="w3-display-container")
-            div( class="w3-panel w3-red w3-round-xlarge" style="border:2px solid gray")
-                h3 ERRORE!
-                p #{notification.message}
-                div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:150px")
-                    span(onclick="clear_notification()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Chiudi
+div(class="row" id="notification" style="margin-top:75px")
+    div(class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3")
+        if notification.show
+            if notification.error === true
+                div(class="alert")
+                    div( class="alert-danger notification-element")
+                        div(class="row")
+                            div(class="col-xs-2 col-xs-offset-10 col-sm-2 col-sm-offset-10 col-md-2 col-md-offset-10 col-lg-2 col-lg-offset-10" style="padding-right: 35px; padding-top: 15px")
+                                button(type="button" class="close" aria-label="Close"): span(aria-hidden="true" onclick="clear_notification()") &times;
+                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-1")
+                                h3: b ERRORE!
+                        div(class="row")
+                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-11 col-lg-11 col-lg-offset-1")
+                                p #{notification.message}
+                            
 
-    if notification.error === false
-        div(class="w3-display-container")
-            div( class="w3-panel w3-green w3-round-xlarge" style="border:2px solid gray")
-                h3 ESECUZIONE TERMINATA!
-                p #{notification.message}
-                div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:150px")
-                    span(onclick="clear_notification()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Chiudi
+            if notification.error === false
+                div(class="alert")
+                    div( class="alert-success notification-element")
+                        div(class="row")
+                            div(class="col-xs-2 col-xs-offset-10 col-sm-2 col-sm-offset-10 col-md-2 col-md-offset-10 col-lg-2 col-lg-offset-10" style="padding-right: 35px; padding-top: 15px")
+                                button(type="button" class="close" aria-label="Close"): span(aria-hidden="true" onclick="clear_notification()") &times;
+                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-1")
+                                h3: b ESECUZIONE TERMINATA!
+                        div(class="row")
+                            div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-11 col-lg-11 col-lg-offset-1")
+                                p #{notification.message}
 
-if confirmation.show
-    div(class="w3-display-container")
-        div( class="w3-panel w3-yellow w3-round-xlarge" style="border:2px solid gray")
-            h3 RICHIESTA CONFERMA
-            p #{confirmation.message}
-            br
-            br
-            div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:300px")
-                span(onclick="confirm_request()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Conferma
-                span(onclick="clear_confirmation()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Annulla
+        if confirmation.show
+            div(class="alert")
+                div( class="alert-warning notification-element")
+                    div(class="row")
+                        div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-1 col-lg-4 col-lg-offset-1")
+                            h3: b RICHIESTA CONFERMA
+                    div(class="row")
+                        div(class="col-xs-11 col-xs-offset-1 col-sm-11 col-sm-offset-1 col-md-4 col-md-offset-11 col-lg-11 col-lg-offset-1")
+                            p #{notification.message}
+                    div(class="row")
+                        div(class="col-xs-2 col-xs-offset-4 col-sm-2 col-sm-offset-4 col-md-2 col-md-offset-4 col-lg-2 col-md-offset-4")
+                            span(onclick="confirm_request()" class="btn") Conferma
+                        div(class="col-xs-2 col-xs-offset-1 col-sm-2 col-sm-offset-1 col-md-2 col-md-offset-1 col-lg-2 col-md-offset-1")
+                            span(onclick="clear_confirmation()" class="btn") Annulla
