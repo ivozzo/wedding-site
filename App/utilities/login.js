@@ -51,6 +51,7 @@ function user_login(req, res) {
             notification.error = true;
             notification.message = `Errore durante l'autenticazione, controllare i log`;
             req.session.notification = notification;
+            session.logged = false;
             res.redirect('/login');
         }
         if (user !== null) {
@@ -58,6 +59,7 @@ function user_login(req, res) {
                 if (user.login.password === objects.cryptPassword(req.body.Password)) {
                     console.log(`User found and correctly authenticated`);
                     req.session.username = req.body.Username;
+                    session.logged = true;
                     req.session.notification = notification;
                     res.redirect('/console');
                 } else {
@@ -65,6 +67,7 @@ function user_login(req, res) {
                     notification.show = true;
                     notification.error = true;
                     notification.message = `La password non è corretta, si prega di verificare`;
+                    session.logged = false;
                     req.session.notification = notification;
                     res.redirect('/login');
                 }
@@ -74,6 +77,7 @@ function user_login(req, res) {
             notification.show = true;
             notification.error = true;
             notification.message = `Impossibile trovare l'utente richiesto`;
+            session.logged = false;
             req.session.notification = notification;
             res.redirect('/login');
         }
