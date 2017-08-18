@@ -2,18 +2,13 @@
 html
   head
     include includes/header.pug
-
-  link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="/CSS/wedding.css", rel="stylesheet")
   
   body(class="body-bg")
     include includes/menu.pug
 
-      include includes/notifications.pug
-
     // HTML Page content
     div(class="container-fluid")
+      include includes/notifications.pug
       // RSVP form
       div(class="row")
         div(class="col-xs-12 col-sm-12 col-md-6 col-md-offet-3 col-lg-6 col-lg-offset-3 body-element" id ="rsvp")

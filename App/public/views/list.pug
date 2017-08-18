@@ -5,10 +5,9 @@ html
   body(class="body-bg")
     include includes/menu.pug
     
-      include includes/notifications.pug
-
     // HTML Page content
     div(class="container-fluid" id="#")
+      include includes/notifications.pug
       div(class="row")
         // List guests
         div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 body-element" id="list")
@@ -22,16 +21,16 @@ html
                 td #{val.name}
                 td #{val.surname}
                 td #{val.email}
-                if val.skip_email = false
-                  td Non inviare mail
+                if val.skip_email === false
+                  td Invia
                 else
-                  td Invia mail
+                  td Non inviare
                 td #{val.expected_number}
-                if val.attendance = "Y"
+                if val.attendance === "Y"
                   td Parteciperà
-                else if val.attendance = "M"
+                if val.attendance === "M"
                   td Forse
-                else
+                if val.attendance === "N"
                   td Non parteciperà
                 td #{val.generated_token}
 

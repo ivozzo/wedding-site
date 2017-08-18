@@ -5,12 +5,11 @@ html
 
   body(class="body-bg")
     include includes/menu.pug
-  
-      include includes/notifications.pug
 
     // HTML Page content
     div(class="container-fluid" id="#")
-
+      include includes/notifications.pug
+      
       div(class="row" id="home")
         div(class="col-xs-10 col-cs-offset-1 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-3 col-lg-offset-2 body-element" id="test-mail")
           div(class="console-title"): h1 Verifica la connessione SMTP
