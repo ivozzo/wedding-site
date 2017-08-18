@@ -17,6 +17,7 @@ router.get('/index', function (req, res) {
         notification.show = false;
         notification.error = false;
         notification.message = '';
+        session.logged = false;
     }
 
     res.render('index.pug');

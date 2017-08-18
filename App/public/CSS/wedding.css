@@ -11,7 +11,7 @@ body {
   font-size: 22px;
 }
 
-.bkimg {
+.background-image {
   background-image: url(../images/wedding-background8.jpg);
   background-repeat: no-repeat;
   -webkit-background-size: cover;
@@ -22,6 +22,183 @@ body {
   /* Opera*/
   background-size: cover;
   /* Generic*/
+}
+
+/* Backgrounds */
+.menu-bg {
+  background-color: #d5c090;
+  background-repeat: no-repeat;
+}
+
+.body-bg {
+  background-color: #d5c090;
+  background-repeat: no-repeat;
+  padding-top: 45px;
+}
+
+.footer-bg {
+  background-color: #d5c090;
+  background-repeat: no-repeat;
+}
+
+/* Elements */
+.body-element {
+  margin-top:75px;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  padding-top: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+  border-radius: 25px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+}
+
+.notification-element {
+  border-radius: 25px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #000000;
+}
+
+.body-title {
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  color: #000000;
+  border-color: #d5c090;
+  font-size: 20 px;
+  background-image: url(../images/wedding-background8.jpg);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  /* For WebKit*/
+  -moz-background-size: cover;
+  /* Mozilla*/
+  -o-background-size: cover;
+  /* Opera*/
+  background-size: cover;
+  /* Generic*/
+}
+
+.header-title {
+  border-radius: 25px;
+  border-style: solid;
+  border-color: #d5c090;
+  font-size: 20 px;
+  background-image: url(../images/wedding-background8.jpg);
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  /* For WebKit*/
+  -moz-background-size: cover;
+  /* Mozilla*/
+  -o-background-size: cover;
+  /* Opera*/
+  background-size: cover;
+  /* Generic*/
+}
+.console-title {
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  color: #000000;
+  border-color: #d5c090;
+  font-size: 20 px;
+  background-color: #d5c090;
+  background-repeat: no-repeat;
+}
+
+/* Fonts */
+.menu-font {
+  font-size: 20px;
+  color: #000000;
+}
+
+.menu-font-hover:hover {
+  color: #000000!important;
+  background-color: #ffffff!important
+}
+
+/* Paddings */
+.menu-padding {
+  padding: 15px 50px;
+}
+
+blockquote{
+  display:block;
+  background: #fff;
+  padding: 15px 20px 15px 45px;
+  margin: 0 0 20px;
+  position: relative;
+  
+  /*Font*/
+  font-family: Georgia, serif;
+  font-size: 16px;
+  line-height: 1.2;
+  color: #666;
+  text-align: justify;
+  
+  /*Borders - (Optional)*/
+  border-left: 15px solid #d5c090;
+  border-right: 2px solid #d5c090;
+  
+  /*Box Shadow - (Optional)*/
+  -moz-box-shadow: 2px 2px 15px #ccc;
+  -webkit-box-shadow: 2px 2px 15px #ccc;
+  box-shadow: 2px 2px 15px #ccc;
+}
+
+blockquote::before{
+  content: "\201C"; /*Unicode for Left Double Quote*/
+  
+  /*Font*/
+  font-family: Georgia, serif;
+  font-size: 60px;
+  font-weight: bold;
+  color: #999;
+  
+  /*Positioning*/
+  position: absolute;
+  left: 10px;
+  top:5px;
+}
+
+blockquote::after{
+  /*Reset to make sure*/
+  content: "";
+}
+
+blockquote a{
+  text-decoration: none;
+  background: #eee;
+  cursor: pointer;
+  padding: 0 3px;
+  color: #c76c0c;
+}
+
+blockquote a:hover{
+ color: #666;
+}
+
+blockquote em{
+  font-style: italic;
+}
+
+.affix {
+  top: 0;
+  width: 100%;
+}
+
+.affix-top {
+  width: 100%;
+}
+
+.affix-bottom {
+  position: absolute;
+  width: 100%;  
 }
 
 .w3-half img {
@@ -35,13 +212,13 @@ body {
   opacity: 1
 }
 
-.w3-pearl,
-.w3-hover-pearl:hover {
+.pearl,
+.pearl-hover:hover {
   color: #808080!important;
   background-color: #d5c090!important
 }
 
-.w3-text-pearl {
+.pearl-text {
   color: #d5c090!important
 }
 

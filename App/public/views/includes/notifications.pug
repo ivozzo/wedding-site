@@ -1,28 +1,27 @@
-div(class="w3-container" id="notification" style="margin-top:75px")
+div(id="error-modal" class="modal fade" role="dialog")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header alert-danger")
+        button(type="button" class="close" onclick="clear_notification()") &times;
+        h4(class="modal-title") ERRORE!
+      div(class="modal-body")
+        p #{notification.message}
+      div(class="modal-footer")
+        button(type="button" class="btn btn-default" onclick="clear_notification()") Chiudi
+
+div(id="notification-modal" class="modal fade" role="dialog")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header alert-success")
+        button(type="button" class="close" onclick="clear_notification()") &times;
+        h4(class="modal-title") ESECUZIONE TERMINATA!
+      div(class="modal-body")
+        p #{notification.message}
+      div(class="modal-footer")
+        button(type="button" class="btn btn-default" onclick="clear_notification()") Chiudi
+
 if notification.show
-    if notification.error === true
-        div(class="w3-display-container")
-            div( class="w3-panel w3-red w3-round-xlarge" style="border:2px solid gray")
-                h3 ERRORE!
-                p #{notification.message}
-                div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:150px")
-                    span(onclick="clear_notification()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Chiudi
-
-    if notification.error === false
-        div(class="w3-display-container")
-            div( class="w3-panel w3-green w3-round-xlarge" style="border:2px solid gray")
-                h3 ESECUZIONE TERMINATA!
-                p #{notification.message}
-                div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:150px")
-                    span(onclick="clear_notification()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Chiudi
-
-if confirmation.show
-    div(class="w3-display-container")
-        div( class="w3-panel w3-yellow w3-round-xlarge" style="border:2px solid gray")
-            h3 RICHIESTA CONFERMA
-            p #{confirmation.message}
-            br
-            br
-            div(class="w3-display-bottomright" style="margin-right:15px;margin-bottom:5px;width:300px")
-                span(onclick="confirm_request()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Conferma
-                span(onclick="clear_confirmation()" class="w3-button w3-round-xxlarge w3-hover-white" style="border:2px solid black;width:150px") Annulla
+  if notification.error === true
+    script $('#error-modal').modal('show')
+  if notification.error === false
+    script $('#notification-modal').modal('show')
