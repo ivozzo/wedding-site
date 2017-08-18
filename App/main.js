@@ -64,7 +64,7 @@ global.mail_settings = {
 global.site = {
     main: `${node_site}`,
     rsvp: `${node_site}/guest/rsvp`,
-    contact: mail_settings.MAIL_ADDRESS
+    contact: mail_settings.mail
 };
 
 // Session
