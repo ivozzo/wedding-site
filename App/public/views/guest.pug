@@ -1,112 +1,76 @@
+<!DOCTYPE html>
 html
   head
-    title #{titles.main}
+    include includes/header.pug
 
-  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="../CSS/wedding.css", rel="stylesheet")
-
-  body
-
-    // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
-      style="z-index:3;width:300px;font-weight:bold;"
-      id="mySidebar")
-      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
-      div(class="w3-container")
-        h3(class="w3-padding-64") 
-          b #{titles.title}
-        h3(class="w3-bar-block")
-          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="#invite" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci invitato
-          a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna invitato
-          a(href="#delete" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Cancella invitato
-          a(href="/guest/list" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Visualizza invitati
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
-    
-    // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.subtitle}
-    
-    // HTML Overlay effect when opening sidebar on small screens
-    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
-  
-    // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px")
-
-      // Header
-      div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl") 
-          b #{titles.title}
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b #{titles.subtitle}
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
+  body(class="body-bg")
+    include includes/menu.pug
 
       include includes/notifications.pug
         
-      // Invite guests
-      div(class="w3-container" id="invite" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Inserisci ospite
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Utilizza il form seguente per inserire un invitato al matrimonio
-        
-        // Form
-        form(action="/guest/insert" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="name" type="text" id="name")
+    // HTML Page content
+    div(class="container-fluid" id="#")
+      // First row
+      div(class="row")
+        // Invite guests
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="invite")
+          div(class="console-title"): h1 Inserisci invitato
+          p Inserisci i dati dell'invitato per poterlo salvare nel database
+          form(action="/guest/insert" method="POST" type="application/x-www-form-urlencoded")
+          div(class="form-group")
             label(for="name")  Nome 
-          div(class="w3-section")
-            input(name="surname" type="text" id="surname")
+            input(name="name" type="text" id="name" class="form-control")
+          div(class="form-group")
             label(for="surname")  Cognome
-          div(class="w3-section")
-            input(name="email" type="text" id="email")
+            input(name="surname" type="text" id="surname" class="form-control")
+          div(class="form-group")
             label(for="email")  Indirizzo email
-          div(class="w3-section")
-            input(name="expected" type="text" id="expected")
+            input(name="email" type="text" id="email" class="form-control")
+          div(class="form-group")
             label(for="expected")  Invitati attesi
-          div(class="w3-section")
-            input(name="skipMail" type="checkbox" id="skipMail")
+            input(name="expected" type="text" id="expected" class="form-control")
+          div(class="form-group")
+            input(name="skipMail" type="checkbox" id="skipMail" class="form-control")
             label(for="skipMail") Non inviare mail
               span(class="ui")
-          div(class="w3-section")
-            select(name="presence" id="presence")
+          div(class="form-group")
+            label(for="presence") Parteciperà?
+            select(name="presence" id="presence" class="form-control")
               option(value="Y") Parteciperà
               option(value="M") Forse
               option(value="N") Non parteciperà
-          input(type="submit" value="Inserisci" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-          input(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-
-      // Update guests
-      div(class="w3-container" id="update" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna i dati di un invitato
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Seleziona un invitato per aggiornare i suoi dati
-
-        form(action="/guest/getdata" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            select(name="guest_id")
-              option(value="nil") --Seleziona l'ospite--
-              each val in guests
-                option(value=val._id.toHexString()) #{val.name} #{val.surname}
-          input(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
-
-      // Delete guest
-      div(class="w3-container" id="delete" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Cancella un invitato
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Seleziona un invitato per cancellare i suoi dati
-
-        form(action="/guest/delete" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            select(name="guest_id")
-              option(value="nil") --Seleziona l'ospite--
-              each val in guests
-                option(value=val._id.toHexString()) #{val.name} #{val.surname}
-          input(type="submit" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+          div(class="btn-group btn-group-lg pull-right")
+            input(type="submit" value="Inserisci" class="btn btn-default")
+            input(type="reset" value="Cancella" class="btn btn-default")
+      // Second row
+      div(class="row")
+        // Update guests
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 body-element" id="update")
+          div(class="console-title"): h1 Aggiorna un invitato
+          p Seleziona dal menù un invitato per aggiornare i suoi dati
+          form(action="/guest/getdata" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="guest_id") Invitati presenti sul database
+              select(name="guest_id" class="form-control")
+                option(value="nil") --Seleziona l'invitato da aggiornare--
+                each val in guests
+                  option(value=val._id.toHexString()) #{val.name} #{val.surname}
+            div(class="btn-group btn-group-lg pull-right")
+              input(type="submit" value="Aggiorna" class="btn btn-default")
+      div(class="row")
+        // Delete guest
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-offset-4 col-lg-4 col-lg-offset-4 body-element" id="delete")
+          div(class="console-title"): h1 Cancella un invitato
+          p Seleziona dal menù un invitato per cancellare i suoi dati
+          form(action="/guest/delete" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="guest_id") Invitati presenti sul database
+              select(name="guest_id" class="form-control")
+                option(value="nil") --Seleziona l'invitato da cancellare--
+                each val in guests
+                  option(value=val._id.toHexString()) #{val.name} #{val.surname}
+            div(class="btn-group btn-group-lg pull-right")
+              input(type="submit" value="Cancella" class="btn btn-default")
 
       include includes/footer.pug
       
