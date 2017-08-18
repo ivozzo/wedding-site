@@ -1,6 +1,6 @@
 {
   "name": "wedding_site",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "My personal wedding site",
   "main": "./App/main.js",
   "scripts": {
@@ -28,6 +28,7 @@
     "lodash": "^4.16.6",
     "mongodb": "^2.2.22",
     "nodemailer": "^4.0.1",
-    "pug": "^2.0.0-rc.2"
+    "pug": "^2.0.0-rc.2",
+    "serve-favicon": "^2.4.3"
   }
 }

@@ -1,61 +1,30 @@
+<!DOCTYPE html>
 html
   head
-    title #{titles.main}
-
-  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="../CSS/wedding.css", rel="stylesheet")
-
-  body.bkimg
-
-    // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
-      style="z-index:3;width:300px;font-weight:bold;"
-      id="mySidebar")
-      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
-      div(class="w3-container")
-        h3(class="w3-padding-64") 
-          b #{titles.title}
-        h3(class="w3-bar-block")
-          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-    
-    // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.subtitle}
-    
-    // HTML Overlay effect when opening sidebar on small screens
-    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
+    include includes/header.pug
   
+  body(class="body-bg")
+    include includes/menu.pug
+
     // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px")
-
-      // Header
-      div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl") 
-          b #{titles.title}
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b #{titles.subtitle}
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-
+    div(class="container-fluid" id="login")
       include includes/notifications.pug
-                      
-      // Login form
-      div(class="w3-container" id="login" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-pearl"): b Effettua il login
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Loggati per accedere alla console
-        
-        // Form
-        form(action="/login" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="Username" type="text" id="username")
-            label(for="username")  Username 
-          div(class="w3-section")
-            input(name="Password" type="password" id="password")
-            label(for="password")  Password
-          button(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Invia
-          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
+      div(class="row")
+        // Login form
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-6 col-md-offet-3 col-lg-6 col-lg-offset-3 body-element")
+          div(class="body-title"): h1 Effettua il login
+          p Loggati per accedere alla console di amministrazione
+          form(action="/login" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="username") Username:
+              input(name="Username" type="text" id="username" class="form-control")
+            div(class="form-group")
+              label(for="password") Password:
+              input(name="Password" type="password" id="password" class="form-control")
+              br
+            div(class="btn-group btn-group-lg" role="group")
+              button(type="submit" value="Invia" class="btn btn-default") Invia
+              button(type="reset" value="Cancella" class="btn btn-default") Cancella
 
       include includes/footer.pug
       

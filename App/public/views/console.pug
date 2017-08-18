@@ -1,75 +1,38 @@
+<!DOCTYPE html>
 html
   head
-    title #{titles.main}
+    include includes/header.pug
 
-  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="../CSS/wedding.css", rel="stylesheet")
+  body(class="body-bg")
+    include includes/menu.pug
 
-  body
-
-    // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
-      style="z-index:3;width:300px;font-weight:bold;"
-      id="mySidebar")
-      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
-      div(class="w3-container")
-        h3(class="w3-padding-64") 
-          b #{titles.title}
-        h3(class="w3-bar-block")
-          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="#init" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inizializza
-          a(href="#test" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Verifica connessione SMTP
-          a(href="#send" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invia gli inviti
-          hr(style="width:50px;border:5px solid gray" class="w3-round")
-          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invitati
-          a(href="/user" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Utenti
-    
-    // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.subtitle}
-    
-    // HTML Overlay effect when opening sidebar on small screens
-    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
-  
     // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px")
-
-      // Header
-      div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl") 
-          b #{titles.title}
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b #{titles.subtitle}
-        hr(style="width:300px;border:5px solid gray" class="w3-round")
-
+    div(class="container-fluid" id="#")
       include includes/notifications.pug
-               
-      // Initialize database
-      div(class="w3-container" id="where" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b Inizializza
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Inizializza il database
-        form(action="/console/init" method="POST")
-            input(type="submit" value="Inizializza" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+      
+      div(class="row" id="home")
+        div(class="col-xs-10 col-cs-offset-1 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-3 col-lg-offset-2 body-element" id="test-mail")
+          div(class="console-title"): h1 Verifica la connessione SMTP
+          p Effettua una prova di connessione con i parametri che hai inserito
+          form(action="/mail/verify" method="POST" class="text-center")
+            div(class="btn-group btn-group-lg")
+              input(type="submit" value="Verifica connessione SMTP" class="btn btn-default")
 
-      // Try smtp connection
-      div(class="w3-container" id="test" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Verifica la connessione SMTP
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Effettua una prova di connessione
-        form(action="/mail/verify" method="POST")
-            input(type="submit" value="Verifica connessione SMTP" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+        div(class="col-xs-10 col-cs-offset-1 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-3 col-lg-offset-2 body-element" id="send-mail")
+          div(class="console-title"): h1 Invia gli inviti tramite SMTP
+          p Invia le e-mail agli invitati inseriti
+          form(action="/mail/send" method="POST" class="text-center")
+            div(class="btn-group btn-group-lg")
+              input(type="submit" value="Invia" class="btn btn-default")
 
-      // Send mails
-      div(class="w3-container" id="send" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Invia gli inviti
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Invia le mail agli invitati
-        form(action="/mail/send" method="POST")
-            input(type="submit" value="Invia" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom")
+      // Database initialization
+      div(class="row" id="initialize")
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-8 col-md-offet-2 col-lg-8 col-lg-offset-2 body-element")
+          div(class="console-title"): h1 Inizializza il database
+          p Effettua l'inizializzazione del database (nel caso ci siano stati problemi durante la prima connessione al database)
+          form(action="/console/init" method="POST")
+            div(class="btn-group btn-group-lg" role="group")
+              input(type="submit" value="Inizializza" class="btn btn-default")
 
       include includes/footer.pug
       

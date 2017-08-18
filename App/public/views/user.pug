@@ -1,96 +1,58 @@
 html
   head
-    title #{titles.main}
+    include includes/header.pug
 
-  link(href="https://www.w3schools.com/w3css/4/w3.css", rel="stylesheet")
-  link(href="https://fonts.googleapis.com/css?family=Poppins", rel="stylesheet")
-  link(href="../CSS/wedding.css", rel="stylesheet")
+  body(class="body-bg")
+    include includes/menu.pug
 
-  body
-
-    // HTML Sidebar/menu
-    nav(class="w3-sidebar w3-pearl w3-collapse w3-top w3-large w3-padding"
-      style="z-index:3;width:300px;font-weight:bold;"
-      id="mySidebar")
-      a(href="javascript:void(0)" onclick="w3_close()" class="w3-button w3-hide-large w3-display-topleft" style="width:100%;font-size:22px") Close Menu
-      div(class="w3-container")
-        h3(class="w3-padding-64") 
-          b #{titles.title}
-        h3(class="w3-bar-block")
-          a(href="/" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Home
-          a(href="/console" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Console
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="#insert" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Inserisci utente
-          a(href="#update" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Aggiorna utente
-          hr(style="width:50px;border:5px solid white" class="w3-round")
-          a(href="/guest" onclick="w3_close()" class="w3-bar-item w3-button w3-hover-sand") Invitati
-    
-    // HTML Top menu on small screens
-    header(class="w3-container w3-top w3-hide-large w3-pearl w3-xlarge w3-padding")
-      a(href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()")    <a href="javascript:void(0)" class="w3-button w3-sand w3-margin-right" onclick="w3_open()">☰
-      span #{titles.subtitle}
-    
-    // HTML Overlay effect when opening sidebar on small screens
-    div(class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="Close side menu" id="myOverlay")
-  
     // HTML Page content
-    div(class="w3-main" style="margin-left:340px;margin-right:40px")
-
-      // Header
-      div(class="w3-container" style="margin-top:80px" id="showcase")
-        h1(class="w3-jumbo w3-text-pearl") 
-          b #{titles.title}
-        h1(class="w3-xxxlarge w3-text-gray") 
-          b #{titles.subtitle}
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-
+    div(class="container-fluid")
       include includes/notifications.pug
+      // First row
+      div(class="row")
+        // Insert users
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="insert")
+          div(class="console-title"): h1 Inserisci utente
+          p Utilizza il form seguente per inserire un utente
+          form(action="/user/insert" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="name")  Nome:
+              input(name="Name" type="text" id="name" class="form-control")
+            div(class="form-group")
+              label(for="surname")  Cognome:
+              input(name="Surname" type="text" id="surname" class="form-control")
+            div(class="form-group")
+              label(for="email")  Indirizzo email:
+              input(name="Email" type="text" id="email" class="form-control")
+            div(class="form-group")
+              label(for="username")  Username:
+              input(name="Username" type="text" id="username" class="form-control")
+            div(class="form-group")
+              label(for="Password")  Password:
+              input(name="Password" type="text" id="password" class="form-control")
+            div(class="btn-group btn-group-lg pull-right")
+              button(type="submit" value="Inserisci" class="btn btn-default") Inserisci
+              button(type="reset" value="Cancella" class="btn btn-default") Cancella
 
-      // Insert users
-      div(class="w3-container" id="insert" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Inserisci utente
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Utilizza il form seguente per inserire un utente
-        
-        // Form
-        form(action="/user/insert" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="Name" type="text" id="name")
-            label(for="name")  Nome 
-          div(class="w3-section")
-            input(name="Surname" type="text" id="surname")
-            label(for="surname")  Cognome
-          div(class="w3-section")
-            input(name="Email" type="text" id="email")
-            label(for="email")  Indirizzo email
-          div(class="w3-section")
-            input(name="Username" type="text" id="username")
-            label(for="username")  Username
-          div(class="w3-section")
-            input(name="Password" type="text" id="password")
-            label(for="Password")  Password
-          button(type="submit" value="Inserisci" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Inserisci
-          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
-
-      // Update users
-      div(class="w3-container" id="update" style="margin-top:75px")
-        h1(class="w3-xxxlarge w3-text-gray"): b Aggiorna password
-        hr(style="width:200px;border:5px solid #d5c090" class="w3-round")
-        p Utilizza il form seguente per aggiornare la tua password
-        
-        // Form
-        form(action="/user/update" method="POST" type="application/x-www-form-urlencoded")
-          div(class="w3-section")
-            input(name="Username" type="text" id="username")
-            label(for="username")  Username
-          div(class="w3-section")
-            input(name="oldPassword" type="password" id="oldPassword")
-            label(for="oldPassword")  Vecchia password
-          div(class="w3-section")
-            input(name="newPassword" type="password" id="newPassword")
-            label(for="newPassword")  Nuova password
-          button(type="submit" value="Aggiorna" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Aggiorna
-          button(type="reset" value="Cancella" class="w3-button w3-block w3-padding-large w3-pearl w3-margin-bottom") Cancella
+      // Second row
+      div(class="row")
+        // Update users
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="update")
+          div(class="console-title"): h1 Aggiorna password
+          p Utilizza il form seguente per aggiornare la tua password
+          form(action="/user/update" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="username")  Username:
+              input(name="Username" type="text" id="username" class="form-control")
+            div(class="form-group")
+              label(for="oldPassword")  Vecchia password:
+              input(name="oldPassword" type="password" id="oldPassword" class="form-control")
+            div(class="form-group")
+              label(for="newPassword")  Nuova password:
+              input(name="newPassword" type="password" id="newPassword" class="form-control")
+            div(class="btn-group btn-group-lg pull-right")
+              button(type="submit" value="Aggiorna" class="btn btn-default") Aggiorna
+              button(type="reset" value="Cancella" class="btn btn-default") Cancella
 
       include includes/footer.pug
       

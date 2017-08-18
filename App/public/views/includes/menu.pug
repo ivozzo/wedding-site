@@ -1,0 +1,36 @@
+
+div(class="row")
+  div(class="col-xs-12 col-sm-12 col-md-12 col-lg-12 header-title")
+    div(class="text-center")
+      h1: b #{titles.title}
+      p #{titles.subtitle}
+
+nav(class="navbar navbar-default navbar-fixed-top")
+  div(class="container")
+    div(class="navbar-header")
+      button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false")
+        span(class="sr-only") Toggle navigation
+        span(class="icon-bar")
+        span(class="icon-bar")
+        span(class="icon-bar")
+      a(class="btn menu-font menu-font-hover btn-lg" href="/index#home") Home
+
+    div(class="collapse navbar-collapse" id="navbar-collapse")
+      ul(class="nav nav-justified")
+        li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#where" ) Dove
+        li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#when") Quando
+        li: a(class="btn menu-font menu-font-hover btn-lg" href="/guest/rsvp") Parteciperai?
+        li: a(class="btn menu-font menu-font-hover btn-lg" href="mailto:#{site.contact}?subject=Richiesta%20informazioni") Contattaci
+        if session.logged === true
+          li(class="dropdown")
+            a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Amministrazione
+              span(class="caret")
+            ul(class="dropdown-menu")
+              li: a(href="/console") Pagina principale
+              li(class="divider")
+              li: a(href="/guest") Invitati
+              li: a(href="/user") Utenti
+              li(class="divider")
+              li: a(href="/guest/list") Lista invitati
+        else
+          li: a(class="btn menu-font menu-font-hover btn-lg" href="/console") Amministrazione

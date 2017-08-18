@@ -14,10 +14,10 @@ function initialize_Database(req, res) {
     //initializing COLL_USER collection, if the collection already exists return an error
     mongodb_tools.initCollection(myCollection.user, function (err, response) {
         if (err && response.body == 'KO') {
-            console.warn('Collection %s already existing', COLL_USER);
+            console.warn('Collection %s already existing', myCollection.user);
             error_user = true;
         } else {
-            console.log('Collection %s has been correctly created', COLL_USER);
+            console.log('Collection %s has been correctly created', myCollection.user);
             var report_user = true;
         }
     });
@@ -25,10 +25,10 @@ function initialize_Database(req, res) {
     //initializing COLL_GUEST collection, if the collection already exists return an error
     mongodb_tools.initCollection(myCollection.guest, function (err, response) {
         if (err && response.body == 'KO') {
-            console.warn('Collection %s already existing', COLL_GUEST);
+            console.warn('Collection %s already existing', myCollection.guest);
             error_guest = true;
         } else {
-            console.log('Collection %s has been correctly created', COLL_GUEST);
+            console.log('Collection %s has been correctly created', myCollection.guest);
             var report_guest = true;
         }
     })
