@@ -1,0 +1,26 @@
+div(class="container-fluid menu-bg")
+    div(class="row")
+      div(class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 menu-bg")
+        nav(class="navbar navbar-fixed-top")
+          ul(class="nav nav-pills nav-justified menu-bg")
+            li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#home") Home
+            li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#where" ) Dove
+            li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#when") Quando
+            li: a(class="btn menu-font menu-font-hover btn-lg" href="/guest/rsvp") Parteciperai?
+            li: a(class="btn menu-font menu-font-hover btn-lg" href="mailto:#{site.contact}?subject=Richiesta%20informazioni") Contattaci
+            if session.logged === true
+              li(class="dropdown")
+                a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Amministrazione
+                  span(class="caret")
+                ul(class="dropdown-menu")
+                  li: a(href="/console" class="btn btn-lg") Pagina principale
+                  li(class="divider")
+                  li: a(href="/guest") Ospiti
+                  li: a(href="/user") Utenti
+            else
+              li: a(class="btn menu-font menu-font-hover btn-lg" href="/console") Amministrazione
+      div(class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 menu-bg" style="padding-top: 50px")
+        div(class="container-fluid")
+          div(class="text-center")
+            h1: b #{titles.title}
+            p #{titles.subtitle}
