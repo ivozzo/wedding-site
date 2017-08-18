@@ -284,7 +284,7 @@ function list_Guests(callback) {
                         }
                         response.guests.push(guest);
                     }
-                    response.headers = ["Nome", "Cognome", "Email", "Non inviare mail", "Invitati attesi", "Parteciperà", "Token"];
+                    response.headers = ["Nome", "Cognome", "Email", "Inviare mail?", "Invitati attesi", "Parteciperà", "Token"];
                     db.close();
                     return callback(null, response);
                 }
