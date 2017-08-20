@@ -87,12 +87,7 @@ function list_Guests(req, res, page) {
                 guests: response.guests
             });
         } else {
-            if (response.guests.length === 0) {
-                notification.show = true;
-                notification.error = false;
-                notification.message = 'La lista degli invitati risulta vuota';
-                req.session.notification = notification;
-            } else if (response.error === false && response.body === 'guests') {
+            if (response.error === false && response.body === 'guests') {
                 console.log(`Guest list retrieved`);
             }
             res.render(page, {
