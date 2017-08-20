@@ -20,7 +20,7 @@ nav(class="navbar navbar-default navbar-fixed-top")
         li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#where" ) Dove
         li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#when") Quando
         li: a(class="btn menu-font menu-font-hover btn-lg" href="/guest/rsvp") Parteciperai?
-        li: a(class="btn menu-font menu-font-hover btn-lg" href="mailto:#{site.contact}?subject=Richiesta%20informazioni") Contattaci
+        li: a(class="btn menu-font menu-font-hover btn-lg" href="mailto:" + site.contact + "?subject=Richiesta%20informazioni") Contattaci
         if session.logged === true
           li(class="dropdown")
             a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Amministrazione
