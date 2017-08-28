@@ -87,12 +87,7 @@ function list_Guests(req, res, page) {
                 guests: response.guests
             });
         } else {
-            if (response.guests.length === 0) {
-                notification.show = true;
-                notification.error = false;
-                notification.message = 'La lista degli invitati risulta vuota';
-                req.session.notification = notification;
-            } else if (response.error === false && response.body === 'guests') {
+            if (response.error === false && response.body === 'guests') {
                 console.log(`Guest list retrieved`);
             }
             res.render(page, {
@@ -181,7 +176,7 @@ function rsvp_Guest(req, res) {
                 notification.error = true;
                 notification.message = `Errore durante la connessione al database, contattare l'amministratore`;
                 req.session.notification = notification;
-                res.render('back');
+                res.redirect('back');
             }
             if (guest !== null) {
                 if (guest.generated_token === req.body.token) {
@@ -193,14 +188,14 @@ function rsvp_Guest(req, res) {
                             notification.error = true;
                             notification.message = `Impossibile recuperare i dati, contattare l'amministratore`;
                             req.session.notification = notification;
-                            res.render('/guest/rsvp');
+                            res.redirect('/guest/rsvp');
                         } else {
                             console.log(`Guest updated by RSVP page`);
                             notification.show = true;
                             notification.error = false;
                             notification.message = `Grazie per averci aggiornati`;
                             req.session.notification = notification;
-                            res.render('/guest/rsvp');
+                            res.redirect('/guest/rsvp');
                         }
                     });
                 } else {
@@ -209,7 +204,7 @@ function rsvp_Guest(req, res) {
                     notification.error = true;
                     notification.message = `Non è stato possibile autenticare la richiesta, si prega di controllare il token`;
                     req.session.notification = notification;
-                    res.render('/guest/rsvp');
+                    res.redirect('/guest/rsvp');
                 }
             } else {
                 console.log(`No guest found`);

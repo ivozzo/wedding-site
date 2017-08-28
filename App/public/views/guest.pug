@@ -16,31 +16,31 @@ html
           div(class="console-title"): h1 Inserisci invitato
           p Inserisci i dati dell'invitato per poterlo salvare nel database
           form(action="/guest/insert" method="POST" type="application/x-www-form-urlencoded")
-          div(class="form-group")
-            label(for="name")  Nome:
-            input(name="name" type="text" id="name" class="form-control")
-          div(class="form-group")
-            label(for="surname")  Cognome:
-            input(name="surname" type="text" id="surname" class="form-control")
-          div(class="form-group")
-            label(for="email")  Indirizzo email:
-            input(name="email" type="text" id="email" class="form-control")
-          div(class="form-group")
-            label(for="expected")  Invitati attesi:
-            input(name="expected" type="text" id="expected" class="form-control")
-          div(class="form-group")
-            input(name="skipMail" type="checkbox" id="skipMail" class="form-control")
-            label(for="skipMail") Seleziona per non inviare le e-mail
-              span(class="ui")
-          div(class="form-group")
-            label(for="presence") Parteciperà?
-            select(name="presence" id="presence" class="form-control")
-              option(value="Y") Parteciperà
-              option(value="M") Forse
-              option(value="N") Non parteciperà
-          div(class="btn-group btn-group-lg pull-right")
-            input(type="submit" value="Inserisci" class="btn btn-default")
-            input(type="reset" value="Cancella" class="btn btn-default")
+            div(class="form-group")
+              label(for="name")  Nome:
+              input(name="name" type="text" id="name" class="form-control")
+            div(class="form-group")
+              label(for="surname")  Cognome:
+              input(name="surname" type="text" id="surname" class="form-control")
+            div(class="form-group")
+              label(for="email")  Indirizzo email:
+              input(name="email" type="text" id="email" class="form-control")
+            div(class="form-group")
+              label(for="expected")  Invitati attesi:
+              input(name="expected" type="text" id="expected" class="form-control")
+            div(class="form-group")
+              input(name="skipMail" type="checkbox" id="skipMail" class="form-control")
+              label(for="skipMail") Seleziona per non inviare le e-mail
+                span(class="ui")
+            div(class="form-group")
+              label(for="presence") Parteciperà?
+              select(name="presence" id="presence" class="form-control")
+                option(value="Y") Parteciperà
+                option(value="M") Forse
+                option(value="N") Non parteciperà
+            div(class="btn-group btn-group-lg pull-right")
+              input(type="submit" value="Inserisci" class="btn btn-default")
+              input(type="reset" value="Cancella" class="btn btn-default")
       // Second row
       div(class="row")
         // Update guests
