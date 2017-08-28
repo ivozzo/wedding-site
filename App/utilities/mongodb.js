@@ -378,13 +378,12 @@ function find_GuestByEmail(email, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            return callback(err, response);
+            return callback(err, null);
         } else {
             var collection = db.collection(myCollection.guest);
             collection.findOne({
                 "email": email.email
             }, function (err, document) {
-                console.log(items)
                 if (err) {
                     console.error(err);
                     db.close();
