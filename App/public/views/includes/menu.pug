@@ -21,6 +21,7 @@ nav(class="navbar navbar-default navbar-fixed-top")
         li: a(class="btn menu-font menu-font-hover btn-lg" href="/index#when") Quando
         li: a(class="btn menu-font menu-font-hover btn-lg" href="/guest/rsvp") Parteciperai?
         li: a(class="btn menu-font menu-font-hover btn-lg" href="mailto:" + site.contact + "?subject=Richiesta%20informazioni") Contattaci
+      ul(class="nav navbar-nav navbar-right")
         if session.logged === true
           li(class="dropdown")
             a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Amministrazione
@@ -34,7 +35,6 @@ nav(class="navbar navbar-default navbar-fixed-top")
               li: a(href="/guest/list") Lista invitati
         else
           li: a(class="btn menu-font menu-font-hover btn-lg" href="/console") Amministrazione
-      ul(class="nav navbar-nav navbar-right")
         if session.logged === true
           li(class="drodpown")
             a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
