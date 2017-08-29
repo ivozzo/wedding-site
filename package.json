@@ -1,6 +1,6 @@
 {
   "name": "wedding_site",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "My personal wedding site",
   "main": "./App/main.js",
   "scripts": {

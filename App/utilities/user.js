@@ -61,74 +61,86 @@ function insert_User(req, res) {
 function update_User(req, res) {
 
     var new_password = req.body.newPassword;
+    if (new_password === req.body.confirmNewPassword) {
+        var user = objects.User(
+            "",
+            "",
+            "",
+            req.body.Username,
+            req.body.oldPassword
+        )
 
-    var user = objects.User(
-        "",
-        "",
-        "",
-        req.body.Username,
-        req.body.oldPassword
-    )
+        var old_password = user.password;
 
-    var old_password = user.password;
-
-    mongodb_tools.findUser(user, function (err, response) {
-        if (err) {
-            console.error(err);
-
-            notification.show = true;
-            notification.error = true;
-            notification.message = `Impossibile recuperare l'utente, controllare il log.`
-
-            req.session.notification = notification;
-            res.render('user.pug', {
-                notification: notification
-            });
-        }
-
-        if (response.users[0].login.user === req.body.Username) {
-            if (response.users[0].login.password === old_password) {
-
-                var updatedUser = response.users[0];
-                updatedUser.login.password = objects.cryptPassword(new_password);
-
-                mongodb_tools.updateUser(updatedUser, function (err, response) {
-                    if (err) {
-                        console.error(err);
-
-                        notification.show = true;
-                        notification.error = true;
-                        notification.message = `Impossibile aggiornare l'utente ${req.body.Username}`;
-
-                        req.session.notification = notification;
-                        res.render('user.pug', {
-                            notification: notification
-                        });
-                    } else {
-                        console.log(`User ${req.body.Username} updated`);
-
-                        notification.show = true;
-                        notification.error = false;
-                        notification.message = `L'utente ${req.body.Username} è stato correttamente aggiornato`;
-
-                        req.session.notification = notification;
-                        res.render('user.pug', {
-                            notification: notification
-                        });
-                    }
-                });
-            } else {
-                console.log(`User %s found but password not correct`, user.username);
+        mongodb_tools.findUserByUsername(user, function (err, response) {
+            if (err) {
+                console.error(err);
 
                 notification.show = true;
-                notification.error = false;
-                notification.message = `La password attuale non corrisponde`;
+                notification.error = true;
+                notification.message = `Impossibile recuperare l'utente, controllare il log.`
 
                 req.session.notification = notification;
                 res.render('user.pug', {
                     notification: notification
                 });
             }
-        }
-    });
+
+            if (response.users[0].login.user === req.body.Username) {
+                if (response.users[0].login.password === old_password) {
+
+                    var updatedUser = response.users[0];
+                    updatedUser.login.password = objects.cryptPassword(new_password);
+
+                    mongodb_tools.updateUser(updatedUser, function (err, response) {
+                        if (err) {
+                            console.error(err);
+
+                            notification.show = true;
+                            notification.error = true;
+                            notification.message = `Impossibile aggiornare l'utente ${req.body.Username}`;
+
+                            req.session.notification = notification;
+                            res.render('user.pug', {
+                                notification: notification
+                            });
+                        } else {
+                            console.log(`User ${req.body.Username} updated`);
+
+                            notification.show = true;
+                            notification.error = false;
+                            notification.message = `L'utente ${req.body.Username} è stato correttamente aggiornato`;
+
+                            req.session.notification = notification;
+                            res.render('user.pug', {
+                                notification: notification
+                            });
+                        }
+                    });
+                } else {
+                    console.log(`User %s found but password not correct`, user.username);
+
+                    notification.show = true;
+                    notification.error = false;
+                    notification.message = `La password attuale non corrisponde`;
+
+                    req.session.notification = notification;
+                    res.render('user.pug', {
+                        notification: notification
+                    });
+                }
+            }
+        });
+    } else {
+        console.log(`New password mismatch`);
+
+        notification.show = true;
+        notification.error = true;
+        notification.message = `La nuova password non corrisponde alla conferma, si prega di riprovare`
+
+        req.session.notification = notification;
+        res.render('user.pug', {
+            notification: notification
+        });
+    }
 }
