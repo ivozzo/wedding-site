@@ -72,7 +72,7 @@ function update_User(req, res) {
 
         var old_password = user.password;
 
-        mongodb_tools.findUserByUsername(user, function (err, response) {
+        mongodb_tools.findUserByUsername(user, function (err, document) {
             if (err) {
                 console.error(err);
 
@@ -86,10 +86,10 @@ function update_User(req, res) {
                 });
             }
 
-            if (response.users[0].login.user === req.body.Username) {
-                if (response.users[0].login.password === old_password) {
+            if (document.login.user === req.body.Username) {
+                if (document.login.password === old_password) {
 
-                    var updatedUser = response.users[0];
+                    var updatedUser = document;
                     updatedUser.login.password = objects.cryptPassword(new_password);
 
                     mongodb_tools.updateUser(updatedUser, function (err, response) {
