@@ -52,6 +52,7 @@ function user_login(req, res) {
             notification.message = `Errore durante l'autenticazione, controllare i log`;
             req.session.notification = notification;
             session.logged = false;
+            session.username = "";
             res.redirect('/login');
         }
         if (user !== null) {
@@ -60,6 +61,7 @@ function user_login(req, res) {
                     console.log(`User found and correctly authenticated`);
                     req.session.username = req.body.Username;
                     session.logged = true;
+                    session.username = user.name;
                     req.session.notification = notification;
                     res.redirect('/console');
                 } else {
@@ -68,6 +70,7 @@ function user_login(req, res) {
                     notification.error = true;
                     notification.message = `La password non è corretta, si prega di verificare`;
                     session.logged = false;
+                    session.username = "";
                     req.session.notification = notification;
                     res.redirect('/login');
                 }
@@ -78,6 +81,7 @@ function user_login(req, res) {
             notification.error = true;
             notification.message = `Impossibile trovare l'utente richiesto`;
             session.logged = false;
+            session.username = "";
             req.session.notification = notification;
             res.redirect('/login');
         }

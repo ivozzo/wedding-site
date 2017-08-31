@@ -41,10 +41,9 @@ html
             div(class="btn-group btn-group-lg pull-right")
               input(type="submit" value="Inserisci" class="btn btn-default")
               input(type="reset" value="Cancella" class="btn btn-default")
-      // Second row
       div(class="row")
         // Update guests
-        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 body-element" id="update")
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="update")
           div(class="console-title"): h1 Aggiorna un invitato
           p Seleziona dal menù un invitato per aggiornare i suoi dati
           form(action="/guest/getdata" method="POST" type="application/x-www-form-urlencoded")
@@ -58,7 +57,7 @@ html
               input(type="submit" value="Aggiorna" class="btn btn-default")
       div(class="row")
         // Delete guest
-        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-offset-4 col-lg-4 col-lg-offset-4 body-element" id="delete")
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="delete")
           div(class="console-title"): h1 Cancella un invitato
           p Seleziona dal menù un invitato per cancellare i suoi dati
           form(action="/guest/delete" method="POST" type="application/x-www-form-urlencoded")
@@ -70,7 +69,24 @@ html
                   option(value=val._id.toHexString()) #{val.name} #{val.surname}
             div(class="btn-group btn-group-lg pull-right")
               input(type="submit" value="Cancella" class="btn btn-default")
-
+      div(class="row")
+        // Send mail template to
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 body-element" id="delete")
+          div(class="console-title"): h1 Invia mail ad invitato
+          p Seleziona dal menù un invitato ed un template mail da inviare
+          form(action="/mail/sendtemplate" method="POST" type="application/x-www-form-urlencoded")
+            div(class="form-group")
+              label(for="guest_id") Invitati presenti sul database
+              select(name="guest_id" class="form-control")
+                option(value="nil") --Seleziona l'invitato da cancellare--
+                each val in guests
+                  option(value=val._id.toHexString()) #{val.name} #{val.surname}
+              label(for="template_id") Template mail
+              select(name="template_id" class="form-control")
+                option(value="nil") --Seleziona il template mail da inviare--
+                option(value="invitation") Invito per matrimonio
+            div(class="btn-group btn-group-lg pull-right")
+              input(type="submit" value="Cancella" class="btn btn-default")
       include includes/footer.pug
       
       script

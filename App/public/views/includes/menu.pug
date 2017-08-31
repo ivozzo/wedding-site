@@ -37,8 +37,7 @@ nav(class="navbar navbar-default navbar-fixed-top")
           li: a(class="btn menu-font menu-font-hover btn-lg" href="/console") Amministrazione
         if session.logged === true
           li(class="drodpown")
-            a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-              span(class="glyphicon glyphicon-user") Sei loggato come #{session.username}
+            a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Ciao, #{session.username}
               span(class="caret")
             ul(class="dropdown-menu")
               li
@@ -49,8 +48,7 @@ nav(class="navbar navbar-default navbar-fixed-top")
                         button(type="submit" class="btn btn-primary btn-block") Logout
         else
           li(class="dropdown")
-            a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-              span(class="glyphicon glyphicon-log-in") Login
+            a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Login
               span(class="caret")
             ul(class="dropdown-menu" style="padding:5px;")
               li

@@ -69,7 +69,8 @@ global.site = {
 
 // Session
 global.session = {
-    logged: false
+    logged: false,
+    username: ``
 }
 
 // Loading modules
