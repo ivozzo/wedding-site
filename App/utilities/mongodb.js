@@ -85,23 +85,18 @@ function init_db(collection_req, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
+            return callback(err);
         } else {
             db.createCollection(collection_req, {
                 strict: true
             }, function (err, collection) {
                 if (err) {
                     console.error(err);
-                    var response = {
-                        body: 'KO'
-                    }
                     db.close();
-                    return callback(err, response);
+                    return callback(err);
                 } else {
-                    var response = {
-                        body: "OK"
-                    }
                     db.close();
-                    return callback(null, response);
+                    return callback(null);
                 }
             })
         }
@@ -149,10 +144,7 @@ function create_User(user, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                body: 'KO'
-            }
-            return callback(err, response);
+            return callback(err);
         } else {
             var collection = db.collection(myCollection.user);
 
@@ -165,11 +157,8 @@ function create_User(user, callback) {
                     "password": user.password
                 }
             });
-            var response = {
-                body: 'OK'
-            }
             db.close();
-            return callback(null, response);
+            return callback(null);
         }
     })
 }
@@ -221,15 +210,15 @@ function check_Initialized(callback) {
                 if (items.length === 0) {
                     console.log(`No users have been found, creating the admin user, please change password`);
 
-                    var user = objects.User(
-                        "Alessandro",
-                        "Ivaldi",
-                        "alessandro.ivaldi@email.it",
-                        "aivaldi",
-                        "password"
+                    var adminUser = objects.User(
+                        (process.env.ADMIN_NAME !== undefined) ? process.env.ADMIN_NAME : "admin",
+                        (process.env.ADMIN_SURNAME !== undefined) ? process.env.ADMIN_SURNAME : "admin",
+                        (process.env.ADMIN_MAIL !== undefined) ? process.env.ADMIN_MAIL : "admin@admin.it",
+                        (process.env.ADMIN_LOGIN !== undefined) ? process.env.ADMIN_LOGIN : "admin",
+                        (process.env.ADMIN_PASSWORD !== undefined) ? process.env.ADMIN_PASSWORD : "password"
                     )
 
-                    create_User(user, function (err, response) {
+                    create_User(adminUser, function (err, response) {
                         if (err) {
                             console.error(err);
                             db.close();
@@ -304,31 +293,18 @@ function update_User(user, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            var response = {
-                error: true,
-                body: 'KO',
-                users: null,
-                headers: null
-            }
-            return callback(err, response);
+            return callback(err, null);
         } else {
             var collection = db.collection(myCollection.user);
 
             collection.save(user, function (err, status) {
                 if (err) {
                     console.error(err);
-
-                    var response = {
-                        error: true,
-                        body: 'update',
-                        users: null,
-                        headers: null
-                    }
                     db.close();
-                    return callback(err, response);
+                    return callback(err, status);
                 } else {
                     db.close();
-                    return callback(null, response);
+                    return callback(null, status);
                 }
             })
 
@@ -346,7 +322,7 @@ function update_User(user, callback) {
 function find_GuestByNameSurname(guest, callback) {
     connect_db(function (err, db) {
         if (err) {
-            return callback(err, response);
+            return callback(err, null);
         } else {
             var collection = db.collection(myCollection.guest);
 
@@ -437,7 +413,7 @@ function find_GuestById(id, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            return callback(err, response);
+            return callback(err, null);
         } else {
             var collection = db.collection(myCollection.guest);
             collection.findOne({
@@ -467,7 +443,7 @@ function delete_GuestById(id, callback) {
     connect_db(function (err, db) {
         if (err) {
             console.error(err);
-            return callback(err, response);
+            return callback(err);
         } else {
             var collection = db.collection(myCollection.guest);
             collection.deleteOne({

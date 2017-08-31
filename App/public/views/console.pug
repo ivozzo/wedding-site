@@ -20,8 +20,12 @@ html
 
         div(class="col-xs-10 col-cs-offset-1 col-sm-10 col-sm-offset-1 col-md-3 col-md-offset-2 col-lg-3 col-lg-offset-2 body-element" id="send-mail")
           div(class="console-title"): h1 Invia gli inviti tramite SMTP
-          p Invia le e-mail agli invitati inseriti
+          p Seleziona il template mail da inviare a tutti gli invitati
           form(action="/mail/send" method="POST" class="text-center")
+            div(class="form-group")
+              select(name="template_id" class="form-control")
+                option(value="nil") --Seleziona il template mail da inviare--
+                option(value="invitation") Invito per matrimonio
             div(class="btn-group btn-group-lg")
               input(type="submit" value="Invia" class="btn btn-default")
 

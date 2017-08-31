@@ -18,8 +18,8 @@ module.exports = {
         test_connection(callback);
     },
 
-    send: function (guest_list) {
-        return send_mail(guest_list);
+    send: function (guest_list, template) {
+        return send_mail(guest_list, template);
     }
 }
 
@@ -48,7 +48,7 @@ function test_connection(callback) {
  * @param  {Site} site  {The site object}
  * @return {String} {The compiled mail}
  */
-function get_mail(guest, site) {
+function get_invitationMail(guest, site) {
     var email = `
     
     Ciao ${guest.name} ${guest.surname},
@@ -84,18 +84,27 @@ function get_mail(guest, site) {
  * @param  {Array} guest_list {Array containing guests}
  * @return {Array} 
  */
-function send_mail(guest_list) {
+function send_mail(guest_list, template) {
 
     var info_list = [];
 
     guest_list.forEach(function (value) {
         if (value.skip_email === false) {
-            
+
+            var mail = null;
+            switch (template) {
+                case "invitation":
+                    mail = get_invitationMail(value, site);
+                    break;
+                default:
+                    mail = get_invitationMail(value, site);
+            }
+
             var mailOptions = {
                 from: mail_settings.mail,
                 to: value.email,
                 subject: 'Invito matrimonio Alessandro e Maria Francesca',
-                text: get_mail(value, site)
+                text: mail
             }
 
             transporter.sendMail(mailOptions);
