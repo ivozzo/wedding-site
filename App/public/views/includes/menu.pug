@@ -44,8 +44,9 @@ nav(class="navbar navbar-default navbar-fixed-top")
                 div(class="row")
                   div(class="col-md-12 col-lg-12")
                     form(class="form" role="form" method="post" action="/login/exit" id="logout")
-                      div(class="btn-group btn-group-lg pull-right" role="group")
-                        button(type="submit" value="Invia" class="btn btn-default") Logout
+                      div(class="text-center")
+                        div(class="btn-group btn-group-lg center-block" role="group")
+                          button(type="submit" value="Invia" class="btn btn-default") Logout
         else
           li(class="dropdown")
             a(class="dropdown-toggle menu-font menu-font-hover" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false") Login
@@ -60,5 +61,6 @@ nav(class="navbar navbar-default navbar-fixed-top")
                         input(type="text" class="form-control" id="username" name="Username" required)
                         label(for="password") Password:
                         input(type="password" class="form-control" id="password" name="Password" required)
-                      div(class="btn-group btn-group-lg pull-right" role="group")
-                        button(type="submit" value="Invia" class="btn btn-default") Login
+                      div(class="text-center")
+                        div(class="btn-group btn-group-lg" role="group")
+                          button(type="submit" value="Invia" class="btn btn-default") Login
