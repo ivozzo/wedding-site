@@ -8,6 +8,10 @@ module.exports = {
 
     userLogin: function (req, res) {
         user_login(req, res);
+    },
+
+    userLogout: function (req, res) {
+        user_logout(req, res);
     }
 }
 
@@ -86,4 +90,17 @@ function user_login(req, res) {
             res.redirect('/login');
         }
     });
+}
+
+/**
+ * User logout
+ * @function user_logout
+ * @param  {Request} req
+ * @param  {Response} res
+ */
+function user_logout(req, res) {
+    console.log(`User ${req.session.username} successfully logged out`);
+    session.logged = false;
+    session.username = "";
+    res.redirect('/index');
 }
