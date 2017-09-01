@@ -20,4 +20,10 @@ router.post('/', function (req, res) {
     login_tools.userLogin(req, res);
 });
 
+// Logout request
+router.post('/exit', function(req, res) {
+    console.log(`POST: /login/exit`);
+    login_tools.userLogout(req,res);
+});
+
 module.exports = router;
