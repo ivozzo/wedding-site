@@ -212,7 +212,7 @@ function rsvp_Guest(req, res) {
                 notification.error = true;
                 notification.message = `Impossibile recuperare i dati, per favore controllare che l'email sia corretta`;
                 req.session.notification = notification;
-                res.render('/guest/rsvp');
+                res.redirect('/guest/rsvp');
             }
         });
     }
