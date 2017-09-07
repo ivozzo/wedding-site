@@ -39,8 +39,8 @@ html
           p Numero di invitati totali: #{count.T}
           p Numero di invitati che parteciperanno: #{count.Y}
           p Numero di invitati che non parteciperanno: #{count.N}
-          if count.N === 0
-            p Sono ancora incerti #{count.N} invitati
+          if count.M > 0
+            p Sono ancora incerti #{count.M} invitati
           else
             p Non ci sono invitati incerti
       include includes/footer.pug
