@@ -90,10 +90,43 @@ function list_Guests(req, res, page) {
             if (response.error === false && response.body === 'guests') {
                 console.log(`Guest list retrieved`);
             }
+            var count_Y = 0;
+            var count_M = 0;
+            var count_N = 0;
+            var count_T = 0;
+
+            response.guests.forEach(function (guest) {
+                switch (guest.attendance) {
+                    case "Y":
+                        count_Y = count_Y + 1;
+                        count_T = count_T + 1;
+                        break;
+                    case "M":
+                        count_M = count_M + 1;
+                        count_T = count_T + 1;
+                        break;
+                    case "N":
+                        count_N = count_N + 1;
+                        count_T = count_T + 1;
+                        break;
+                    default:
+                        count_T = count_T + 1;
+                        break;
+                }
+            });
+            
+            var results = {
+                Y: count_Y,
+                M: count_M,
+                N: count_N,
+                T: count_T
+            }
+
             res.render(page, {
                 headers: response.headers,
                 notification: notification,
-                guests: response.guests
+                guests: response.guests,
+                count: results
             });
         }
     });

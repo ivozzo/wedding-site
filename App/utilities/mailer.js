@@ -98,6 +98,7 @@ function send_mail(guest_list, template) {
                     break;
                 default:
                     mail = get_invitationMail(value, site);
+                    break;
             }
 
             var mailOptions = {

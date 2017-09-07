@@ -34,6 +34,15 @@ html
                   td Non parteciperà
                 td #{val.generated_token}
 
+        div(class="col-xs-10 col-xs-offset-1 col-sm-10 col-xs-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1 body-element" id="count")
+          div(class="console-title"): h1 Conteggi invitati
+          p Numero di invitati totali: #{count.T}
+          p Numero di invitati che parteciperanno: #{count.Y}
+          p Numero di invitati che non parteciperanno: #{count.N}
+          if count.M === 0
+            p Sono ancora incerti #{count.M} invitati
+          else
+            p Non ci sono invitati incerti
       include includes/footer.pug
 
       script
