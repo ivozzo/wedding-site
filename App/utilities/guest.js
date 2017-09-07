@@ -98,19 +98,19 @@ function list_Guests(req, res, page) {
             response.guests.forEach(function (guest) {
                 switch (guest.attendance) {
                     case "Y":
-                        count_Y = count_Y + guest.expected_number;
-                        count_T = count_T + guest.expected_number;
+                        count_Y = count_Y + parseInt(guest.expected_number);
+                        count_T = count_T + parseInt(guest.expected_number);
                         break;
                     case "M":
-                        count_M = count_M + guest.expected_number;
-                        count_T = count_T + guest.expected_number;
+                        count_M = count_M + parseInt(guest.expected_number);
+                        count_T = count_T + parseInt(guest.expected_number);
                         break;
                     case "N":
-                        count_N = count_N + guest.expected_number;
-                        count_T = count_T + guest.expected_number;
+                        count_N = count_N + parseInt(guest.expected_number);
+                        count_T = count_T + parseInt(guest.expected_number);
                         break;
                     default:
-                        count_T = count_T + guest.expected_number;
+                        count_T = count_T + parseInt(guest.expected_number);
                         break;
                 }
             });
